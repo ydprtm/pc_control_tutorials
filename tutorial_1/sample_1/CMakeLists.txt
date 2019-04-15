@@ -7,14 +7,14 @@ set(QT_DIR "C:/Qt/5.12.2/msvc2017_64")
 
 set(Qt5_DIR "C:/Qt/5.12.2/msvc2017_64/lib/cmake/Qt5")
 
-find_package(Qt5 COMPONENTS Core Gui Network Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui SerialPort Widgets REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_library(gui gui.cpp serial.cpp)
-target_link_libraries(gui Qt5::Core Qt5::Gui Qt5::Network Qt5::Widgets)
+target_link_libraries(gui Qt5::Core Qt5::Gui Qt5::SerialPort Qt5::Widgets)
 
 add_executable(project WIN32 main.cpp)
 target_link_libraries (project gui)
@@ -32,5 +32,4 @@ add_custom_command(TARGET project POST_BUILD COMMAND ${WINDEPLOYQT_EXECUTABLE} $
 # Install
 
 install(TARGETS project DESTINATION ${PROJECT_SOURCE_DIR}/bin)
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/data DESTINATION ${PROJECT_SOURCE_DIR}/bin)
 install(CODE "execute_process(COMMAND ${WINDEPLOYQT_EXECUTABLE} \"${PROJECT_SOURCE_DIR}/bin/project.exe\")")

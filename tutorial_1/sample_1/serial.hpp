@@ -1,7 +1,8 @@
-#ifndef __SERIAL_H__
-#define __SERIAL_H__
+#ifndef __SERIAL_HPP__
+#define __SERIAL_HPP__
 
 #include <QObject>
+#include <QSerialPort>
 
 class Serial : public QObject 
 {
@@ -14,14 +15,24 @@ public:
 
 	~Serial();
 
-	void slot_test();
-
 private:
+	
+	QSerialPort *serialPort;
+
+	struct portSettings{
+		int comPort{ 1 };
+	};
+
+	portSettings *settings;
+
+public slots:
+
+	void slot_getSettings();
 
 signals:
 
-	void sig_test();
+	void sig_updateSettings(void*);
 
 };
 
-#endif //!__SERIAL_H__
+#endif //!__SERIAL_HPP__
