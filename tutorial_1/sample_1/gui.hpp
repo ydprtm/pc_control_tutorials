@@ -9,6 +9,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMenu>
 #include <QMenuBar>
 #include <QPushButton>
@@ -26,9 +27,9 @@ public:
 
 private:
 
+	void createWidgets();
 	void createActions();
 	void createMenus();
-	void createWidgets();
 	void createLayouts();
 
 	QAction *quitAction;
@@ -45,10 +46,10 @@ private:
 	QComboBox *baudCombo;
 	QLabel *packetSizeLabel;
 	QComboBox *packetSizeCombo;
-	QLabel *stopBitsLabel;
-	QComboBox *stopBitsCombo;
 	QLabel *parityLabel;
 	QComboBox *parityCombo;
+	QLabel *stopBitsLabel;
+	QComboBox *stopBitsCombo;
 
 	QPushButton *transmitButton;
 
@@ -58,24 +59,45 @@ private:
 
 	QTextEdit *serialTerminal;
 
-	struct portSettings {
-		int comPort{ 1 };
+	struct portOptions {
+		QStringList comPorts;
+		QStringList baudRates;
+		QStringList packetSize;
+		QStringList parity;
+		QStringList stopBits;
 	};
 
+	struct portSettings {
+		QString comPort;
+		int baudRate;
+		int packetSize;
+		int parity;
+		int stopBits;
+	};
+
+	portOptions *options;
 	portSettings *settings;
 
 public slots:
 
-	void slot_updateSettings(void*);
+	void slot_updateOptions(void*);
 
 private slots:
 	
+	void slot_portChanged();
+	void slot_baudRateChanged();
+	void slot_packetSizeChanged();
+	void slot_parityChanged();
+	void slot_stopBitsChanged();
+
 	void slot_quit();
 
 signals:
 
-	void sig_getSettings();
+	void sig_getOptions();
 
+	void sig_updateSettings(void*);
+	
 	void sig_quit();
 
 };

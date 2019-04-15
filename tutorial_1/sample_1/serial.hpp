@@ -1,8 +1,11 @@
 #ifndef __SERIAL_HPP__
 #define __SERIAL_HPP__
 
+#include <QMetaEnum>
 #include <QObject>
 #include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QVariant>
 
 class Serial : public QObject 
 {
@@ -19,19 +22,34 @@ private:
 	
 	QSerialPort *serialPort;
 
-	struct portSettings{
-		int comPort{ 1 };
+	struct portOptions {
+		QStringList comPorts;
+		QStringList baudRates;
+		QStringList packetSize;
+		QStringList parity;
+		QStringList stopBits;
+	};
+	
+	struct portSettings {
+		QString comPort;
+		int baudRate;
+		int packetSize;
+		int parity;
+		int stopBits;
 	};
 
+	portOptions *options;
 	portSettings *settings;
 
 public slots:
 
-	void slot_getSettings();
+	void slot_getOptions();
+
+	void slot_updateSettings(void*);
 
 signals:
 
-	void sig_updateSettings(void*);
+	void sig_updateOptions(void*);
 
 };
 
