@@ -22,34 +22,19 @@ private:
 	
 	QSerialPort *serialPort;
 
-	struct portOptions {
-		QStringList comPorts;
-		QStringList baudRates;
-		QStringList packetSize;
-		QStringList parity;
-		QStringList stopBits;
-	};
-	
 	struct portSettings {
-		QString comPort;
-		int baudRate;
-		int packetSize;
-		int parity;
-		int stopBits;
+		QStringList availablePorts;
 	};
 
-	portOptions *options;
 	portSettings *settings;
 
 public slots:
 
-	void slot_getOptions();
-
-	void slot_updateSettings(void*);
+	void slot_getCOMPorts();
 
 signals:
 
-	void sig_updateOptions(void*);
+	void sig_updateCOMPorts(void*);
 
 };
 

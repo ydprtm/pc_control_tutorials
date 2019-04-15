@@ -11,10 +11,7 @@ gui::gui(QWidget *parent)
 	createMenus();
 	createLayouts();
 
-	options = new portOptions();
 	settings = new portSettings();
-
-	emit sig_getOptions();
 
 	return;
 	
@@ -29,8 +26,6 @@ void gui::createActions() {
 	quitAction = new QAction(tr("&Quit"), this);
 	quitAction->setShortcut(QKeySequence::Quit);
 	connect(quitAction, SIGNAL(triggered()), this, SLOT(slot_quit()));
-
-	connect(stopBitsCombo, SIGNAL(activated(int)), this, SLOT(slot_stopBitsChanged()));
 
 }
 
@@ -122,82 +117,11 @@ void gui::createLayouts() {
 
 }
 
-void gui::slot_updateOptions(void *data) {
+void gui::slot_updateCOMPorts(void*) {
 
-	options = static_cast<portOptions*>(data);
-
-	for (const auto &c : options->comPorts) {
-
-		portCombo->addItem(c);
-
-	}
-
-	for (const auto &b : options->baudRates) {
-
-		baudCombo->addItem(b);
-
-	}
-	
-	for (const auto &p : options->packetSize) {
-
-		packetSizeCombo->addItem(p);
-
-	}
-
-	for (const auto &p : options->parity) {
-
-		parityCombo->addItem(p);
-
-	}
-
-	for (const auto &s : options->stopBits) {
-
-		stopBitsCombo->addItem(s);
-	}
-
-	
-	baudCombo->setCurrentIndex(6);
-	packetSizeCombo->setCurrentIndex(3);
-	parityCombo->setCurrentIndex(0);
-	stopBitsCombo->setCurrentIndex(0);
-
-	settings->comPort = portCombo->currentText();
-	settings->baudRate = baudCombo->currentIndex();
-	settings->packetSize = packetSizeCombo->currentIndex();
-	settings->parity = parityCombo->currentIndex();
-	settings->stopBits = stopBitsCombo->currentIndex();
-
-	void *set = static_cast<void*>(settings);
-
-	emit sig_updateSettings(set);
 
 }
 
-void gui::slot_portChanged() {
-
-}
-
-void gui::slot_baudRateChanged() {
-
-}
-
-void gui::slot_packetSizeChanged() {
-
-}
-
-void gui::slot_parityChanged() {
-
-}
-
-void gui::slot_stopBitsChanged() {
-
-	settings->stopBits = stopBitsCombo->currentIndex();
-
-	void *data = static_cast<void*>(settings);
-
-	emit sig_updateSettings(data);
-
-}
 
 void gui::slot_quit() {
 

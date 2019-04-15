@@ -59,48 +59,26 @@ private:
 
 	QTextEdit *serialTerminal;
 
-	struct portOptions {
-		QStringList comPorts;
-		QStringList baudRates;
-		QStringList packetSize;
-		QStringList parity;
-		QStringList stopBits;
-	};
-
 	struct portSettings {
-		QString comPort;
-		int baudRate;
-		int packetSize;
-		int parity;
-		int stopBits;
+		QStringList availablePorts;
 	};
 
-	portOptions *options;
 	portSettings *settings;
 
 public slots:
 
-	void slot_updateOptions(void*);
+	void slot_updateCOMPorts(void*);
 
 private slots:
 	
-	void slot_portChanged();
-	void slot_baudRateChanged();
-	void slot_packetSizeChanged();
-	void slot_parityChanged();
-	void slot_stopBitsChanged();
-
 	void slot_quit();
 
 signals:
 
-	void sig_getOptions();
-
-	void sig_updateSettings(void*);
+	void sig_getCOMPorts();
 	
 	void sig_quit();
 
 };
-
 
 #endif // !__GUI_HPP__
