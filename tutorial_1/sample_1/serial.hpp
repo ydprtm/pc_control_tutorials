@@ -22,19 +22,9 @@ private:
 	
 	QSerialPort *serialPort;
 
-	struct portSettings {
-		QStringList availablePorts;
-	};
-
-	portSettings *settings;
-
 public slots:
 
-	void slot_getCOMPorts();
-
 signals:
-
-	void sig_updateCOMPorts(void*);
 
 };
 

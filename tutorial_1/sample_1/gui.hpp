@@ -36,46 +36,15 @@ private:
 	
 	QMenu *fileMenu;
 
-	QFrame *baseWindow;
-	QFrame *serialTerminalWindow;
-	QFrame *serialOptionsWindow;
-
-	QLabel *portLabel;
-	QComboBox *portCombo;
-	QLabel *baudLabel;
-	QComboBox *baudCombo;
-	QLabel *packetSizeLabel;
-	QComboBox *packetSizeCombo;
-	QLabel *parityLabel;
-	QComboBox *parityCombo;
-	QLabel *stopBitsLabel;
-	QComboBox *stopBitsCombo;
-
-	QPushButton *transmitButton;
-
-	QHBoxLayout *baseLayout;
-	QVBoxLayout *serialTerminalLayout;
-	QVBoxLayout *serialOptionsLayout;
-
-	QTextEdit *serialTerminal;
-
-	struct portSettings {
-		QStringList availablePorts;
-	};
-
-	portSettings *settings;
+	QWidget *baseWidget;
 
 public slots:
-
-	void slot_updateCOMPorts(void*);
 
 private slots:
 	
 	void slot_quit();
 
 signals:
-
-	void sig_getCOMPorts();
 	
 	void sig_quit();
 
