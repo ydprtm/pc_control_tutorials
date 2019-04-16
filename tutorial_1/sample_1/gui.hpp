@@ -32,11 +32,24 @@ private:
 	void createMenus();
 	void createLayouts();
 
+	QFrame *baseFrame;
+	QFrame *leftFrame;
+	QFrame *rightFrame;
+	  
+	QLabel *transmitLabel;
+	QTextEdit *transmitTextEdit;
+	QLabel *receiveLabel;
+	QTextEdit *receiveTextEdit;
+
+	QPushButton *transmitButton;
+
 	QAction *quitAction;
 	
 	QMenu *fileMenu;
 
-	QWidget *baseWidget;
+	QHBoxLayout *baseLayout;
+	QVBoxLayout *leftLayout;
+	QVBoxLayout *rightLayout;
 
 public slots:
 
