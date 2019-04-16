@@ -20,16 +20,18 @@ public:
 
 private:
 
-	void createActions();
-	
 	QSerialPort *serialPort;
 
 public slots:
 
+	void slot_start();
+
 	void slot_getCOMPorts();
 
 	void slot_transmitString(const QString&);
-	
+
+	void slot_stop();
+
 private slots:
 
 	void slot_receiveString();
