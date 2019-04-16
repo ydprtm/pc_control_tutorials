@@ -155,9 +155,15 @@ void gui::slot_updateCOMPorts(void *data) {
 
 void gui::slot_transmitButtonClicked() {
 
-	emit sig_transmit(transmitLineEdit->text());
+	emit sig_transmitString(transmitLineEdit->text());
 
 	return;
+}
+
+void gui::slot_receiveString(const QString &data) {
+
+	receiveTextEdit->append(data);
+
 }
 
 void gui::slot_quit() {

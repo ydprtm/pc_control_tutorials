@@ -66,6 +66,8 @@ public slots:
 
 	void slot_updateCOMPorts(void*);
 
+	void slot_receiveString(const QString&);
+
 private slots:
 	
 	void slot_transmitButtonClicked();
@@ -76,7 +78,7 @@ signals:
 
 	void sig_getCOMPorts();
 
-	void sig_transmit(const QString&);
+	void sig_transmitString(const QString&);
 	
 	void sig_quit();
 

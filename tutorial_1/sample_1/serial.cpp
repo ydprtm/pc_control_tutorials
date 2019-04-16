@@ -3,10 +3,18 @@
 Serial::Serial() {
 
 	serialPort = new QSerialPort();
+	
+	createActions();
 
 }
 
 Serial::~Serial() {
+
+}
+
+void Serial::createActions() {
+
+	connect(serialPort, SIGNAL(readyRead()), this, SLOT(slot_receiveString()));
 
 }
 
@@ -31,17 +39,17 @@ void Serial::slot_getCOMPorts() {
 
 }
 
-void Serial::slot_transmit(const QString &data) {
-
-	if (serialPort->isOpen()) {
-		serialPort->close();
-	}
+void Serial::slot_transmitString(const QString &data) {
 
 	serialPort->setPortName(QString("COM3"));
 	serialPort->setBaudRate(qint32(115200));
 	serialPort->setDataBits(QSerialPort::Data8);
 	serialPort->setParity(QSerialPort::NoParity);
 	serialPort->setStopBits(QSerialPort::OneStop);
+
+	if (serialPort->isOpen()) {
+		serialPort->close();
+	}
 
 	serialPort->open(QIODevice::ReadWrite);
 
@@ -52,3 +60,13 @@ void Serial::slot_transmit(const QString &data) {
 	serialPort->close();
 
 }
+
+void Serial::slot_receiveString() {
+
+	QByteArray bytes = serialPort->readAll();
+
+	emit sig_receiveString(QString::fromUtf8(bytes));
+	
+}
+
+
