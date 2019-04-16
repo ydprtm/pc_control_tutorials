@@ -43,6 +43,17 @@ private:
 
 	QPushButton *transmitButton;
 
+	QLabel *portLabel;
+	QComboBox *portCombo;
+	QLabel *baudRateLabel;
+	QComboBox *baudRateCombo;
+	QLabel *dataSizeLabel;
+	QComboBox *dataSizeCombo;
+	QLabel *parityLabel;
+	QComboBox *parityCombo;
+	QLabel *stopBitsLabel;
+	QComboBox *stopBitsCombo;
+
 	QAction *quitAction;
 	
 	QMenu *fileMenu;

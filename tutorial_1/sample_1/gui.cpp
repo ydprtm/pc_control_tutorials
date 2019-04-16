@@ -67,6 +67,32 @@ void gui::createWidgets() {
 	transmitButton = new QPushButton();
 	transmitButton->setText(QString("Transmit"));
 	transmitButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+	portLabel = new QLabel();
+	portLabel->setText(QString("COM Port"));
+
+	portCombo = new QComboBox();
+
+	baudRateLabel = new QLabel();
+	baudRateLabel->setText(QString("Baud Rate"));
+
+	baudRateCombo = new QComboBox();
+		
+	dataSizeLabel = new QLabel();
+	dataSizeLabel->setText(QString("Data Size"));
+
+	dataSizeCombo = new QComboBox();
+
+	parityLabel = new QLabel();
+	parityLabel->setText(QString("Parity"));
+
+	parityCombo = new QComboBox();
+	
+	stopBitsLabel = new QLabel();
+	stopBitsLabel->setText(QString("Stop Bits"));
+
+	stopBitsCombo = new QComboBox();
+
 	
 }
 
@@ -84,6 +110,19 @@ void gui::createLayouts() {
 
 	rightLayout = new QVBoxLayout();
 	rightLayout->setMargin(5);
+	rightLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+	rightLayout->addWidget(portLabel);
+	rightLayout->addWidget(portCombo);
+	rightLayout->addWidget(baudRateLabel);
+	rightLayout->addWidget(baudRateCombo);
+	rightLayout->addWidget(dataSizeLabel);
+	rightLayout->addWidget(dataSizeCombo);
+	rightLayout->addWidget(parityLabel);
+	rightLayout->addWidget(parityCombo);
+	rightLayout->addWidget(stopBitsLabel);
+	rightLayout->addWidget(stopBitsCombo);
+
+	rightFrame->setLayout(rightLayout);
 
 	baseLayout = new QHBoxLayout();
 	baseLayout->setMargin(0);
