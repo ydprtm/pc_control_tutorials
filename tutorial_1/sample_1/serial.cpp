@@ -9,15 +9,63 @@ Serial::~Serial() {
 }
 
 
-void Serial::slot_start() {
+void Serial::slot_init() {
 
 	serialPort = new QSerialPort();
 
-	serialPort->setPortName(QString("COM4"));
-	serialPort->setBaudRate(qint32(115200));
-	serialPort->setDataBits(QSerialPort::Data8);
-	serialPort->setParity(QSerialPort::NoParity);
-	serialPort->setStopBits(QSerialPort::OneStop);
+}
+
+void Serial::slot_openPort(void *data) {
+
+	struct dataStruct {
+		QString portName;
+		QString baudRate;
+		QString dataSize;
+		QString parity;
+		QString stopBits;
+	};
+
+	dataStruct *ds = static_cast<dataStruct*>(data);
+
+	if (serialPort->isOpen()) {
+		serialPort->close();
+	}
+
+	serialPort->setPortName(ds->portName);
+	serialPort->setBaudRate(ds->baudRate.toInt());
+
+	if (ds->dataSize == "5") {
+		serialPort->setDataBits(QSerialPort::Data5);
+	}
+	else if (ds->dataSize == "6") {
+		serialPort->setDataBits(QSerialPort::Data6);
+	}
+	else if (ds->dataSize == "7") {
+		serialPort->setDataBits(QSerialPort::Data7);
+	}
+	else if (ds->dataSize == "8") {
+		serialPort->setDataBits(QSerialPort::Data8);
+	}
+
+	if (ds->parity == "None") {
+		serialPort->setParity(QSerialPort::NoParity);
+	}
+	else if (ds->parity == "Even") {
+		serialPort->setParity(QSerialPort::EvenParity);
+	}
+	else if (ds->parity == "Odd") {
+		serialPort->setParity(QSerialPort::OddParity);
+	}
+
+	if (ds->stopBits == "1") {
+		serialPort->setStopBits(QSerialPort::OneStop);
+	}
+	else if (ds->stopBits == "1.5") {
+		serialPort->setStopBits(QSerialPort::OneAndHalfStop);
+	}
+	else if (ds->stopBits == "2") {
+		serialPort->setStopBits(QSerialPort::TwoStop);
+	}
 
 	if (serialPort->isOpen()) {
 		serialPort->close();
@@ -25,15 +73,11 @@ void Serial::slot_start() {
 
 	serialPort->open(QIODevice::ReadWrite);
 
-	if (!serialPort->isOpen()) {
-		emit sig_receiveString(QString("Error"));
-	}
-
 	connect(serialPort, SIGNAL(readyRead()), this, SLOT(slot_receiveString()));
 
 }
 
-void Serial::slot_stop() {
+void Serial::slot_closePort() {
 
 	if (serialPort->isOpen()) {
 		serialPort->close();
@@ -64,9 +108,13 @@ void Serial::slot_getCOMPorts() {
 
 void Serial::slot_transmitString(const QString &data) {
 
-	serialPort->write(data.toUtf8());
-	
-	serialPort->waitForBytesWritten();
+	if (serialPort->isOpen()) {
+
+		serialPort->write(data.toUtf8());
+
+		serialPort->waitForBytesWritten();
+
+	}
 
 }
 

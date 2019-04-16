@@ -54,6 +54,8 @@ private:
 	QLabel *stopBitsLabel;
 	QComboBox *stopBitsCombo;
 
+	QPushButton *openButton;
+
 	QAction *quitAction;
 	
 	QMenu *fileMenu;
@@ -70,11 +72,15 @@ public slots:
 
 private slots:
 	
+	void slot_openButtonClicked();
+
 	void slot_transmitButtonClicked();
 
 	void slot_quit();
 
 signals:
+
+	void sig_openPort(void*);
 
 	void sig_getCOMPorts();
 

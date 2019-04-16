@@ -27,6 +27,8 @@ void gui::createActions() {
 	quitAction->setShortcut(QKeySequence::Quit);
 	connect(quitAction, SIGNAL(triggered()), this, SLOT(slot_quit()));
 
+	connect(openButton, SIGNAL(clicked()), this, SLOT(slot_openButtonClicked()));
+
 	connect(transmitButton, SIGNAL(clicked()), this, SLOT(slot_transmitButtonClicked()));
 
 }
@@ -80,23 +82,47 @@ void gui::createWidgets() {
 	baudRateLabel->setText(QString("Baud Rate"));
 
 	baudRateCombo = new QComboBox();
-		
+	baudRateCombo->addItem(QString::number(4800));
+	baudRateCombo->addItem(QString::number(9600)); 
+	baudRateCombo->addItem(QString::number(14400));
+	baudRateCombo->addItem(QString::number(19200));
+	baudRateCombo->addItem(QString::number(38400));
+	baudRateCombo->addItem(QString::number(57600));
+	baudRateCombo->addItem(QString::number(115200));
+	baudRateCombo->addItem(QString::number(128000));
+	baudRateCombo->setCurrentIndex(6);
+
 	dataSizeLabel = new QLabel();
 	dataSizeLabel->setText(QString("Data Size"));
-
+	
 	dataSizeCombo = new QComboBox();
+	dataSizeCombo->addItem(QString::number(5));
+	dataSizeCombo->addItem(QString::number(6));
+	dataSizeCombo->addItem(QString::number(7));
+	dataSizeCombo->addItem(QString::number(8));
+	dataSizeCombo->setCurrentIndex(3);
 
 	parityLabel = new QLabel();
 	parityLabel->setText(QString("Parity"));
-
-	parityCombo = new QComboBox();
 	
+	parityCombo = new QComboBox();
+	parityCombo->addItem(QString("None"));
+	parityCombo->addItem(QString("Even"));
+	parityCombo->addItem(QString("Odd"));
+	parityCombo->setCurrentIndex(0);
+
 	stopBitsLabel = new QLabel();
 	stopBitsLabel->setText(QString("Stop Bits"));
-
-	stopBitsCombo = new QComboBox();
-
 	
+	stopBitsCombo = new QComboBox();
+	stopBitsCombo->addItem(QString::number(1));
+	stopBitsCombo->addItem(QString::number(1.5));
+	stopBitsCombo->addItem(QString::number(2));
+	stopBitsCombo->setCurrentIndex(0);
+
+	openButton = new QPushButton();
+	openButton->setText(QString("Open"));
+
 }
 
 void gui::createLayouts() {
@@ -124,6 +150,7 @@ void gui::createLayouts() {
 	rightLayout->addWidget(parityCombo);
 	rightLayout->addWidget(stopBitsLabel);
 	rightLayout->addWidget(stopBitsCombo);
+	rightLayout->addWidget(openButton);
 
 	rightFrame->setLayout(rightLayout);
 
@@ -151,6 +178,28 @@ void gui::slot_updateCOMPorts(void *data) {
 	}
 
 	return;
+}
+
+void gui::slot_openButtonClicked() {
+
+	struct dataStruct {
+		QString portName;
+		QString baudRate;
+		QString dataSize;
+		QString parity;
+		QString stopBits;
+	};
+
+	dataStruct *data = new dataStruct();
+
+	data->portName = portCombo->currentText();
+	data->baudRate = baudRateCombo->currentText();
+	data->dataSize = dataSizeCombo->currentText();
+	data->parity = parityCombo->currentText();
+	data->stopBits = stopBitsCombo->currentText();
+
+	emit sig_openPort(static_cast<void*>(data));
+
 }
 
 void gui::slot_transmitButtonClicked() {

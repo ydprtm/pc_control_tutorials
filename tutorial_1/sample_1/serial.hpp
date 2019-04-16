@@ -24,13 +24,15 @@ private:
 
 public slots:
 
-	void slot_start();
+	void slot_init();
+
+	void slot_openPort(void*);
 
 	void slot_getCOMPorts();
 
 	void slot_transmitString(const QString&);
 
-	void slot_stop();
+	void slot_closePort();
 
 private slots:
 
