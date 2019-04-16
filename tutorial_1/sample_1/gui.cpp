@@ -11,6 +11,8 @@ gui::gui(QWidget *parent)
 	createMenus();
 	createLayouts();
 
+	emit sig_getCOMPorts();
+
 	return;
 	
 }
@@ -24,6 +26,8 @@ void gui::createActions() {
 	quitAction = new QAction(tr("&Quit"), this);
 	quitAction->setShortcut(QKeySequence::Quit);
 	connect(quitAction, SIGNAL(triggered()), this, SLOT(slot_quit()));
+
+	connect(transmitButton, SIGNAL(clicked()), this, SLOT(slot_transmitButtonClicked()));
 
 }
 
@@ -52,9 +56,8 @@ void gui::createWidgets() {
 	transmitLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	transmitLabel->setText(QString("Transmit"));
 
-	transmitTextEdit = new QTextEdit();
-	transmitTextEdit->setMinimumSize(QSize(500, 100));
-	transmitTextEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	transmitLineEdit = new QLineEdit();
+	transmitLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
 	receiveLabel = new QLabel();
 	receiveLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -101,7 +104,7 @@ void gui::createLayouts() {
 	leftLayout = new QVBoxLayout();
 	leftLayout->setMargin(5);
 	leftLayout->addWidget(transmitLabel, 0, Qt::AlignTop | Qt::AlignLeft);
-	leftLayout->addWidget(transmitTextEdit);
+	leftLayout->addWidget(transmitLineEdit);
 	leftLayout->addWidget(transmitButton, 0, Qt::AlignTop | Qt::AlignRight);
 	leftLayout->addWidget(receiveLabel, 0, Qt::AlignTop | Qt::AlignLeft);
 	leftLayout->addWidget(receiveTextEdit);
@@ -135,6 +138,27 @@ void gui::createLayouts() {
 
 }
 
+void gui::slot_updateCOMPorts(void *data) {
+
+	struct dataStruct {
+		QList<QString> COMPorts;
+	};
+
+	dataStruct *d = static_cast<dataStruct*>(data);
+
+	for (const auto &i : d->COMPorts) {
+		portCombo->addItem(i);
+	}
+
+	return;
+}
+
+void gui::slot_transmitButtonClicked() {
+
+	emit sig_transmit(transmitLineEdit->text());
+
+	return;
+}
 
 void gui::slot_quit() {
 

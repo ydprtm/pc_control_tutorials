@@ -37,7 +37,7 @@ private:
 	QFrame *rightFrame;
 	  
 	QLabel *transmitLabel;
-	QTextEdit *transmitTextEdit;
+	QLineEdit *transmitLineEdit;
 	QLabel *receiveLabel;
 	QTextEdit *receiveTextEdit;
 
@@ -64,11 +64,19 @@ private:
 
 public slots:
 
+	void slot_updateCOMPorts(void*);
+
 private slots:
 	
+	void slot_transmitButtonClicked();
+
 	void slot_quit();
 
 signals:
+
+	void sig_getCOMPorts();
+
+	void sig_transmit(const QString&);
 	
 	void sig_quit();
 

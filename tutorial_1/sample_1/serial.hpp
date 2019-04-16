@@ -24,7 +24,13 @@ private:
 
 public slots:
 
+	void slot_getCOMPorts();
+
+	void slot_transmit(const QString&);
+
 signals:
+
+	void sig_updateCOMPorts(void*);
 
 };
 
