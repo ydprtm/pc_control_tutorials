@@ -13,6 +13,8 @@ void Serial::slot_init() {
 
 	serialPort = new QSerialPort();
 
+	connect(serialPort, SIGNAL(readyRead()), this, SLOT(slot_receiveString()));
+
 }
 
 void Serial::slot_openPort(void *data) {
@@ -72,8 +74,6 @@ void Serial::slot_openPort(void *data) {
 	}
 
 	serialPort->open(QIODevice::ReadWrite);
-
-	connect(serialPort, SIGNAL(readyRead()), this, SLOT(slot_receiveString()));
 
 }
 
