@@ -119,7 +119,7 @@ void Serial::slot_transmitString(const QString &data) {
 }
 
 void Serial::slot_receiveString() {
-
+		
 	QByteArray bytes = serialPort->readAll();
 
 	emit sig_receiveString(QString::fromUtf8(bytes));
