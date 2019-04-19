@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 
 project(project)
 
-find_package(Boost 1.69 REQUIRED)
+find_package(Boost 1.70.0 REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
