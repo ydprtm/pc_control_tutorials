@@ -9,8 +9,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
+add_library(serial serial.cpp)
+
 add_executable(project main.cpp)
-target_link_libraries(project ${Boost_LIBRARIES})
+target_link_libraries(project serial ${Boost_LIBRARIES})
 
 # Utilities
 

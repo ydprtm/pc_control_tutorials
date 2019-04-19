@@ -1,6 +1,6 @@
 # Boost ASIO Tutorial 2: Serial Port
 
-Welcome to my tutorial on how to use Qt to communicate over a serial port.
+Welcome to my tutorial on how to use Boost's ASIO library to communicate over a serial port.
 
 ## Introduction
 

@@ -1,6 +1,6 @@
 # Boost ASIO Tutorial 1: Using a Timer
 
-Welcome to my tutorial on how to use Qt to communicate over a serial port.
+Welcome to my tutorial on how to about Boost's ASIO library's timers.
 
 ## Introduction
 
@@ -21,7 +21,7 @@ If you haven't got these installed, click on a link to go to the tool's website.
 This tutorial has been validated using the following software versions:
 
 1. CMake 3.14
-1. Boost 1.69.0
+1. Boost 1.70.0
 1. Visual Studio IDE 2019, Community Edition
 
 If you'd like to use a different IDE, consider Microsoft's [Visual Studio Code](https://code.visualstudio.com/): It's a light-weight, flexible alternative.

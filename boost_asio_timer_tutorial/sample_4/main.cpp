@@ -1,37 +1,4 @@
-#include <iostream>
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
-
-class Delay {
-
-public:
-	
-	Delay(boost::asio::io_context &io) {
-
-		_t = new boost::asio::steady_timer(io);
-
-	}
-
-	void delay(const int &time) {
-
-		_t->expires_after(boost::asio::chrono::seconds(time));
-
-		_t->async_wait(boost::bind(&Delay::timerElapsed, this, boost::asio::placeholders::error));
-
-	}
-
-
-private:
-
-	void timerElapsed(const boost::system::error_code &e) {
-
-		std::cout << "Timer Elapsed" << std::endl;
-
-	}
-
-	boost::asio::steady_timer *_t;
-
-};
+#include "main.hpp"
 
 int main(int argc, char* argv[]) {
 
