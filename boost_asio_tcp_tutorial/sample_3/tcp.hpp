@@ -39,7 +39,7 @@ private:
 	void acceptHandle(boost::shared_ptr<Connection> new_connection,
 		const boost::system::error_code& error);
 
-	boost::asio::io_context& io_context_;
+	boost::asio::io_context& m_io_context;
 	boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> m_acceptor;
 	
 };

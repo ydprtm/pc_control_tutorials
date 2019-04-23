@@ -36,7 +36,7 @@ void Connection::readHandle(const boost::system::error_code& e,
 
 
 Server::Server(boost::asio::io_context & io_context, int port)
-	: io_context_(io_context),
+	: m_io_context(io_context),
 	m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 {
 	start_accept();
@@ -44,7 +44,7 @@ Server::Server(boost::asio::io_context & io_context, int port)
 
 void Server::start_accept()
 {
-	boost::shared_ptr<Connection> new_connection = Connection::create(io_context_);
+	boost::shared_ptr<Connection> new_connection = Connection::create(m_io_context);
 
 	m_acceptor.async_accept(new_connection->socket(), boost::bind(&Server::acceptHandle, this, new_connection, boost::asio::placeholders::error));
 }
