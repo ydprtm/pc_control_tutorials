@@ -13,7 +13,7 @@ public:
 
 	static boost::shared_ptr<Connection> create(boost::asio::io_context& io_context);
 
-	boost::asio::ip::tcp::socket& socket();
+	boost::asio::basic_stream_socket<boost::asio::ip::tcp>& socket();
 
 	void start();
 
@@ -23,7 +23,7 @@ private:
 	void readHandle(const boost::system::error_code& e,
 		size_t bytes);
 
-	boost::asio::ip::tcp::socket socket_;
+	boost::asio::basic_stream_socket<boost::asio::ip::tcp> m_socket;
 
 	boost::asio::streambuf m_buffer{};
 };
@@ -40,7 +40,8 @@ private:
 		const boost::system::error_code& error);
 
 	boost::asio::io_context& io_context_;
-	boost::asio::ip::tcp::acceptor acceptor_;
+	boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> m_acceptor;
+	
 };
 
 #endif //!__TCP_HPP

@@ -21,8 +21,6 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::connect(socket, end_point);
 
-		bool loop{ true };
-
 		std::string message{ "Hello World!\r\n" };
 				   
 		boost::asio::const_buffer buffer = boost::asio::buffer(message);
@@ -33,13 +31,19 @@ int main(int argc, char* argv[]) {
 
 		}
 		catch (std::exception& e) {
+
 			std::cout << e.what() << std::endl;
+
 		}
+
+		socket.close();
 	
 	}
 	catch (std::exception &e) {
+
 		std::cout << e.what() << std::endl;
 		return 1;
+
 	}
 	   
     return 0;
