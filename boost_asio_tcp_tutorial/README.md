@@ -1,3 +1,43 @@
+# Network Programming with Boost
+
+Welcome to my tutorial on how to communicate over a network using Boost's Asio library.
+
+## Section 1: Introduction
+
+Consider the following situation: you are an engineer working at a large factory. Your office is on one side of the factory; a machine you need to monitor is on the other side. Your employer requires regular measurements of the machine's state. What do you do?
+
+Here are some potential solutions:
+
+1. You walk over to the machine and manually make a measurement.
+1. You develop a system to automatically make a measurement and save the machine's state locally. You walk over at the end of the day and copy the day's log file.
+1. You develop a system to automatically make a measurement and transmit the machine's state to your office's computer. You develop an application that displays the machine's state and record it locally.
+
+Given a desired number and frequency of measurements, and the physical distance between your office and the machine, there's a number of issues with the first two options: you may spend too much time walking between your office and the machine, you may mis-count the number of measurements you've made, the machine may experience a fault before the end of the day and you wouldn't know, etc. A more satisfactory solution is the last option: you don't need to constantly walk between your office and the machine, you get consistent, continuous measurements, and you'll know there's been a fault immediately. The last solution could be extended further to include remote operation.
+
+How do you communicate with a remote system? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software frameworks and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired end-point and send raw data, e.g. a string. Qt provides its networking module and Boost provides the Asio library, which both allow for network communication.
+
+In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes sample 1's source code; Section 5 presents and describes sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's sample code; Section 8 presents an activity for you complete; and Section 8 concludes the tutorial.
+
+## Section 2: Requirements
+
+## Section 3: Build Instructions
+
+## Section 4: Sample 1
+
+## Section 5: Sample 2
+
+## Section 6: Activity 1
+
+## Section 7: Sample 3
+
+## Section 8: Activity 2
+
+## Section 9: Conclusion
+
+## Credit
+
+
+
 # Source Code
 
 ### main.cpp
@@ -118,7 +158,7 @@ catch (std::exception& e) {
 
 defines a try block and a catch block. In this block, we try to write the buffer to the connected socket. If an exception is raised, the program's execution proceeds to the catch handler, and displays the exception to the user. Here, the asio library's ```write()``` is used to write all the supplied data to a stream before returning. ```write()``` is a template function and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
 
-Note, it's worth wrapping ```write()``` in a try block and a catch block. Consider the case where the endpoint doesn't accept a connection, e.g. the server running on the endpoint may not have started: ```write()``` will throw an exception; which, if not caught, will cause your program to abort. Catching the exception will allow you to do something, e.g. try communicating again in 10 minutes.
+Note, it's worth wrapping ```write()``` in a try block and a catch block. Consider the case where the endpoint doesn't accept a connection, e.g. the server running on the endpoint may not have started: ```write()``` will throw an exception; which, if not caught, will cause your program to abort. Catching the exception will allow you to do something more useful, e.g. trying to connect with the server again in 10 minutes.
 
 The line
 
