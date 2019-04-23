@@ -23,8 +23,11 @@ int main(int argc, char* argv[]) {
 
 	}
 	catch (boost::system::error_code &e) {
+
 		std::cout << e << std::endl;
+
 		return 1;
+
 	}
 	   
     return 0;

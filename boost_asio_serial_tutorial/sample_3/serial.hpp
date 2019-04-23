@@ -22,10 +22,10 @@ private:
 
 	void readHandle(const boost::system::error_code& e, std::size_t byes, std::string* message);
 
-	boost::asio::serial_port port;
+	boost::asio::serial_port m_port;
 
-	boost::asio::streambuf readBuffer;
-	boost::asio::streambuf writeBuffer;
+	boost::asio::streambuf m_readBuffer;
+	boost::asio::streambuf m_writeBuffer;
 
 };
 
