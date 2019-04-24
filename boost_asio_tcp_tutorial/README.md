@@ -4,7 +4,7 @@ Welcome to my tutorial on how to communicate over a network using Boost's Asio l
 
 ## Section 1: Introduction
 
-Consider the following situation: you are an engineer working at a large factory. Your office is on one side of the factory; a machine you need to monitor is on the other side. Your employer requires regular measurements of the machine's state. What do you do?
+Consider the following situation: you're an engineer working at a large factory. Your office is on one side of the factory; a machine you need to monitor is on the other side. Your employer requires regular measurements of the machine's state. What do you do?
 
 Here are some potential solutions:
 
@@ -16,31 +16,190 @@ Given a desired number and frequency of measurements, and the physical distance 
 
 How do you communicate with a remote system? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software frameworks and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired end-point and send raw data, e.g. a string. Qt provides its networking module and Boost provides the Asio library, which both allow for network communication.
 
-In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes sample 1's source code; Section 5 presents and describes sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's sample code; Section 8 presents an activity for you complete; and Section 8 concludes the tutorial.
+In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes sample 1's source code; Section 5 presents and describes sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's sample code; Section 8 presents an activity for you complete; and Section 9 concludes the tutorial.
 
 ## Section 2: Requirements
 
+### Windows
+
+You need the following programs and libraries installed on your computer to build the tutorial's samples and activities:
+
+1. [CMake](https://cmake.org/).
+1. [Boost](https://www.boost.org/).
+1. [Visual Studio IDE](https://visualstudio.microsoft.com/).
+
+This tutorial has been validated using the following software versions:
+
+1. CMake 3.14
+1. Boost 1.70.0
+1. Visual Studio IDE 2019, Community Edition
+
+If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. To install Boost, see [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html) for instructions.
+
+If you'd like to use an alternative to Microsoft's Visual Studio Integrated Development Environment (IDE), consider Microsoft's [Visual Studio Code](https://code.visualstudio.com/). It's a light-weight, flexible alternative to Visual Studio IDE.
+
+Once you've CMake, Boost, and an IDE installed, you're ready to get started.
+
 ## Section 3: Build Instructions
+
+This tutorial contains the following files:
+
+1. [./README.md](./README.md)
+1. [./activity_1/CMakeLists.txt](./activity_1/CMakeLists.txt)
+1. [./activity_1/main.cpp](./activity_1/main.cpp)
+1. [./activity_2/CMakeLists.txt](./activity_2/CMakeLists.txt)
+1. [./activity_2/main.cpp](./activity_2/main.cpp)
+1. [./sample_1/CMakeLists.txt](./sample_1/CMakeLists.txt)
+1. [./sample_1/main.cpp](./sample_1/main.cpp)
+1. [./sample_1/main.hpp](./sample_1/main.hpp)
+1. [./sample_2/CMakeLists.txt](./sample_2/CMakeLists.txt)
+1. [./sample_2/main.cpp](./sample_2/main.cpp)
+1. [./sample_2/main.hpp](./sample_2/main.hpp)
+1. [./sample_3/CMakeLists.txt](./sample_3/CMakeLists.txt)
+1. [./sample_3/main.cpp](./sample_3/main.cpp)
+1. [./sample_3/main.hpp](./sample_3/main.hpp)
+1. [./sample_3/tcp.cpp](./sample_3/tcp.cpp)
+1. [./sample_3/tcp.hpp](./sample_3/tcp.hpp)
+
+The sample_1 sub-directory contains source code that shows you how to connect to an endpoint and synchronously write a message via a socket using TCP/IP. The sample_2 sub-directory contains source code that shows you how to accept connections and synchronously read a message via a socket using TCP/IP. The sample_3 sub-directory contains source code that shows you how to accept connections and asynchronously read a message via a socket using TCP/IP. The activity_1 and activity_2 sub-directories contain projects set-up for you to complete the tutorial's actvitities.
+
+### Windows
+
+The following describe how to build the tutorial's sample and activity using either: 1) console commands, or 2) Visual Studio IDE.
+
+### Console Commands
+
+To build a Debug version of a sample or activity, browse to its directory via the command line and use the following commands:
+
+    mkdir build
+    cd build
+    cmake -G "Visual Studio 16 2019" ..
+    cmake --build . --config Debug --target install
+
+To run the built executable, browse to the bin sub-directory and use the following commands:
+
+    cd ..
+    cd bin
+    .\project.exe
+
+To build a Release version of a sample or activity, browse to its directory via the command line and use the following commands:
+
+    mkdir build
+    cd build
+    cmake -G "Visual Studio 16 2019" ..
+    cmake --build . --config Release --target install
+
+To run the built executable, browse to the bin sub-directory and use the following commands:
+
+    cd ..
+    cd bin
+    .\project.exe
+
+### Visual Studio IDE
+
+To build a Debug version of a sample or activity:
+
+1. Open Visual Studio IDE
+1. Click on 'File > Open > CMake'
+1. Browse to the sample or activity's directory
+1. Select 'CMakeLists.txt' and click on 'Open'
+1. Click 'Build > Build All'
+
+To run the built executable:
+
+1. Click 'Debug > Start'
+
+To change the build configuration:
+
+1. Click 'Project > Change CMake Settings for project'
+1. Select the build configuration
+
+To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, release application, select 'x64-Release'. CMake's default is a 64-bit, debug configuration.
 
 ## Section 4: Sample 1
 
-## Section 5: Sample 2
+Browse to the sample_1 sub-directory. Let's have a look the sample's source code.
 
-## Section 6: Activity 1
+main.hpp
 
-## Section 7: Sample 3
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
 
-## Section 8: Activity 2
+#include <iostream>
+#include <boost/asio.hpp>
 
-## Section 9: Conclusion
+#endif //!__MAIN_HPP__
+```
 
-## Credit
+main.cpp
 
+```cpp
+#include "main.hpp"
 
+int main(int argc, char* argv[]) {
 
-# Source Code
+    try {
 
-### main.cpp
+        boost::asio::io_context io;
+
+        boost::asio::ip::basic_resolver<boost::asio::ip::tcp> resolver(io);
+
+        boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> query("127.0.0.1", "9601");
+
+        boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> end_point = resolver.resolve(query);
+
+        boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+
+        boost::asio::connect(socket, end_point);
+
+        std::string message{ "Hello World!\r\n" };
+
+        std::cout << "Message: " << message << std::endl;
+
+        boost::asio::const_buffer buffer = boost::asio::buffer(message);
+
+        try {
+
+            size_t bytes = boost::asio::write(socket, buffer);
+
+            std::cout << "Bytes Written: " << bytes << std::endl;
+
+        }
+        catch (std::exception& e) {
+
+            std::cout << e.what() << std::endl;
+
+        }
+
+        socket.close();
+
+    }
+    catch (std::exception &e) {
+
+        std::cout << e.what() << std::endl;
+
+        return 1;
+
+    }
+
+    return 0;
+
+}
+```
+
+Let's go through main.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once. When main.hpp is included, the first thing it does is check if `__MAIN_HPP__` has been defined. If it hasn't, it defines `__MAIN_HPP__` and declares and defines any objects specified. If is has been defined, the entire header is ignored. More informaiton about header guards can be found [here](https://www.learncpp.com/cpp-tutorial/header-guards/).
 
 The block
 
@@ -50,6 +209,8 @@ The block
 ```
 
 instructs the preprocessor to copy the contents of iostream and asio.hpp to main.cpp. The iostream header defines the standard Input and Output (I/O) stream objects. The asio header defines network and low-level I/O objects. In this sample, we use iostream's and asio.hpp's contents to display text to the user and communicate over a network via the Transmission Control Protocol (TCP).
+
+Now, let's consider main.cpp, block by block.
 
 The block
 
@@ -70,12 +231,13 @@ try {
 } catch(std::exception& e) {
 
     std::cout << e.what() << std::endl;
+
     return 1;
 
 }
 ```
 
-defines a try block and a catch block. In this sample, we try to send a message to an endpoint. If an exception is raised, the program's execution proceeds to the catch handler, which processes a std::exception data type. If the catch handler handles a ```std::exception```, the program returns 1.
+defines a try block and a catch block. In the try block, we try to send a message to a server. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1.
 
 The line
 
@@ -91,7 +253,7 @@ The line
 boost::asio::ip::basic_resolver<boost::asio::ip::tcp> resolver(io);
 ```
 
-defines a tcp-type instance of the asio library's ```basic_resolver``` class template. It provides the ability to resolve a query to a list of endpoints. More information about ```basic_resolver``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver.html).
+defines a tcp-type instance of the asio library's ```ip::basic_resolver``` class template. It provides the ability to resolve a query to a list of endpoints. More information about ```ip::basic_resolver``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver.html).
 
 The line
 
@@ -99,7 +261,7 @@ The line
 boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> query("127.0.0.1", "9601");
 ```
 
-defines a tcp-type instance of the asio library's ```basic_resolver_query``` class template. It describes a query that can be passed to a resolver. More information about ```basic_resolver_query``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver_query.html).
+defines a tcp-type instance of the asio library's ```ip::basic_resolver_query``` class template. It describes a query that can be passed to a resolver. Here, we want to connect to the IP address `127.0.0.1` and port `9601`. More information about ```ip::basic_resolver_query``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver_query.html).
 
 The line
 
@@ -107,7 +269,7 @@ The line
 boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> end_point = resolver.resolve(query);
 ```
 
-defines a tcp-type instance of the asio library's ```basic_resolver_results``` class template. It defines a range over the results returned by a resolver. More information about ```basic_resolver_results``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver_results.html).
+defines a tcp-type instance of the asio library's ```ip::basic_resolver_results``` class template. It defines a range over the results returned by a resolver. More information about ```ip::basic_resolver_results``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver_results.html).
 
 The line
 
@@ -156,7 +318,9 @@ catch (std::exception& e) {
 }
 ```
 
-defines a try block and a catch block. In this block, we try to write the buffer to the connected socket. If an exception is raised, the program's execution proceeds to the catch handler, and displays the exception to the user. Here, the asio library's ```write()``` is used to write all the supplied data to a stream before returning. ```write()``` is a template function and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
+defines a try block and a catch block. In the try block, we try to synchronously write the buffer to the connected socket. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised.
+
+Here, the asio library's ```write()``` is used to write all the supplied data to a stream before returning. ```write()``` is a template function and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
 
 Note, it's worth wrapping ```write()``` in a try block and a catch block. Consider the case where the endpoint doesn't accept a connection, e.g. the server running on the endpoint may not have started: ```write()``` will throw an exception; which, if not caught, will cause your program to abort. Catching the exception will allow you to do something more useful, e.g. trying to connect with the server again in 10 minutes.
 
@@ -167,3 +331,216 @@ socket.close();
 ```
 
 uses ```socket```'s ```close``` member function to close the connected socket.
+
+Now that we've looked at the sample's source code, let's build its executable.
+
+Because Sample 1's executable tries to connect to a server, we'll leave running it until we've built and run Sample 2's executable.
+
+## Section 5: Sample 2
+
+Browse to the sample_2 sub-directory. Let's have a look the sample's source code.
+
+main.hpp
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+
+#endif //!__MAIN_HPP__
+```
+
+main.cpp
+
+```cpp
+#include "main.hpp"
+
+int main(int argc, char* argv[]) {
+
+    try {
+
+        boost::asio::io_context io;
+
+        boost::asio::ip::basic_endpoint<boost::asio::ip::tcp> end_points(boost::asio::ip::tcp::v4(), 9601);
+
+        boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> acceptor(io, end_points);
+
+        bool loop{ true };
+
+        while (loop) {
+
+            boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+
+            acceptor.accept(socket);
+
+            try {
+
+                boost::asio::streambuf readBuffer;
+
+                boost::asio::read_until (socket, readBuffer, '\n');
+
+                boost::asio::const_buffer input = readBuffer.data();
+
+                std::string message(boost::asio::buffers_begin(input),
+                    boost::asio::buffers_begin(input) + input.size());
+
+                std::cout << message << std::endl;
+
+            }
+            catch (std::exception& e) {
+
+                std::cout << e.what() << std::endl;
+
+                loop = false;
+
+            }
+
+        }
+
+        acceptor.close();
+
+    }
+    catch (std::exception& e) {
+
+        std::cout << e.what() << std::endl;
+
+        return 1;
+
+    }
+
+    return 0;
+
+}
+```
+
+Let's go through main.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once. When main.hpp is included, the first thing it does is check if `__MAIN_HPP__` has been defined. If it hasn't, it defines `__MAIN_HPP__` and declares and defines any objects specified. If is has been defined, the entire header is ignored. More informaiton about header guards can be found [here](https://www.learncpp.com/cpp-tutorial/header-guards/).
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+```
+
+instructs the preprocessor to copy the contents of iostream and asio.hpp to main.cpp. The iostream header defines the standard Input and Output (I/O) stream objects. The asio header defines network and low-level I/O objects. In this sample, we use iostream's and asio.hpp's contents to display text to the user and communicate over a network via the Transmission Control Protocol (TCP).
+
+Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+ int main(int argc, char* argv[]) {
+     ...
+     return 0;
+ }
+```
+
+defines the program's entry point. ```main()``` has two parameters, ```int argc```, and ```char* argv[]```, and returns an ```int``` value. ```argc``` is the number of command-line parameters; ```argv``` is an array of the command-line parameters. In this sample, we don't use either parameter. If the program completes successfully, the program returns 0.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    return 1;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to read a message from a client. If an exception is raised, the program's execution proceeds to the catch handler, which processes a std::exception data type. If the catch handler handles a ```std::exception``` type exception, the program returns 1.
+
+The line
+
+```cpp
+boost::asio::io_context io;
+```
+
+defines an instance of the asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality. More information about ```io_context``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
+
+The line
+
+```cpp
+boost::asio::ip::basic_endpoint<boost::asio::ip::tcp> end_points(boost::asio::ip::tcp::v4(), 9601);
+```
+
+defines a tcp-type instance of the asio library's `ip::basic_endpoint` class template. `ip::basic_endpoint` describes an endpoint that may be associated with a particular socket. More information about `ip::basic_endpoint` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_endpoint.html).
+
+The line
+
+```cpp
+boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> acceptor(io, end_points);
+```
+
+defines a tcp-type instance of the asio library's `basic_socket_acceptor` class template. `basic_socket_acceptor`  is used for accepting new socket connections. More information about `basic_socket_acceptor` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_socket_acceptor.html).
+
+The block
+
+```cpp
+bool loop {true};
+
+while(loop) {
+    ...
+}
+```
+
+defines the boolean variable `loop` and a while loop, which loops continuously while `loop` is true.
+
+The line
+
+```cpp
+boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+```
+
+defines an tcp-type instance of the asio library's ```basic_stream_socket``` class template.
+
+The line
+
+```cpp
+acceptor.accept(socket);
+```
+
+uses `acceptors`'s `accept` member function to accept a new connection.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    loop = false;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to synchronously read a message from a connected socket. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and then stops the while loop.
+
+
+## Section 6: Activity 1
+
+## Section 7: Sample 3
+
+## Section 8: Activity 2
+
+## Section 9: Conclusion
+
+## Credit

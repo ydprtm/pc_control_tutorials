@@ -1,6 +1,4 @@
-#include <iostream>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/asio.hpp>
+#include "main.hpp"
 
 int main(int argc, char* argv[]) {
 
@@ -22,7 +20,8 @@ int main(int argc, char* argv[]) {
 
 			try {
 
-				boost::asio::streambuf readBuffer;
+				//boost::asio::streambuf readBuffer;
+				boost::asio::basic_streambuf<std::allocator<char>> readBuffer;
 
 				boost::asio::read_until (socket, readBuffer, '\n');
 
@@ -38,6 +37,8 @@ int main(int argc, char* argv[]) {
 
 				std::cout << e.what() << std::endl;
 
+				loop = false;
+
 			}
 						
 		}
@@ -50,7 +51,9 @@ int main(int argc, char* argv[]) {
 		std::cout << e.what() << std::endl;
 
 		return 1;
+
 	}
 	   
     return 0;
+
 }
