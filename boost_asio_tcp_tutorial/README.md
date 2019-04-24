@@ -16,7 +16,7 @@ Given a desired number and frequency of measurements, and the physical distance 
 
 How do you communicate with a remote system? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software frameworks and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired end-point and send raw data, e.g. a string. Qt provides its networking module and Boost provides the Asio library, which both allow for network communication.
 
-In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes sample 1's source code; Section 5 presents and describes sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's sample code; Section 8 presents an activity for you complete; and Section 9 concludes the tutorial.
+In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. Sample 1 and Sample 2 shows how to synchronously write and read data over a network; Sample 3 shows how to asynchronously write and read data over a network. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes sample 1's source code; Section 5 presents and describes sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's sample code; Section 8 presents an activity for you complete; and Section 9 concludes the tutorial.
 
 ## Section 2: Requirements
 
@@ -45,10 +45,12 @@ Once you've CMake, Boost, and an IDE installed, you're ready to get started.
 This tutorial contains the following files:
 
 1. [./README.md](./README.md)
-1. [./activity_1/CMakeLists.txt](./activity_1/CMakeLists.txt)
-1. [./activity_1/main.cpp](./activity_1/main.cpp)
-1. [./activity_2/CMakeLists.txt](./activity_2/CMakeLists.txt)
-1. [./activity_2/main.cpp](./activity_2/main.cpp)
+1. [./activity_1/client/CMakeLists.txt](./activity_1/client/CMakeLists.txt)
+1. [./activity_1/client/main.cpp](./activity_1/client/main.cpp)
+1. [./activity_1/client/main.hpp](./activity_1/client/main.hpp)
+1. [./activity_1/server/CMakeLists.txt](./activity_1/server/CMakeLists.txt)
+1. [./activity_1/server/main.cpp](./activity_1/server/main.cpp)
+1. [./activity_1/server/main.hpp](./activity_1/server/main.hpp)
 1. [./sample_1/CMakeLists.txt](./sample_1/CMakeLists.txt)
 1. [./sample_1/main.cpp](./sample_1/main.cpp)
 1. [./sample_1/main.hpp](./sample_1/main.hpp)
@@ -139,52 +141,51 @@ main.cpp
 
 int main(int argc, char* argv[]) {
 
-    try {
+	try {
 
-        boost::asio::io_context io;
+		boost::asio::io_context io;
 
-        boost::asio::ip::basic_resolver<boost::asio::ip::tcp> resolver(io);
+		boost::asio::ip::tcp::resolver resolver(io);
 
-        boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> query("127.0.0.1", "9601");
+		boost::asio::ip::tcp::resolver::query query("127.0.0.1", "9601");
 
-        boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> end_point = resolver.resolve(query);
+		boost::asio::ip::tcp::resolver::results_type end_point = resolver.resolve(query);
 
-        boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+		boost::asio::ip::tcp::socket socket(io);
 
-        boost::asio::connect(socket, end_point);
+		boost::asio::connect(socket, end_point);
 
-        std::string message{ "Hello World!\r\n" };
+		std::string message{ "Hello World!\r\n" };
+				   
+		std::cout << "Message: " << message << std::endl;
 
-        std::cout << "Message: " << message << std::endl;
+		boost::asio::const_buffer buffer = boost::asio::buffer(message);
 
-        boost::asio::const_buffer buffer = boost::asio::buffer(message);
+		try {
 
-        try {
+			size_t bytes = boost::asio::write(socket, buffer);
 
-            size_t bytes = boost::asio::write(socket, buffer);
+			std::cout << "Bytes Written: " << bytes << std::endl;
 
-            std::cout << "Bytes Written: " << bytes << std::endl;
+		}
+		catch (std::exception& e) {
 
-        }
-        catch (std::exception& e) {
+			std::cout << e.what() << std::endl;
 
-            std::cout << e.what() << std::endl;
+		}
 
-        }
+		socket.close();
+	
+	}
+	catch (std::exception &e) {
 
-        socket.close();
+		std::cout << e.what() << std::endl;
 
-    }
-    catch (std::exception &e) {
+		return 1;
 
-        std::cout << e.what() << std::endl;
-
-        return 1;
-
-    }
-
+	}
+	   
     return 0;
-
 }
 ```
 
@@ -245,39 +246,39 @@ The line
 boost::asio::io_context io;
 ```
 
-defines an instance of the asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality. More information about ```io_context``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
+defines an instance of the asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality. More information about `io_context` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
 
 The line
 
 ```cpp
-boost::asio::ip::basic_resolver<boost::asio::ip::tcp> resolver(io);
+boost::asio::ip::tcp::resolver resolver(io);
 ```
 
-defines a tcp-type instance of the asio library's ```ip::basic_resolver``` class template. It provides the ability to resolve a query to a list of endpoints. More information about ```ip::basic_resolver``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver.html).
+defines an instance of the asio library's `ip::tcp::resolver` class. It provides the ability to resolve a query to a list of endpoints. More information about `ip::tcp::basic_resolver` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/resolver.html).
 
 The line
 
 ```cpp
-boost::asio::ip::basic_resolver_query<boost::asio::ip::tcp> query("127.0.0.1", "9601");
+boost::asio::ip::tcp::resolver::query query("127.0.0.1", "9601");
 ```
 
-defines a tcp-type instance of the asio library's ```ip::basic_resolver_query``` class template. It describes a query that can be passed to a resolver. Here, we want to connect to the IP address `127.0.0.1` and port `9601`. More information about ```ip::basic_resolver_query``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver_query.html).
+defines an instance of the asio library's `ip::tcp::resolver::resolver` class's `query` type. It describes a query that can be passed to a resolver. Here, we want to connect to the IP address `127.0.0.1` and port `9601`. More information about `ip::tcp::resolver::query` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/query.html).
 
 The line
 
 ```cpp
-boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> end_point = resolver.resolve(query);
+boost::asio::ip::tcp::resolver::results_type end_point = resolver.resolve(query);
 ```
 
-defines a tcp-type instance of the asio library's ```ip::basic_resolver_results``` class template. It defines a range over the results returned by a resolver. More information about ```ip::basic_resolver_results``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver_results.html).
+defines a tcp-type instance of the asio library's `ip::tcp::resolver` class's `results_type` type. It defines a range over the results returned by a resolver. More information about `ip::tcp::resolver::results_type` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/results_type.html).
 
 The line
 
 ```cpp
-boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+boost::asio::ip::tcp::socket socket(io);
 ```
 
-defines an tcp-type instance of the asio library's ```basic_stream_socket``` class template. It provides synchronous and asynchronous stream-orientated socket functionality. More information about ```basic_stream_socket``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_stream_socket.html).
+defines an tcp-type instance of the asio library's ```ip::tcp::socket``` class. It provides synchronous and asynchronous stream-orientated socket functionality. More information about ```ip::tcp::socket``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/socket.html).
 
 The line
 
@@ -301,7 +302,7 @@ The line
 boost::asio::const_buffer buffer = boost::asio::buffer(message);
 ```
 
-defines an instance of the asio library's ```const_buffer``` class. It holds a buffer that cannot be modified. Here, the asio library's ```buffer()``` is used used to create a non-modifiable buffer from an existing string. ```buffer``` is a template function and has 32 overloads. Here, it is used with one parameter, ```const std::basic_string<Elem, Traits, Allocator>& data```, and returns a ```const_buffer``` buffer. More information about ```buffer()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/buffer.html).
+defines an instance of the asio library's ```const_buffer``` class. It holds a buffer that cannot be modified. Here, the asio library's ```buffer()``` is used to create a non-modifiable buffer from an existing string. ```buffer``` is a template function and has 32 overloads. Here, it is used with one parameter, ```const std::basic_string<Elem, Traits, Allocator>& data```, and returns a ```const_buffer``` buffer. More information about ```buffer()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/buffer.html).
 
 The block
 
@@ -320,7 +321,7 @@ catch (std::exception& e) {
 
 defines a try block and a catch block. In the try block, we try to synchronously write the buffer to the connected socket. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised.
 
-Here, the asio library's ```write()``` is used to write all the supplied data to a stream before returning. ```write()``` is a template function and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
+Here, the asio library's ```write()``` is used to synchronously write all the supplied data to a stream before returning. ```write()``` is a template function and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
 
 Note, it's worth wrapping ```write()``` in a try block and a catch block. Consider the case where the endpoint doesn't accept a connection, e.g. the server running on the endpoint may not have started: ```write()``` will throw an exception; which, if not caught, will cause your program to abort. Catching the exception will allow you to do something more useful, e.g. trying to connect with the server again in 10 minutes.
 
@@ -359,57 +360,57 @@ main.cpp
 
 int main(int argc, char* argv[]) {
 
-    try {
+	try {
 
-        boost::asio::io_context io;
+		boost::asio::io_context io;
 
-        boost::asio::ip::basic_endpoint<boost::asio::ip::tcp> end_points(boost::asio::ip::tcp::v4(), 9601);
+		boost::asio::ip::tcp::endpoint end_points(boost::asio::ip::tcp::v4(), 9601);
 
-        boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> acceptor(io, end_points);
+		boost::asio::ip::tcp::acceptor acceptor(io, end_points);
+		
+		bool loop{ true };
 
-        bool loop{ true };
+		while (loop) {
 
-        while (loop) {
+			boost::asio::ip::tcp::socket socket(io);
 
-            boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+			acceptor.accept(socket);
 
-            acceptor.accept(socket);
+			try {
 
-            try {
+				boost::asio::streambuf readBuffer;
 
-                boost::asio::streambuf readBuffer;
+				boost::asio::read_until (socket, readBuffer, '\n');
 
-                boost::asio::read_until (socket, readBuffer, '\n');
+				boost::asio::const_buffer input = readBuffer.data();
 
-                boost::asio::const_buffer input = readBuffer.data();
+				std::string message(boost::asio::buffers_begin(input),
+					boost::asio::buffers_begin(input) + input.size());
 
-                std::string message(boost::asio::buffers_begin(input),
-                    boost::asio::buffers_begin(input) + input.size());
+				std::cout << message << std::endl;
 
-                std::cout << message << std::endl;
+			}
+			catch (std::exception& e) {
 
-            }
-            catch (std::exception& e) {
+				std::cout << e.what() << std::endl;
 
-                std::cout << e.what() << std::endl;
+				loop = false;
 
-                loop = false;
+			}
+						
+		}
 
-            }
+		acceptor.close();
 
-        }
+	}
+	catch (std::exception& e) {
 
-        acceptor.close();
+		std::cout << e.what() << std::endl;
 
-    }
-    catch (std::exception& e) {
+		return 1;
 
-        std::cout << e.what() << std::endl;
-
-        return 1;
-
-    }
-
+	}
+	   
     return 0;
 
 }
@@ -477,18 +478,19 @@ defines an instance of the asio library's ```io_context``` class. It provides co
 The line
 
 ```cpp
-boost::asio::ip::basic_endpoint<boost::asio::ip::tcp> end_points(boost::asio::ip::tcp::v4(), 9601);
+boost::asio::ip::tcp::endpoint end_points(boost::asio::ip::tcp::v4(), 9601);
+
 ```
 
-defines a tcp-type instance of the asio library's `ip::basic_endpoint` class template. `ip::basic_endpoint` describes an endpoint that may be associated with a particular socket. More information about `ip::basic_endpoint` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_endpoint.html).
+defines an instance of the asio library's `ip::tcp::endpoint` class. `ip::tcp::endpoint` describes an endpoint that may be associated with a particular socket. More information about `ip::tcp::endpoint` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/endpoint.html).
 
 The line
 
 ```cpp
-boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> acceptor(io, end_points);
+boost::asio::ip::tcp::acceptor acceptor(io, end_points);
 ```
 
-defines a tcp-type instance of the asio library's `basic_socket_acceptor` class template. `basic_socket_acceptor`  is used for accepting new socket connections. More information about `basic_socket_acceptor` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_socket_acceptor.html).
+defines an instance of the asio library's `ip::tcp::acceptor` class. `ip::tcp::acceptor` is used for accepting new socket connections. More information about `ip::tcp::acceptor` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/acceptor.html).
 
 The block
 
@@ -505,10 +507,10 @@ defines the boolean variable `loop` and a while loop, which loops continuously w
 The line
 
 ```cpp
-boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+boost::asio::ip::tcp::socket socket(io);
 ```
 
-defines an tcp-type instance of the asio library's ```basic_stream_socket``` class template.
+defines an instance of the asio library's ```ip::tcp::socket``` class.
 
 The line
 
@@ -534,8 +536,81 @@ try {
 
 defines a try block and a catch block. In the try block, we try to synchronously read a message from a connected socket. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and then stops the while loop.
 
+The line 
+
+```cpp
+boost::asio::streambuf readBuffer;
+```
+
+defines an instance of asio library's `streambuf` class. It holds a buffer that can be modified.
+
+The line
+
+```cpp
+boost::asio::read_until (socket, readBuffer, '\n');
+```
+
+synchronously reads data into a dynamic buffer sequnce, or streambuf, unitl is contains a delimiter, matches a regular expression, or a function object indicates a match. `read_until()` is a template function and has 24 overloads. Here it is used with three parameters, `SyncReadStream & s` `DynamicBuffer_v1 && buffers`, and `char delim`, and returns a `std::size_t` value of bytes in the buffer. More information about `read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read_until/overload1.html).
+
+The line
+
+```cpp
+boost::asio::const_buffer input = readBuffer.data();
+```
+
+defines an instance of the asio library's `const_buffer` class. It holds a buffer that cannot be modified. Here, `readBuffer`'s member function is used to create a non-modifiable buffer from an existing string.
+
+The line
+
+```cpp
+std::string message(boost::asio::buffers_begin(input),
+    boost::asio::buffers_begin(input) + input.size());
+```
+
+defines an instance of a string. Here, it is instantiated using the asio library's `buffers_begin()`. `buffers_begin()` constructs an iterator represneting the beginning of the buffer's data. More information about `buffers_begin()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/buffers_begin.html).
+
+The line
+
+```cpp
+std::cout << message << std::endl;
+```
+
+prints the contents of `message` on the console.
+
+The line 
+
+```cpp
+acceptor.close();
+```
+
+uses `acceptor`'s `close()` member function to close the acceptor.
+
+Now that we've looked at the sample's source code, let's build and run its binary.
+
+To test Sample 1 and Sample 2's binaries, first run Sample 2's binary and then next run Sample 1's binary. 
+
+You should see the following images displayed:
+
+<div>
+<div align="center">
+<p>Figure: Sample 1's Output. Sample 1 writes a single string, "Hello World!\r\n" to 127.0.0.1:9601.</P>
+<img src=./sample_1/Capture.PNG alt="Capture.PNG" width=640>
+</div>
+
+<div align="center">
+<p>Figure: Sample 2's Output. Sample 2 reads a string from 127.0.0.1:9601. Running Sample 1's binary multiple times will append multiple "Hello World!\r\n" strings to Sample 2's output.</P>
+<img src=./sample_2/Capture.PNG alt="Capture.PNG" width=640>
+</div>
+</div>
 
 ## Section 6: Activity 1
+
+Now that you know how to use Boost's Asio library to communicate over a network, complete the following:
+
+1. Write a client application that uses Boost's Asio library to synchronously write a `std::vector<std::vector<double>>` data type to 127.0.0.1:1000 .
+1. Write a server application that uses Boost's Asio library to synchronously read a `std::vector<std::vector<double>>` data type from 127.0.0.1:1000.
+
+The activity_1 sub-directory is set up for you to get started. Also, have a look at Boost's Serialization library, you will find it helpful.
 
 ## Section 7: Sample 3
 

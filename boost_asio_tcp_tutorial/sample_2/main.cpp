@@ -6,22 +6,21 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::io_context io;
 
-		boost::asio::ip::basic_endpoint<boost::asio::ip::tcp> end_points(boost::asio::ip::tcp::v4(), 9601);
+		boost::asio::ip::tcp::endpoint end_points(boost::asio::ip::tcp::v4(), 9601);
 
-		boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> acceptor(io, end_points);
+		boost::asio::ip::tcp::acceptor acceptor(io, end_points);
 		
 		bool loop{ true };
 
 		while (loop) {
 
-			boost::asio::basic_stream_socket<boost::asio::ip::tcp> socket(io);
+			boost::asio::ip::tcp::socket socket(io);
 
 			acceptor.accept(socket);
 
 			try {
 
-				//boost::asio::streambuf readBuffer;
-				boost::asio::basic_streambuf<std::allocator<char>> readBuffer;
+				boost::asio::streambuf readBuffer;
 
 				boost::asio::read_until (socket, readBuffer, '\n');
 

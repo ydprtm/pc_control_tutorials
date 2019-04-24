@@ -4,7 +4,7 @@ boost::shared_ptr<Connection> Connection::create(boost::asio::io_context& io_con
 	return boost::shared_ptr<Connection>(new Connection(io_context));
 }
 
-boost::asio::basic_stream_socket<boost::asio::ip::tcp>& Connection::socket()
+boost::asio::ip::tcp::socket& Connection::socket()
 {
 	return m_socket;
 }
