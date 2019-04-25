@@ -126,7 +126,7 @@ To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, rel
 
 ## Section 4: Sample 1
 
-This sample is an example of a client application. It connects to a server.
+This sample is an example of a client application. It sends a message to a server.
 
 Browse to the sample_1 sub-directory. Let's have a look the sample's source code.
 
@@ -263,7 +263,7 @@ The line
 boost::asio::ip::tcp::resolver resolver(io);
 ```
 
-defines an instance of the asio library's `ip::tcp::resolver` class. It provides the ability to resolve a query to a list of endpoints. More information about `ip::tcp::basic_resolver` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/resolver.html).
+defines an instance of the asio library's `ip::tcp::resolver` class. It provides the ability to resolve a query to a list of endpoints. Here, the class is instantiated using the variable `io`. More information about `ip::tcp::resolver` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/resolver.html).
 
 The line
 
@@ -279,7 +279,7 @@ The line
 boost::asio::ip::tcp::resolver::results_type end_point = resolver.resolve(query);
 ```
 
-defines a tcp-type instance of the asio library's `ip::tcp::resolver` class's `results_type` type. It defines a range over the results returned by a resolver. More information about `ip::tcp::resolver::results_type` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/results_type.html).
+defines an instance of the asio library's `ip::tcp::resolver` class's `results_type` type. It defines a range over the results returned by a resolver. More information about `ip::tcp::resolver::results_type` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/results_type.html).
 
 The line
 
@@ -287,7 +287,7 @@ The line
 boost::asio::ip::tcp::socket socket(io);
 ```
 
-defines an tcp-type instance of the asio library's ```ip::tcp::socket``` class. It provides synchronous and asynchronous stream-orientated socket functionality. More information about ```ip::tcp::socket``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/socket.html).
+defines an instance of the asio library's ```ip::tcp::socket``` class. It provides synchronous and asynchronous stream-orientated socket functionality. Here, the class is instantiated using the variable `io`. More information about ```ip::tcp::socket``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/socket.html).
 
 The line
 
@@ -340,7 +340,7 @@ The line
 socket.close();
 ```
 
-uses ```socket```'s ```close``` member function to close the connected socket.
+uses `socket`'s `close` member function to close the connected socket.
 
 Now that we've looked at the sample's source code, let's build its executable.
 
@@ -348,7 +348,7 @@ Because Sample 1's executable tries to connect to a server, we'll leave running 
 
 ## Section 5: Sample 2
 
-This sample is an example of a server application. It accepts connections from a client.
+This sample is an example of a server application. It reads a message from a client.
 
 Browse to the sample_2 sub-directory. Let's have a look the sample's source code.
 
@@ -493,7 +493,7 @@ boost::asio::ip::tcp::endpoint end_points(boost::asio::ip::tcp::v4(), 9601);
 
 ```
 
-defines an instance of the asio library's `ip::tcp::endpoint` class. `ip::tcp::endpoint` describes an endpoint that may be associated with a particular socket. More information about `ip::tcp::endpoint` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/endpoint.html).
+defines an instance of the asio library's `ip::tcp::endpoint` class. `ip::tcp::endpoint` describes an endpoint that may be associated with a particular socket. Here, the class is instantiated with an IP v4 address type and the port number 9601. More information about `ip::tcp::endpoint` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/endpoint.html).
 
 The line
 
@@ -501,7 +501,7 @@ The line
 boost::asio::ip::tcp::acceptor acceptor(io, end_points);
 ```
 
-defines an instance of the asio library's `ip::tcp::acceptor` class. `ip::tcp::acceptor` is used for accepting new socket connections. More information about `ip::tcp::acceptor` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/acceptor.html).
+defines an instance of the asio library's `ip::tcp::acceptor` class. `ip::tcp::acceptor` is used for accepting new socket connections. Here, the class is instantiated using the variables `io` and `end_points`. More information about `ip::tcp::acceptor` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/acceptor.html).
 
 The block
 
@@ -521,7 +521,7 @@ The line
 boost::asio::ip::tcp::socket socket(io);
 ```
 
-defines an instance of the asio library's ```ip::tcp::socket``` class.
+defines an instance of the asio library's ```ip::tcp::socket``` class. Here, the class is instantiated using the variable `io`.
 
 The line
 
@@ -529,7 +529,7 @@ The line
 acceptor.accept(socket);
 ```
 
-uses `acceptors`'s `accept` member function to accept a new connection.
+uses `acceptors`'s `accept` member function to accept a new connection. Here, the class is instantiated using the variable `socket`
 
 The block
 
@@ -547,7 +547,7 @@ try {
 
 defines a try block and a catch block. In the try block, we try to synchronously read a message from a connected socket. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and then stops the while loop.
 
-The line 
+The line
 
 ```cpp
 boost::asio::streambuf readBuffer;
@@ -588,7 +588,7 @@ std::cout << message << std::endl;
 
 prints the contents of `message` on the console.
 
-The line 
+The line
 
 ```cpp
 acceptor.close();
@@ -856,7 +856,7 @@ The line
 Server server(io, 9601);
 ```
 
-defines an instance of the sample's `Server` class. `Server` accepts a connection from a client application and reads data from the corresponding socket. Here, it is instantiated with an instance of asio's `io_context` class and the port number. The `Server` class will be described shortly.
+defines an instance of the sample's `Server` class. `Server` accepts a connection from a client application and reads data from the corresponding socket. Here, it is instantiated with the variable `io` and the port number 9601. The `Server` class will be described shortly.
 
 The line
 
@@ -989,12 +989,12 @@ The block
 
 ```cpp
 Connection::Connection(boost::asio::io_context& io_context) :
-	m_socket(io_context) {
+    m_socket(io_context) {
 
 }
 ```
 
-defines the `Connection` class's constructor. It defines the class's `m_socket` data member.
+defines the `Connection` class's constructor. It defines the class's `m_socket` data member using an initilisation list. For more information about initialisation lists, see [here](https://www.learncpp.com/cpp-tutorial/8-5a-constructor-member-initializer-lists/).
 
 The block
 
@@ -1028,7 +1028,7 @@ Server::Server(boost::asio::io_context & io_context, int port)
 }
 ```
 
-defines the `Server` class's constructor. It defines the class's `m_io_context` and `m_acceptor` data members, and calls the class's `startAccept()` member function.
+defines the `Server` class's constructor. It defines the class's `m_io_context` and `m_acceptor` data members using an initialisation list, and calls the class's `startAccept()` member function.
 
 The block
 
@@ -1065,6 +1065,24 @@ void Server::acceptHandle(boost::shared_ptr<Connection> new_connection,
 ```
 
 defines the `Server` class's `acceptHandle()`. If the class's asycnhronous accept completed successfully, it calls the connection's `start()` member;  then it calls `startAccept()` to accept a new connection.
+
+Now that we've looked at the sample's source code, let's build and run its binary.
+
+To test Sample 3's binary, first run it and then next run Sample 1's binary.
+
+You should see the following images displayed:
+
+<div>
+<div align="center">
+<p>Figure: Sample 1's Output. Sample 1 writes a single string, "Hello World!\r\n" to 127.0.0.1:9601.</P>
+<img src=./sample_1/Capture.PNG alt="Capture.PNG" width=640>
+</div>
+
+<div align="center">
+<p>Figure: Sample 3's Output. Sample 2 reads a string from 127.0.0.1:9601. Running Sample 1's binary multiple times will append multiple "Hello World!\r\n" strings to Sample 2's output.</P>
+<img src=./sample_3/Capture.PNG alt="Capture.PNG" width=640>
+</div>
+</div>
 
 ## Section 8: Activity 2
 
