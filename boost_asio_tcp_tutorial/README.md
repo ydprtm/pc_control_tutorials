@@ -1079,7 +1079,7 @@ You should see the following images displayed:
 </div>
 
 <div align="center">
-<p>Figure: Sample 3's Output. Sample 2 reads a string from 127.0.0.1:9601. Running Sample 1's binary multiple times will append multiple "Hello World!\r\n" strings to Sample 2's output.</P>
+<p>Figure: Sample 3's Output. Sample 2 reads a string from 127.0.0.1:9601. Running Sample 1's binary multiple times will append multiple "Hello World!\r\n" strings to Sample 3's output.</P>
 <img src=./sample_3/Capture.PNG alt="Capture.PNG" width=640>
 </div>
 </div>
