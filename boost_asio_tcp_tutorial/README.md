@@ -51,6 +51,12 @@ This tutorial contains the following files:
 1. [./activity_1/server/CMakeLists.txt](./activity_1/server/CMakeLists.txt)
 1. [./activity_1/server/main.cpp](./activity_1/server/main.cpp)
 1. [./activity_1/server/main.hpp](./activity_1/server/main.hpp)
+1. [./activity_2/client/CMakeLists.txt](./activity_2/client/CMakeLists.txt)
+1. [./activity_2/client/main.cpp](./activity_2/client/main.cpp)
+1. [./activity_2/client/main.hpp](./activity_2/client/main.hpp)
+1. [./activity_2/server/CMakeLists.txt](./activity_2/server/CMakeLists.txt)
+1. [./activity_2/server/main.cpp](./activity_2/server/main.cpp)
+1. [./activity_2/server/main.hpp](./activity_2/server/main.hpp)
 1. [./sample_1/CMakeLists.txt](./sample_1/CMakeLists.txt)
 1. [./sample_1/main.cpp](./sample_1/main.cpp)
 1. [./sample_1/main.hpp](./sample_1/main.hpp)
@@ -119,6 +125,8 @@ To change the build configuration:
 To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, release application, select 'x64-Release'. CMake's default is a 64-bit, debug configuration.
 
 ## Section 4: Sample 1
+
+This sample is an example of a client application. It connects to a server.
 
 Browse to the sample_1 sub-directory. Let's have a look the sample's source code.
 
@@ -210,6 +218,7 @@ The block
 ```
 
 instructs the preprocessor to copy the contents of iostream and asio.hpp to main.cpp. The iostream header defines the standard Input and Output (I/O) stream objects. The asio header defines network and low-level I/O objects. In this sample, we use iostream's and asio.hpp's contents to display text to the user and communicate over a network via the Transmission Control Protocol (TCP).
+More information about Boost's Asio library can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio.html).
 
 Now, let's consider main.cpp, block by block.
 
@@ -238,7 +247,7 @@ try {
 }
 ```
 
-defines a try block and a catch block. In the try block, we try to send a message to a server. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1.
+defines a try block and a catch block. In the try block, we try to send a message to a server. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1. More information about exception handling can be found [here](https://www.learncpp.com/cpp-tutorial/142-basic-exception-handling/).
 
 The line
 
@@ -286,7 +295,7 @@ The line
 boost::asio::connect(socket, end_point);
 ```
 
-establishes a socket connection with the endpoint. ```connect()``` is a template function and has 12 overloads. Here, it is used with two parameters, ```basic_socket<Protocol, Executor>& s``` and ```const EndpointSequence& endpoints```, and returns the successfully connected endpoint. ```s``` is the socket to be connected. ```endpoints``` is a sequence of endpoints. More information about ```connect()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/connect.html).
+establishes a socket connection with the endpoint. ```connect()``` is a function template and has 12 overloads. Here, it is used with two parameters, ```basic_socket<Protocol, Executor>& s``` and ```const EndpointSequence& endpoints```, and returns the successfully connected endpoint. ```s``` is the socket to be connected. ```endpoints``` is a sequence of endpoints. More information about ```connect()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/connect.html).
 
 The line
 
@@ -321,7 +330,7 @@ catch (std::exception& e) {
 
 defines a try block and a catch block. In the try block, we try to synchronously write the buffer to the connected socket. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised.
 
-Here, the asio library's ```write()``` is used to synchronously write all the supplied data to a stream before returning. ```write()``` is a template function and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
+Here, the asio library's ```write()``` is used to synchronously write all the supplied data to a stream before returning. ```write()``` is a function template and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
 
 Note, it's worth wrapping ```write()``` in a try block and a catch block. Consider the case where the endpoint doesn't accept a connection, e.g. the server running on the endpoint may not have started: ```write()``` will throw an exception; which, if not caught, will cause your program to abort. Catching the exception will allow you to do something more useful, e.g. trying to connect with the server again in 10 minutes.
 
@@ -338,6 +347,8 @@ Now that we've looked at the sample's source code, let's build its executable.
 Because Sample 1's executable tries to connect to a server, we'll leave running it until we've built and run Sample 2's executable.
 
 ## Section 5: Sample 2
+
+This sample is an example of a server application. It accepts connections from a client.
 
 Browse to the sample_2 sub-directory. Let's have a look the sample's source code.
 
@@ -550,7 +561,7 @@ The line
 boost::asio::read_until (socket, readBuffer, '\n');
 ```
 
-synchronously reads data into a dynamic buffer sequnce, or streambuf, unitl is contains a delimiter, matches a regular expression, or a function object indicates a match. `read_until()` is a template function and has 24 overloads. Here it is used with three parameters, `SyncReadStream & s` `DynamicBuffer_v1 && buffers`, and `char delim`, and returns a `std::size_t` value of bytes in the buffer. More information about `read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read_until/overload1.html).
+synchronously reads data into a dynamic buffer sequnce, or streambuf, unitl is contains a delimiter, matches a regular expression, or a function object indicates a match. `read_until()` is a function template and has 24 overloads. Here it is used with three parameters, `SyncReadStream & s` `DynamicBuffer_v1 && buffers`, and `char delim`, and returns a `std::size_t` value of bytes in the buffer. More information about `read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read_until/overload1.html).
 
 The line
 
@@ -607,15 +618,480 @@ You should see the following images displayed:
 
 Now that you know how to use Boost's Asio library to communicate over a network, complete the following:
 
-1. Write a client application that uses Boost's Asio library to synchronously write a `std::vector<std::vector<double>>` data type to 127.0.0.1:1000 .
-1. Write a server application that uses Boost's Asio library to synchronously read a `std::vector<std::vector<double>>` data type from 127.0.0.1:1000.
+1. Write a client application that uses Boost's Asio library to synchronously write a `std::vector<double>` data type to 127.0.0.1:1000 .
+1. Write a server application that uses Boost's Asio library to synchronously read a `std::vector<double>` data type from 127.0.0.1:1000.
 
 The activity_1 sub-directory is set up for you to get started. Also, have a look at Boost's Serialization library, you will find it helpful.
 
 ## Section 7: Sample 3
 
+This sample is an improved example of a server application. It accepts connections from multiple clients.
+
+Browse to the sample_2 sub-directory. Let's have a look the sample's source code.
+
+main.hpp
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+
+#include "tcp.hpp"
+
+#endif // !__MAIN_HPP__
+```
+
+main.cpp
+
+```cpp
+#include "main.hpp"
+
+int main(int argc, char* argv[]) {
+
+	try {
+
+		boost::asio::io_context io;
+
+		Server server(io, 9601);
+
+		io.run();
+
+	}
+	catch (std::exception& e) {
+
+		std::cout << e.what() << std::endl;
+
+		return 1;
+
+	}
+
+    return 0;
+}
+```
+
+tcp.hpp
+
+```cpp
+#ifndef __TCP_HPP__
+#define __TCP_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/shared_ptr.hpp>
+
+class Connection : public boost::enable_shared_from_this<Connection>
+{
+public:
+
+	static boost::shared_ptr<Connection> create(boost::asio::io_context& io_context);
+
+	boost::asio::ip::tcp::socket& socket();
+
+	void start();
+
+private:
+	Connection(boost::asio::io_context& io_context);
+
+	void readHandle(const boost::system::error_code& e,
+		size_t bytes);
+
+	boost::asio::ip::tcp::socket m_socket;
+
+	boost::asio::streambuf m_buffer{};
+};
+
+class Server
+{
+public:
+	Server(boost::asio::io_context& io_context, int port);
+
+private:
+	void start_accept();
+
+	void acceptHandle(boost::shared_ptr<Connection> new_connection,
+		const boost::system::error_code& error);
+
+	boost::asio::io_context& m_io_context;
+	boost::asio::ip::tcp::acceptor m_acceptor;
+	
+};
+
+#endif //!__TCP_HPP
+```
+
+tcp.cpp
+
+```cpp
+#include "tcp.hpp"
+
+boost::shared_ptr<Connection> Connection::create(boost::asio::io_context& io_context) {
+	return boost::shared_ptr<Connection>(new Connection(io_context));
+}
+
+boost::asio::ip::tcp::socket& Connection::socket()
+{
+	return m_socket;
+}
+
+void Connection::start()
+{
+
+	boost::asio::async_read_until(m_socket, m_buffer, '\n',
+		boost::bind(&Connection::readHandle, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+}
+
+Connection::Connection(boost::asio::io_context& io_context) :
+	m_socket(io_context) {
+}
+
+void Connection::readHandle(const boost::system::error_code& e,
+	size_t bytes)
+{
+
+	boost::asio::const_buffer input = m_buffer.data();
+
+	std::string message(boost::asio::buffers_begin(input),
+		boost::asio::buffers_begin(input) + input.size());
+
+	std::cout << message << std::endl;
+
+}
+
+
+Server::Server(boost::asio::io_context & io_context, int port)
+	: m_io_context(io_context),
+	m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+{
+	start_accept();
+}
+
+void Server::start_accept()
+{
+	boost::shared_ptr<Connection> new_connection = Connection::create(m_io_context);
+
+	m_acceptor.async_accept(new_connection->socket(), boost::bind(&Server::acceptHandle, this, new_connection, boost::asio::placeholders::error));
+}
+
+void Server::acceptHandle(boost::shared_ptr<Connection> new_connection,
+	const boost::system::error_code & error)
+{
+	if (!error)
+	{
+		new_connection->start();
+	}
+
+	start_accept();
+}
+```
+
+Let's go through main.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once.
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+
+#include "tcp.hpp"
+```
+
+instructs the preprocessor to copy the contents of iostream, asio.hpp, and tcp.hpp to main.cpp. The tcp header defines the sample's Server and Connection classes, which accept and handle connections from client applications.
+
+Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+ int main(int argc, char* argv[]) {
+     ...
+     return 0;
+ }
+```
+
+defines the program's entry point. ```main()``` has two parameters, ```int argc```, and ```char* argv[]```, and returns an ```int``` value. ```argc``` is the number of command-line parameters; ```argv``` is an array of the command-line parameters. In this sample, we don't use either parameter. If the program completes successfully, the program returns 0.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    return 1;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to read a message from a client. If an exception is raised, the program's execution proceeds to the catch handler, which processes a std::exception data type. If the catch handler handles a ```std::exception``` type exception, the program returns 1.
+
+The line
+
+```cpp
+boost::asio::io_context io;
+```
+
+defines an instance of the asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality.
+
+The line
+
+```cpp
+Server server(io, 9601);
+```
+
+defines an instance of the sample's `Server` class. `Server` accepts a connection from a client application and reads data from the corresponding socket. Here, it is instantiated with an instance of asio's `io_context` class and the port number. The `Server` class will be described shortly.
+
+The line
+
+```cpp
+io.run();
+```
+
+uses `io`'s `run()` member function to run the io_context object's event processing loop.
+
+Now, let's look at tcp.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __TCP_HPP__
+#define __TCP_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once.
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/enable_shared_from_this.hpp>
+#include <boost/shared_ptr.hpp>
+```
+
+instructs the preprocessor to copy the contents of iostream, asio.hpp, bind.hpp, enable_shared_from_this.hpp, and shared_ptr.hpp to main.hpp. The bind header allows for the generalisation of the standard functions `std::bind1st` and `std::bind2nd`; it supports arbitrary function objects, functions, function pointers, and member function pointers, and is able to bind any argument to a specific value or route input arguments into arbitrary positions. More information about boost's Bind library can be found [here](https://www.boost.org/doc/libs/1_70_0/libs/bind/doc/html/bind.html). The enable_shared_from _this and shared_ptr headers allow for the use of the `shared_ptr` class, a versatile tool for managing shared ownership of an object; and the `enable_shared_from_this` class, a helper class that enables acquisition of a `shared_ptr` pointing to `this`. More information about Boost's Smart Ptr library can be found [here](https://www.boost.org/doc/libs/1_70_0/libs/smart_ptr/doc/html/smart_ptr.html). For more information about smart points, see [here](https://www.learncpp.com/cpp-tutorial/15-1-intro-to-smart-pointers-move-semantics/).
+
+The block
+
+```cpp
+class Connection : public boost::enable_shared_from_this<Connection>
+{
+public:
+
+    static boost::shared_ptr<Connection> create(boost::asio::io_context& io_context);
+
+    boost::asio::ip::tcp::socket& socket();
+
+    void start();
+
+private:
+
+    Connection(boost::asio::io_context& io_context);
+
+    void readHandle(const boost::system::error_code& e,
+        size_t bytes);
+
+    boost::asio::ip::tcp::socket m_socket;
+
+    boost::asio::streambuf m_buffer{};
+};
+```
+
+declares the sample's `Connection` class. `Connection` is responsible for creating the `Server` class's socket and reading data from the client application. `create()` returns a smart_pointer to the class; `socket()` returns the class's socket; `start()` asynchronously reads data from the class's socket into a buffer; `Connection()` defines the class's socket; `readHandle()` handles the asysnchronous read operation; `m_socket` is the class's socket; and `m_buffer` is the class's buffer. Here, `shared_ptr` and `enable_shared_from_this` are used because we want to keep the `Connection` object alive as long as there is an operation that refers to it.
+
+The block
+
+```cpp
+
+class Server
+{
+public:
+
+    Server(boost::asio::io_context& io_context, int port);
+
+private:
+
+    void startAccept();
+
+    void acceptHandle(boost::shared_ptr<Connection> new_connection,
+        const boost::system::error_code& error);
+
+    boost::asio::io_context& m_io_context;
+    boost::asio::ip::tcp::acceptor m_acceptor;
+
+};
+```
+
+declares the sample's `Server` class. `Server` is responsible for accepting connections from the client application. `Server()` defines the class's `io_context` and acceptor; `startAccept()` creates an instance of the `Connection` class and asyncrhonous accepts connections; `acceptHandle()` handles the asyncrhonous accept operation; `m_io_context` is the class's `io_context`; and `m_acceptor` is the class's acceptor.
+
+Now, let's go through tcp.cpp, block by block.
+
+The block
+
+```cpp
+boost::shared_ptr<Connection> Connection::create(boost::asio::io_context& io_context) {
+
+    return boost::shared_ptr<Connection>(new Connection(io_context));
+
+}
+```
+
+defines the `Connection` class's `create()`. `create()` has one parameter, `boost::asio::io_context& io_context`, and returns a shared pointer to a new instance of the `Connection` class.
+
+The block
+
+```cpp
+boost::asio::ip::tcp::socket& Connection::socket()
+{
+
+    return m_socket;
+
+}
+```
+
+defines the `Connection` class's `socket()`. `socket()` has no parameters, and returns a reference to the class's `m_socket` data member.
+
+The block
+
+```cpp
+void Connection::start()
+{
+
+    boost::asio::async_read_until(m_socket, m_buffer, '\n',
+        boost::bind(&Connection::readHandle, shared_from_this(), boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+}
+```
+
+defines the `Connection` class's `start()`. `start()` has no parameters, and does not return any values. It uses the Asio library's `async_read_until()` to asynchronously read data into the class's buffer until it contains the '\n' delimiter. `async_read_until()` is a function template and has 12 overloads. Here it is used with four parameters, `AsyncReadStream& s`, `DynamicBuffer_v1 && buffers`, `char delim`, `ReadHandler && handler`, and does not return any value. When the read operation completes, it calls the class's `readHandle()`. For more information about `async_read_until()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_read_until/overload1.html).
+
+The block
+
+```cpp
+Connection::Connection(boost::asio::io_context& io_context) :
+	m_socket(io_context) {
+
+}
+```
+
+defines the `Connection` class's constructor. It defines the class's `m_socket` data member.
+
+The block
+
+```cpp
+void Connection::readHandle(const boost::system::error_code& e,
+    size_t bytes)
+{
+
+    boost::asio::const_buffer input = m_buffer.data();
+
+    std::string message(boost::asio::buffers_begin(input),
+        boost::asio::buffers_begin(input) + input.size());
+
+    std::cout << message << std::endl;
+
+}
+```
+
+defines the `Connection` class's `readHandle()`. `readHandle()` has two parameters, `const boost::system::error_code& e` and `size_t bytes` and does not return any values. It defines a non-modifiable buffer of the data saved in the class's `m_buffer` data member, which is then converted into an instance of a string whose contents are printed on the console.
+
+The block
+
+```cpp
+Server::Server(boost::asio::io_context & io_context, int port)
+    : m_io_context(io_context),
+    m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
+{
+
+    startAccept();
+
+}
+```
+
+defines the `Server` class's constructor. It defines the class's `m_io_context` and `m_acceptor` data members, and calls the class's `startAccept()` member function.
+
+The block
+
+```cpp
+void Server::startAccept()
+{
+
+    boost::shared_ptr<Connection> new_connection = Connection::create(m_io_context);
+
+    m_acceptor.async_accept(new_connection->socket(), boost::bind(&Server::acceptHandle, this, new_connection, boost::asio::placeholders::error));
+
+}
+```
+
+defines the `Server` class's `startAccept()`. It defines a new instance of the `Connection` class and asyncrhonously accepts connections from a client application. It uses the class's `m_acceptor`'s `async_accept()` member function to start an asynchronous accept operation. `async_accept()` is a template function and has 8 overloads. Here it is used with two parameters, `basic_socket< Protocol1, Executor1 >& peer` and `AcceptHandler && handler`, and does not return any values. When the accept operation completes, it calls the class's `acceptHandle()`. For more information about `async_accept()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_socket_acceptor/async_accept/overload1.html).
+
+The block
+
+```cpp
+void Server::acceptHandle(boost::shared_ptr<Connection> new_connection,
+    const boost::system::error_code & error)
+{
+
+    if (!error)
+    {
+
+        new_connection->start();
+
+    }
+
+    startAccept();
+
+}
+```
+
+defines the `Server` class's `acceptHandle()`. If the class's asycnhronous accept completed successfully, it calls the connection's `start()` member;  then it calls `startAccept()` to accept a new connection.
+
 ## Section 8: Activity 2
+
+Now that you know how to use Boost's Asio library to communicate over a network asynchronously, complete the following:
+
+1. Write a client application that uses Boost's Asio library to asynchronously write a `std::vector<double>` data type to 127.0.0.1:1000 .
+1. Write a server application that uses Boost's Asio library to asynchronously read a `std::vector<double>` data type from 127.0.0.1:1000.
+The activity_1 sub-directory is set up for you to get started.
+
+Also, have a look at Boost's Serialization library, you will find it helpful.
 
 ## Section 9: Conclusion
 
+In this tutorial, I have shown you how to communicate with a remote system using Boost's Asio library.
+
+You have used the Asio library to syncrhonously and asyncrhonously read and write date from client and server application.
+
+I hope this tutorial has been useful.
+
 ## Credit
+
+Dr Frazer K. Noble  
+Department of Mechanical and Electrical Engineering  
+School of Food and Advanced Technology  
+Massey University  
+New Zealand
+
+Follow me on Twitter 
+<a href="http://twitter.com/DrFrazerNoble" class="twitter-follow-button" data-show-count="false">@DrFrazerNoble</a>
+<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>

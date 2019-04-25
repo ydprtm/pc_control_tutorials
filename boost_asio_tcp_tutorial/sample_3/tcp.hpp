@@ -13,18 +13,17 @@ public:
 
 	static boost::shared_ptr<Connection> create(boost::asio::io_context& io_context);
 
-	//boost::asio::basic_stream_socket<boost::asio::ip::tcp>& socket();
 	boost::asio::ip::tcp::socket& socket();
 
 	void start();
 
 private:
+
 	Connection(boost::asio::io_context& io_context);
 
 	void readHandle(const boost::system::error_code& e,
 		size_t bytes);
 
-	//boost::asio::basic_stream_socket<boost::asio::ip::tcp> m_socket;
 	boost::asio::ip::tcp::socket m_socket;
 
 	boost::asio::streambuf m_buffer{};
@@ -33,16 +32,17 @@ private:
 class Server
 {
 public:
+
 	Server(boost::asio::io_context& io_context, int port);
 
 private:
-	void start_accept();
+
+	void startAccept();
 
 	void acceptHandle(boost::shared_ptr<Connection> new_connection,
 		const boost::system::error_code& error);
 
 	boost::asio::io_context& m_io_context;
-	//boost::asio::basic_socket_acceptor<boost::asio::ip::tcp> m_acceptor;
 	boost::asio::ip::tcp::acceptor m_acceptor;
 	
 };

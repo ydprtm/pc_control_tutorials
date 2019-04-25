@@ -1,12 +1,16 @@
 #include "tcp.hpp"
 
 boost::shared_ptr<Connection> Connection::create(boost::asio::io_context& io_context) {
+	
 	return boost::shared_ptr<Connection>(new Connection(io_context));
+
 }
 
 boost::asio::ip::tcp::socket& Connection::socket()
 {
+
 	return m_socket;
+
 }
 
 void Connection::start()
@@ -19,6 +23,7 @@ void Connection::start()
 
 Connection::Connection(boost::asio::io_context& io_context) :
 	m_socket(io_context) {
+
 }
 
 void Connection::readHandle(const boost::system::error_code& e,
@@ -34,28 +39,35 @@ void Connection::readHandle(const boost::system::error_code& e,
 
 }
 
-
 Server::Server(boost::asio::io_context & io_context, int port)
 	: m_io_context(io_context),
 	m_acceptor(io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port))
 {
-	start_accept();
+
+	startAccept();
+
 }
 
-void Server::start_accept()
+void Server::startAccept()
 {
+	
 	boost::shared_ptr<Connection> new_connection = Connection::create(m_io_context);
 
 	m_acceptor.async_accept(new_connection->socket(), boost::bind(&Server::acceptHandle, this, new_connection, boost::asio::placeholders::error));
+
 }
 
 void Server::acceptHandle(boost::shared_ptr<Connection> new_connection,
 	const boost::system::error_code & error)
 {
+
 	if (!error)
 	{
+
 		new_connection->start();
+
 	}
 
-	start_accept();
+	startAccept();
+
 }
