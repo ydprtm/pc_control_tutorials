@@ -1112,4 +1112,3 @@ New Zealand
 
 Follow me on Twitter 
 <a href="http://twitter.com/DrFrazerNoble" class="twitter-follow-button" data-show-count="false">@DrFrazerNoble</a>
-<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
