@@ -4,18 +4,18 @@ Welcome to my tutorial on how to communicate over a serial port using Boost's As
 
 ## Section 1: Introduction
 
-Consider the following situation: you're an engineering working at a large factory. There is a machine in the factory you are responsible for. Your employer regular measurements of the machine's state to ensure its safe operation. What do you do?
+Consider the following situation: you're an engineering working at a large factory. There is a machine in the factory you are responsible for. Your employer requires regular measurements of the machine's state to ensure its safe operation. What do you do?
 
 Here are some potential solutions:
 
-1. You walk over to the machine and manually make measurements.
+1. You walk over to the machine and manually make a measurement.
 1. You develop a system to automatically make a measurement and save the machine's state to a computer. You walk over to the computer at the end of the day and download the day's log file.
 
-Given a desired number and frequency of measurements, there's a number of issues with the first option: you may need to be constantly taking measurements, you may mis-count the number of measurements you've made, you may not record a measurement accurately, etc. A more satisfactory solution is the last option: an embedded system consisting of a sensor, amplifier, microcontroller, power supply, and PC-interface that will allow for consistent, continuous measurements. The last solution could be extended further to include automatic, emergency shutdown.
+Given a desired number and frequency of measurements, there's a number of issues with the first option: you may need to constantly take measurements, you may mis-count the number of measurements you've made, you may not record a measurement accurately, etc. A more satisfactory solution is the last option: an embedded system consisting of a sensor, amplifier, microcontroller, power supply, and PC-interface that will allow for consistent, continuous measurements. The last solution could be extended further to include automatic, emergency shutdown.
 
 The problem is, how can an embedded system communicate with a PC? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software framework and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired serial port and read and write raw data, e.g. a string. Qt provides its serial port module and Boost provides the Asio library, which both allow for communicating with a physical or virtual COM port.
 
-In this tutorial, I will show you how to use Boost's Asio library to communicate over a serial port using the RS-232 protocol. Sample 1 shows how to synchronously read and write to a serial port; Sample 2 shows how to asynchronously read and write to a serial port; and Sample 3 shows how asynchronously read and write to a serial port using a class. The remainder of this tutorial is structured as follws: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents an activity for you to complete; Section 6 presents and describes Sample 2's source code; Section 7 presents an activity for your to complete; Section 8 presents and describes Sample 3's source code; Section 9 presents an activity for you to complete; and Section 10 concludes the tutorial.
+In this tutorial, I will show you how to use Boost's Asio library to communicate over a serial port using the RS-232 protocol. Sample 1 shows how to synchronously read and write to a serial port; Sample 2 shows how to asynchronously read and write to a serial port; and Sample 3 shows how asynchronously read and write to a serial port using a class structure. The remainder of this tutorial is structured as follws: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents an activity for you to complete; Section 6 presents and describes Sample 2's source code; Section 7 presents an activity for your to complete; Section 8 presents and describes Sample 3's source code; Section 9 presents an activity for you to complete; and Section 10 concludes the tutorial.
 
 ## Section 2: Requirements
 
@@ -34,9 +34,9 @@ This tutorial has been validated using the following software versions and hardw
 1. Boost 1.70.0
 1. Visual Studio IDE 2019, Community Edition
 1. Arduino 1.8.9
-1. Arduino Uno REV 3
+1. Arduino Uno REV 3 (or similar, e.g. an Arduino Nano or Arduino Mega)
 
-If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. To install Boost, see [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html) for instructions.
+If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. Most Boost libraries are header-only, i.e. they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking. However, some libraries, e.g. Boost.Chrono, must be built separately. More information about getting started with Boost can be found [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html).
 
 If you'd like to use an alternative to Microsoft's Visual Studio Integrated Development Environment (IDE), consider Microsoft's [Visual Studio Code](https://code.visualstudio.com/). It's a light-weight, flexible alternative to Visual Studio IDE.
 
@@ -69,7 +69,7 @@ This tutorial contains the following files:
 1. [./sample_3/tcp.hpp](./sample_3/tcp.hpp)
 1. [./serial_sketch/serial_sketch.ino](./serial_sketch/serial_sketch.ino)
 
-The sample_1 sub-directory contains source code that shows you how to synchronously read and write data via serial port using RS-232. The sample_2 sub-directory contains source code that shows you how to asynchronously read and write data via a serial port using RS-232. The sample_3 sub-directory contains source code that shows you how to asyncrhonously read and write data via a serial port using RS-232 and a class structure. The activity_1, activity_2, and activity_3 sub-directories contain projects set-up for you to complete the tutorial's actvitities. The serial_sketch sub-directory contains the Arduino's program used to validate the tutorial's samples' functionality.
+The sample_1 sub-directory contains source code that shows you how to synchronously read and write data via serial port using RS-232. The sample_2 sub-directory contains source code that shows you how to asynchronously read and write data via a serial port using RS-232. The sample_3 sub-directory contains source code that shows you how to asyncrhonously read and write data via a serial port using RS-232 and a class structure. The activity_1, activity_2, and activity_3 sub-directories contain projects set-up for you to complete the tutorial's actvitities. The serial_sketch sub-directory contains an Arduino program used to validate the tutorial's samples' functionality.
 
 ### Windows
 
@@ -84,7 +84,7 @@ To build a Debug version of a sample or activity, browse to its directory via th
     cmake -G "Visual Studio 16 2019" ..
     cmake --build . --config Debug --target install
 
-To run the built executable, browse to the bin sub-directory and use the following commands:
+To run the built binary, browse to the bin sub-directory and use the following commands:
 
     cd ..
     cd bin
@@ -97,7 +97,7 @@ To build a Release version of a sample or activity, browse to its directory via 
     cmake -G "Visual Studio 16 2019" ..
     cmake --build . --config Release --target install
 
-To run the built executable, browse to the bin sub-directory and use the following commands:
+To run the built binary, browse to the bin sub-directory and use the following commands:
 
     cd ..
     cd bin
@@ -113,7 +113,7 @@ To build a Debug version of a sample or activity:
 1. Select 'CMakeLists.txt' and click on 'Open'
 1. Click 'Build > Build All'
 
-To run the built executable:
+To run the built binary:
 
 1. Click 'Debug > Start'
 
@@ -126,7 +126,7 @@ To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, rel
 
 ## Section 4: Sample 1
 
-This sample shows how to syncrhonously communicate over a serial port.
+This sample shows how to syncrhonously read and write data over serial port.
 
 Browse to the sample_1 sub-directory. Let's have a look at the sample's source code.
 
@@ -249,7 +249,7 @@ try {
 }
 ```
 
-defines a try block and a catch block. In the try block, we try to write to and read from a serial port. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1. More information about exception handling can be found [here](https://www.learncpp.com/cpp-tutorial/142-basic-exception-handling/).
+defines a try block and a catch block. In the try block, we try to read from and write to a serial port. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1. More information about exception handling can be found [here](https://www.learncpp.com/cpp-tutorial/142-basic-exception-handling/).
 
 The line
 
@@ -473,6 +473,30 @@ void readHandle(const boost::system::error_code& e, const std::size_t bytes, con
 declares the sample's `readHandle()`. `readHandle()` is called at the end of an asyncrhonous read operation. It prints out the number of bytes read from the serial port and the input stream's contents.
 
 Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+void writeHandle(const boost::system::error_code &e, const std::size_t bytes) {
+
+    std::cout << "Bytes Written: " << bytes << std::endl;
+
+}
+```
+
+defines the sample's `writeHandle()` function. It is called when an asyncrhonous write operation has completed. It has two parameters, `const boost::system::error_code &e` and `const std::size_t bytes`, and does not return a value. `e` is the result of the write operation; and `bytes` is the number of bytes copied from the buffers.
+
+The block
+
+```cpp
+void readHandle(const boost::system::error_code& e, const std::size_t bytes) {
+
+    std::cout << "Bytes Read: " << bytes << ": " << std::endl;
+
+}
+```
+
+defines the sample's `readHandle()` function. It is called when an asyncrhonous read operation has completed. It has two parameters, `const boost::system::error_code &e` and `const std::size_t bytes`, and does not return a value. `e` is the result of the write operation; and `bytes` is the number of bytes copied from the buffers.
 
 The block
 

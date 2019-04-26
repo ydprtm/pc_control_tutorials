@@ -9,14 +9,14 @@ Consider the following situation: you're an engineer working at a large factory.
 Here are some potential solutions:
 
 1. You walk over to the machine and manually make a measurement.
-1. You develop a system to automatically make a measurement and save the machine's state locally. You walk over at the end of the day and copy the day's log file.
-1. You develop a system to automatically make a measurement and transmit the machine's state to your office's computer. You develop an application that displays the machine's state and record it locally.
+1. You develop a system to automatically make a measurement and save the machine's state to a computer. You walk over to the computer at the end of the day and download the day's log file.
+1. You develop a system to automatically make a measurement and transmit the machine's state to your office's computer. You develop an application that displays the machine's state and save it locally.
 
-Given a desired number and frequency of measurements, and the physical distance between your office and the machine, there's a number of issues with the first two options: you may spend too much time walking between your office and the machine, you may mis-count the number of measurements you've made, the machine may experience a fault before the end of the day and you wouldn't know, etc. A more satisfactory solution is the last option: you don't need to constantly walk between your office and the machine, you get consistent, continuous measurements, and you'll know there's been a fault immediately. The last solution could be extended further to include remote operation.
+Given a desired number and frequency of measurements, and the physical distance between your office and the machine, there's a number of issues with the first two options: you may spend too much time walking between your office and the machine, you may mis-count the number of measurements you've made, the machine may experience a fault before the end of the day and you wouldn't know, etc. A more satisfactory solution is the last option: an embedded system consisting of a sensor, amplifier, microcontroller, power supply, and network interface that will allow for consistent, continuous, and remote measurements. You don't need to constantly walk between your office and the machine, you get accurate measurements, and you'll know there's been a fault immediately. The last solution could be extended further to include remote control.
 
-How do you communicate with a remote system? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software frameworks and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired end-point and send raw data, e.g. a string. Qt provides its networking module and Boost provides the Asio library, which both allow for network communication.
+The problem is, how do you communicate with a remote system? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software frameworks and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired end-point and send raw data, e.g. a string. Qt provides its networking module and Boost provides the Asio library, which both allow for network communication.
 
-In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. Sample 1 and Sample 2 shows how to synchronously write and read data over a network; Sample 3 shows how to asynchronously read data over a network using a class. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents and describes Sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's Sample code; Section 8 presents an activity for you complete; and Section 9 concludes the tutorial.
+In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. Sample 1 and Sample 2 shows how to synchronously write and read data over a network; Sample 3 shows how to asynchronously read data over a network using a class structure. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents and describes Sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's Sample code; Section 8 presents an activity for you complete; and Section 9 concludes the tutorial.
 
 ## Section 2: Requirements
 
@@ -34,7 +34,7 @@ This tutorial has been validated using the following software versions:
 1. Boost 1.70.0
 1. Visual Studio IDE 2019, Community Edition
 
-If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. To install Boost, see [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html) for instructions.
+If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. Most Boost libraries are header-only, i.e. they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking. However, some libraries, e.g. Boost.Chrono, must be built separately. More information about getting started with Boost can be found [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html).
 
 If you'd like to use an alternative to Microsoft's Visual Studio Integrated Development Environment (IDE), consider Microsoft's [Visual Studio Code](https://code.visualstudio.com/). It's a light-weight, flexible alternative to Visual Studio IDE.
 
@@ -84,7 +84,7 @@ To build a Debug version of a sample or activity, browse to its directory via th
     cmake -G "Visual Studio 16 2019" ..
     cmake --build . --config Debug --target install
 
-To run the built executable, browse to the bin sub-directory and use the following commands:
+To run the built binary, browse to the bin sub-directory and use the following commands:
 
     cd ..
     cd bin
@@ -97,7 +97,7 @@ To build a Release version of a sample or activity, browse to its directory via 
     cmake -G "Visual Studio 16 2019" ..
     cmake --build . --config Release --target install
 
-To run the built executable, browse to the bin sub-directory and use the following commands:
+To run the built binary, browse to the bin sub-directory and use the following commands:
 
     cd ..
     cd bin
@@ -113,7 +113,7 @@ To build a Debug version of a sample or activity:
 1. Select 'CMakeLists.txt' and click on 'Open'
 1. Click 'Build > Build All'
 
-To run the built executable:
+To run the built binary:
 
 1. Click 'Debug > Start'
 
@@ -126,7 +126,7 @@ To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, rel
 
 ## Section 4: Sample 1
 
-This sample is an example of a client application. It sends a message to a server.
+This sample is an example of a client application. It shows how to syncrhonously write data to a server.
 
 Browse to the sample_1 sub-directory. Let's have a look the sample's source code.
 
@@ -247,7 +247,7 @@ try {
 }
 ```
 
-defines a try block and a catch block. In the try block, we try to send a message to a server. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1. More information about exception handling can be found [here](https://www.learncpp.com/cpp-tutorial/142-basic-exception-handling/).
+defines a try block and a catch block. In the try block, we try to write a message to a server. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1. More information about exception handling can be found [here](https://www.learncpp.com/cpp-tutorial/142-basic-exception-handling/).
 
 The line
 
@@ -342,9 +342,9 @@ socket.close();
 
 uses `socket`'s `close` member function to close the connected socket.
 
-Now that we've looked at the sample's source code, let's build its executable.
+Now that we've looked at the sample's source code, build its binary.
 
-Because Sample 1's executable tries to connect to a server, we'll leave running it until we've built and run Sample 2's executable.
+Because Sample 1's binary tries to connect to a server, we'll leave running it until we've built and run Sample 2's binary.
 
 ## Section 5: Sample 2
 
@@ -596,7 +596,7 @@ acceptor.close();
 
 uses `acceptor`'s `close()` member function to close the acceptor.
 
-Now that we've looked at the sample's source code, let's build and run its binary.
+Now that we've looked at the sample's source code, build and run its binary.
 
 To test Sample 1 and Sample 2's binaries, first run Sample 2's binary and then next run Sample 1's binary. 
 
@@ -1066,7 +1066,7 @@ void Server::acceptHandle(boost::shared_ptr<Connection> new_connection,
 
 defines the `Server` class's `acceptHandle()` member function. If the class's asycnhronous accept completed successfully, it calls the connection's `start()` member;  then it calls `startAccept()` to accept a new connection.
 
-Now that we've looked at the sample's source code, let's build and run its binary.
+Now that we've looked at the sample's source code, build and run its binary.
 
 To test Sample 3's binary, first run it and then next run Sample 1's binary.
 
