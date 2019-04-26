@@ -65,8 +65,8 @@ This tutorial contains the following files:
 1. [./sample_3/CMakeLists.txt](./sample_3/CMakeLists.txt)
 1. [./sample_3/main.cpp](./sample_3/main.cpp)
 1. [./sample_3/main.hpp](./sample_3/main.hpp)
-1. [./sample_3/tcp.cpp](./sample_3/tcp.cpp)
-1. [./sample_3/tcp.hpp](./sample_3/tcp.hpp)
+1. [./sample_3/serial.cpp](./sample_3/serial.cpp)
+1. [./sample_3/serial.hpp](./sample_3/serial.hpp)
 1. [./serial_sketch/serial_sketch.ino](./serial_sketch/serial_sketch.ino)
 
 The sample_1 sub-directory contains source code that shows you how to synchronously read and write data via serial port using RS-232. The sample_2 sub-directory contains source code that shows you how to asynchronously read and write data via a serial port using RS-232. The sample_3 sub-directory contains source code that shows you how to asyncrhonously read and write data via a serial port using RS-232 and a class structure. The activity_1, activity_2, and activity_3 sub-directories contain projects set-up for you to complete the tutorial's actvitities. The serial_sketch sub-directory contains an Arduino program used to validate the tutorial's samples' functionality.
@@ -276,7 +276,7 @@ serial.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port
 serial.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
 ```
 
-uses `serial`'s `set_option()` member function to set the serial port's baud rate, character size, parity, and number of stop bits as 115200 bps, 8 bits, no parity, and one stop bit, respectively. `set_option()` is a function template and has 2 overloads. Here, it is used with one parameter, `const SettableSerialPortOption& option` and does not return any values. `option` is the option value to be set on the serial port. More information about `set_option()` can be found here [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_serial_port/set_option/overload1.html).
+uses `serial`'s `set_option()` member function to set the serial port's baud rate, character size, parity, and number of stop bits as 115200 bps, 8 bits, no parity, and one stop bit, respectively. `set_option()` is a function template and has 2 overloads. Here, it is used with one parameter, `const SettableSerialPortOption& option`, and does not return any values. `option` is the option value to be set on the serial port. More information about `set_option()` can be found here [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_serial_port/set_option/overload1.html).
 
 The line
 
@@ -318,7 +318,7 @@ while (read) {
 
 defines a while loop that syncrhonously reads a single character from the serial port until a '\n' character is received.
 
-Here, the Asio library's `read()` is used to synchronously read a certain amount of data from a stream before returning. `read()` is a function template and has 16 overloads. Here, it is used with two parameters `SyncReadStream& s` and `const MutableBufferSequence & buffers`, and returns a `size_t` value of bytes read. `s` is the stream from which the data is to be read; and `buffers` is one or more buffers into which the data will be read. More information about `write()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read/overload1.html).
+Here, the Asio library's `read()` is used to synchronously read a certain amount of data from a stream before returning. `read()` is a function template and has 16 overloads. Here, it is used with two parameters, `SyncReadStream& s` and `const MutableBufferSequence & buffers`, and returns a `size_t` value of bytes read. `s` is the stream from which the data is to be read; and `buffers` is one or more buffers into which the data will be read. More information about `write()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read/overload1.html).
 
 The line
 

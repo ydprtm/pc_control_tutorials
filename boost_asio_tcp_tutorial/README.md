@@ -255,7 +255,7 @@ The line
 boost::asio::io_context io;
 ```
 
-defines an instance of the asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality. More information about `io_context` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
+defines an instance of the Asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality. More information about `io_context` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
 
 The line
 
@@ -263,7 +263,7 @@ The line
 boost::asio::ip::tcp::resolver resolver(io);
 ```
 
-defines an instance of the asio library's `ip::tcp::resolver` class. It provides the ability to resolve a query to a list of endpoints. Here, the class is instantiated using the variable `io`. More information about `ip::tcp::resolver` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/resolver.html).
+defines an instance of the Asio library's `ip::tcp::resolver` class. It provides the ability to resolve a query to a list of endpoints. Here, the class is instantiated using the variable `io`. More information about `ip::tcp::resolver` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/resolver.html).
 
 The line
 
@@ -271,7 +271,7 @@ The line
 boost::asio::ip::tcp::resolver::query query("127.0.0.1", "9601");
 ```
 
-defines an instance of the asio library's `ip::tcp::resolver::resolver` class's `query` type. It describes a query that can be passed to a resolver. Here, we want to connect to the IP address `127.0.0.1` and port `9601`. More information about `ip::tcp::resolver::query` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/query.html).
+defines an instance of the Asio library's `ip::tcp::resolver::resolver` class's `query` type. It describes a query that can be passed to a resolver. Here, we want to connect to the IP address `127.0.0.1` and port `9601`. More information about `ip::tcp::resolver::query` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/query.html).
 
 The line
 
@@ -279,7 +279,7 @@ The line
 boost::asio::ip::tcp::resolver::results_type end_point = resolver.resolve(query);
 ```
 
-defines an instance of the asio library's `ip::tcp::resolver` class's `results_type` type. It defines a range over the results returned by a resolver. More information about `ip::tcp::resolver::results_type` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/results_type.html).
+defines an instance of the Asio library's `ip::tcp::resolver` class's `results_type` type. It defines a range over the results returned by a resolver. More information about `ip::tcp::resolver::results_type` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__basic_resolver/results_type.html).
 
 The line
 
@@ -287,7 +287,7 @@ The line
 boost::asio::ip::tcp::socket socket(io);
 ```
 
-defines an instance of the asio library's ```ip::tcp::socket``` class. It provides synchronous and asynchronous stream-orientated socket functionality. Here, the class is instantiated using the variable `io`. More information about ```ip::tcp::socket``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/socket.html).
+defines an instance of the Asio library's ```ip::tcp::socket``` class. It provides synchronous and asynchronous stream-orientated socket functionality. Here, the class is instantiated using the variable `io`. More information about ```ip::tcp::socket``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/socket.html).
 
 The line
 
@@ -311,7 +311,7 @@ The line
 boost::asio::const_buffer buffer = boost::asio::buffer(message);
 ```
 
-defines an instance of the asio library's ```const_buffer``` class. It holds a buffer that cannot be modified. Here, the asio library's ```buffer()``` is used to create a non-modifiable buffer from an existing string. ```buffer``` is a template function and has 32 overloads. Here, it is used with one parameter, ```const std::basic_string<Elem, Traits, Allocator>& data```, and returns a ```const_buffer``` buffer. `data` is a std::string. More information about ```buffer()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/buffer.html).
+defines an instance of the Asio library's ```const_buffer``` class. It holds a buffer that cannot be modified. Here, the Asio library's ```buffer()``` is used to create a non-modifiable buffer from an existing string. ```buffer``` is a template function and has 32 overloads. Here, it is used with one parameter, ```const std::basic_string<Elem, Traits, Allocator>& data```, and returns a ```const_buffer``` buffer. `data` is a std::string. More information about ```buffer()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/buffer.html).
 
 The block
 
@@ -330,7 +330,7 @@ catch (std::exception& e) {
 
 defines a try block and a catch block. In the try block, we try to synchronously write the buffer to the connected socket. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised.
 
-Here, the asio library's ```write()``` is used to synchronously write all the supplied data to a stream before returning. ```write()``` is a function template and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. `s` is the stream to which the data is to be written; and `buffers` is one or more buffers containing the data to be written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
+Here, the Asio library's ```write()``` is used to synchronously write all the supplied data to a stream before returning. ```write()``` is a function template and has 16 overloads. Here, it is used with two parameters, ```SyncWriteStream& s``` and ```const ConstBufferSequence& buffers```, and returns a ```size_t``` value of bytes written. `s` is the stream to which the data is to be written; and `buffers` is one or more buffers containing the data to be written. More information about ```write()``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/write.html). 
 
 Note, it's worth wrapping ```write()``` in a try block and a catch block. Consider the case where the endpoint doesn't accept a connection, e.g. the server running on the endpoint may not have started: ```write()``` will throw an exception; which, if not caught, will cause your program to abort. Catching the exception will allow you to do something more useful, e.g. trying to connect with the server again in 10 minutes.
 
@@ -484,7 +484,7 @@ The line
 boost::asio::io_context io;
 ```
 
-defines an instance of the asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality. More information about ```io_context``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
+defines an instance of the Asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality. More information about ```io_context``` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
 
 The line
 
@@ -493,7 +493,7 @@ boost::asio::ip::tcp::endpoint end_points(boost::asio::ip::tcp::v4(), 9601);
 
 ```
 
-defines an instance of the asio library's `ip::tcp::endpoint` class. `ip::tcp::endpoint` describes an endpoint that may be associated with a particular socket. Here, the class is instantiated with an IP v4 address type and the port number 9601. More information about `ip::tcp::endpoint` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/endpoint.html).
+defines an instance of the Asio library's `ip::tcp::endpoint` class. `ip::tcp::endpoint` describes an endpoint that may be associated with a particular socket. Here, the class is instantiated with an IP v4 address type and the port number 9601. More information about `ip::tcp::endpoint` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/endpoint.html).
 
 The line
 
@@ -501,7 +501,7 @@ The line
 boost::asio::ip::tcp::acceptor acceptor(io, end_points);
 ```
 
-defines an instance of the asio library's `ip::tcp::acceptor` class. `ip::tcp::acceptor` is used for accepting new socket connections. Here, the class is instantiated using the variables `io` and `end_points`. More information about `ip::tcp::acceptor` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/acceptor.html).
+defines an instance of the Asio library's `ip::tcp::acceptor` class. `ip::tcp::acceptor` is used for accepting new socket connections. Here, the class is instantiated using the variables `io` and `end_points`. More information about `ip::tcp::acceptor` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/ip__tcp/acceptor.html).
 
 The block
 
@@ -521,7 +521,7 @@ The line
 boost::asio::ip::tcp::socket socket(io);
 ```
 
-defines an instance of the asio library's ```ip::tcp::socket``` class. Here, the class is instantiated using the variable `io`.
+defines an instance of the Asio library's ```ip::tcp::socket``` class. Here, the class is instantiated using the variable `io`.
 
 The line
 
@@ -569,7 +569,7 @@ The line
 boost::asio::const_buffer input = readBuffer.data();
 ```
 
-defines an instance of the asio library's `const_buffer` class. It holds a buffer that cannot be modified. Here, `readBuffer`'s member function is used to create a non-modifiable buffer from an existing string.
+defines an instance of the Asio library's `const_buffer` class. It holds a buffer that cannot be modified. Here, `readBuffer`'s member function is used to create a non-modifiable buffer from an existing string.
 
 The line
 
@@ -578,7 +578,7 @@ std::string message(boost::asio::buffers_begin(input),
     boost::asio::buffers_begin(input) + input.size());
 ```
 
-defines an instance of a string. Here, it is instantiated using the asio library's `buffers_begin()`. `buffers_begin()` constructs an iterator represneting the beginning of the buffer's data. More information about `buffers_begin()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/buffers_begin.html).
+defines an instance of a string. Here, it is instantiated using the Asio library's `buffers_begin()`. `buffers_begin()` constructs an iterator represneting the beginning of the buffer's data. More information about `buffers_begin()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/buffers_begin.html).
 
 The line
 
@@ -848,7 +848,7 @@ The line
 boost::asio::io_context io;
 ```
 
-defines an instance of the asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality.
+defines an instance of the Asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality.
 
 The line
 
