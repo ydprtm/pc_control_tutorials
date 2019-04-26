@@ -1055,6 +1055,12 @@ The activity_2 sub-directory is set up for you to get started. Also, on an Ardui
 
 ## Section 10: Conclusion
 
+In this tutorial, I have shown you how to communicate over a serial port using Boost's Asio library.
+
+You have used the Asio library to syncrhonously and asyncrhonously read and write data from and to a serial port.
+
+I hope this tutorial has been useful.
+
 ## Credit
 
 Dr Frazer K. Noble  

@@ -1098,7 +1098,7 @@ Also, have a look at Boost's Serialization library, you will find it helpful.
 
 In this tutorial, I have shown you how to communicate with a remote system using Boost's Asio library.
 
-You have used the Asio library to syncrhonously and asyncrhonously read and write date from client and server application.
+You have used the Asio library to syncrhonously and asyncrhonously read and write data from and to client and server applications.
 
 I hope this tutorial has been useful.
 
