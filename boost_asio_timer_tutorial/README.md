@@ -1,49 +1,62 @@
-# Boost ASIO Tutorial 1: Using a Timer
+# Serial Communication with Boost
 
-Welcome to my tutorial on how to about Boost's ASIO library's timers.
+Welcome to my tutorial on how to control the timing of an operation using Boost's Asio library.
 
-## Introduction
+## Section 1: Introduction
 
-## Requirements
+[...]
 
-To complete this tutorial, you will need CMake, Boost, and an Integrated Development Environment (IDE).
+## Section 2: Requirements
 
 ### Windows
 
-To build the source code listed in this tutorial, you need to have the following installed on your computer:
+You need the following programs and libraries installed on your computer to build the tutorial's samples and activities:
 
-1. [CMake](https://cmake.org/)
-1. [Boost](https://www.boost.org/)
-1. [Visual Studio IDE](https://visualstudio.microsoft.com/)
+1. [CMake](https://cmake.org/).
+1. [Boost](https://www.boost.org/).
+1. [Visual Studio IDE](https://visualstudio.microsoft.com/).
 
-If you haven't got these installed, click on a link to go to the tool's website. Download and install the relevant system installer, e.g. CMake's "cmake-3.14.2-win64-x64.msi"; Boost's "boost_1_69_0.7z"; and Microsoft's Visual Studio 2019 "Community" edition.
-
-This tutorial has been validated using the following software versions:
+This tutorial has been validated using the following software versions and hardware:
 
 1. CMake 3.14
 1. Boost 1.70.0
 1. Visual Studio IDE 2019, Community Edition
 
-If you'd like to use a different IDE, consider Microsoft's [Visual Studio Code](https://code.visualstudio.com/): It's a light-weight, flexible alternative.
+If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. Most Boost libraries are header-only, i.e. they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking. However, some libraries, e.g. Boost.Chrono, must be built separately. More information about getting started with Boost can be found [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html).
 
-Once you've got CMake, Boost, and an IDE installed, you're ready to get started.
+If you'd like to use an alternative to Microsoft's Visual Studio Integrated Development Environment (IDE), consider Microsoft's [Visual Studio Code](https://code.visualstudio.com/). It's a light-weight, flexible alternative to Visual Studio IDE.
 
-## How to Build the Tutorial's Samples and Activity
+Once you've CMake, Boost, and an IDE installed, you're ready to get started.
+
+## Section 3: Build Instructions
 
 This tutorial contains the following files:
 
-1. [activity_1/CMakeLists.txt](./activity_1/CMakeLists.txt)
-1. [activity_1/main.cpp](./activity_1/main.cpp)
-1. [activity_1/main.h](./activity_1/main.h)
-1. [sample_1/CMakeLists.txt](./sample_1/CMakeLists.txt)
-1. [sample_1/main.cpp](./sample_1/main.cpp)
-1. [sample_1/main.hpp](./sample_1/main.hpp)
+1. [./README.md](./README.md)
+1. [./activity_1/client/CMakeLists.txt](./activity_1/CMakeLists.txt)
+1. [./activity_1/main.cpp](./activity_1/main.cpp)
+1. [./activity_1/main.hpp](./activity_1/main.hpp)
+1. [./sample_1/CMakeLists.txt](./sample_1/CMakeLists.txt)
+1. [./sample_1/main.cpp](./sample_1/main.cpp)
+1. [./sample_1/main.hpp](./sample_1/main.hpp)
+1. [./sample_2/CMakeLists.txt](./sample_2/CMakeLists.txt)
+1. [./sample_2/main.cpp](./sample_2/main.cpp)
+1. [./sample_2/main.hpp](./sample_2/main.hpp)
+1. [./sample_3/CMakeLists.txt](./sample_3/CMakeLists.txt)
+1. [./sample_3/main.cpp](./sample_3/main.cpp)
+1. [./sample_3/main.hpp](./sample_3/main.hpp)
+1. [./sample_4/CMakeLists.txt](./sample_4/CMakeLists.txt)
+1. [./sample_4/main.cpp](./sample_4/main.cpp)
+1. [./sample_4/main.hpp](./sample_4/main.hpp)
+1. [./sample_5/CMakeLists.txt](./sample_5/CMakeLists.txt)
+1. [./sample_5/main.cpp](./sample_5/main.cpp)
+1. [./sample_5/main.hpp](./sample_5/main.hpp)
 
-The sample_1 sub-directory contains source code that creates a timer, which waits for a fixed period. The activity_1 sub-directory contains a project for you to use to complete the tutorial's activity.
+The sample_1 sub-directory contains source code that shows you how to [...]. The activity_1 sub-directory contain projects set-up for you to complete the tutorial's actvitity. 
 
 ### Windows
 
-The following sections describe how to build the tutorial's sample and activity using either: 1) console commands, or 2) Visual Studio IDE.
+The following describe how to build the tutorial's sample and activity using either: 1) console commands, or 2) Visual Studio IDE.
 
 ### Console Commands
 
@@ -51,10 +64,10 @@ To build a Debug version of a sample or activity, browse to its directory via th
 
     mkdir build
     cd build
-    cmake -G "Visual Studio 15 2017 Win64" ..
+    cmake -G "Visual Studio 16 2019" ..
     cmake --build . --config Debug --target install
 
-To run the built executable, browse to the bin sub-directory and use the following commands:
+To run the built binary, browse to the bin sub-directory and use the following commands:
 
     cd ..
     cd bin
@@ -64,10 +77,10 @@ To build a Release version of a sample or activity, browse to its directory via 
 
     mkdir build
     cd build
-    cmake -G "Visual Studio 15 2017 Win64" ..
+    cmake -G "Visual Studio 16 2019" ..
     cmake --build . --config Release --target install
 
-To run the built executable, browse to the bin sub-directory and use the following commands:
+To run the built binary, browse to the bin sub-directory and use the following commands:
 
     cd ..
     cd bin
@@ -83,7 +96,7 @@ To build a Debug version of a sample or activity:
 1. Select 'CMakeLists.txt' and click on 'Open'
 1. Click 'Build > Build All'
 
-To run the built executable:
+To run the built binary:
 
 1. Click 'Debug > Start'
 
@@ -92,21 +105,19 @@ To change the build configuration:
 1. Click 'Project > Change CMake Settings for project'
 1. Select the build configuration
 
-To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, release application, select 'x64-Release'. CMake's default is a x64-bin, debug configuration.
+To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, release application, select 'x64-Release'. CMake's default is a 64-bit, debug configuration.
 
-## Sample 1: Transmitting and Receiving a String via a COM Port
+## Section 4: Sample 1
 
-Browse to the 'sample_1' sub-directory and open each of the sample's files.
+## Section 5: Activity 1
 
-Here, I will explain what each file is doing.
+## Section 10: Conclusion
 
+In this tutorial, I have shown you how to [...].
 
+You have used [...].
 
-
-## Activity 1: Controlling an Arduino via a Graphical User Interface
-
-
-## Conclusion
+I hope this tutorial has been useful.
 
 ## Credit
 
@@ -116,5 +127,4 @@ School of Food and Advanced Technology
 Massey University  
 New Zealand  
 
-Follow <a href="http://twitter.com/DrFrazerNoble" class="twitter-follow-button" data-show-count="false">@DrFrazerNoble</a>
-<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+Follow me on Twitter <a href="http://twitter.com/DrFrazerNoble" class="twitter-follow-button" data-show-count="false">@DrFrazerNoble</a>
