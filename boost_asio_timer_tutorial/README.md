@@ -1,10 +1,24 @@
-# Serial Communication with Boost
+# Timing with Boost
 
-Welcome to my tutorial on how to control the timing of an operation using Boost's Asio library.
+Welcome to my tutorial on timers using Boost's Asio library.
 
 ## Section 1: Introduction
 
-[...]
+Considering the following situation: you're an engineer working at a large factory. There is a machine in the factory you are responsible for. Your employer requires regular measurements of the machine's state to ensure its safe operation. What do you do?
+
+Here are some potential solutions:
+
+1. You walk over to the machine and manually make a measurement. You record the machine's state on a computer.
+1. You develop an embedded system to automatically make a measurement and save the machine's state to a memory card. You walk over to the system at the end of the day and copy the day's log from the memory card.
+1. You develop an embedded system and PC application to automatically make a measurement and save the machine's state on a computer. You walk over to the system at the end of the day and copy the day's log from the computer.
+
+Given the desired number and frequency of measurements, there's a number of issues with the first two options: the measurement period might be too short; you can only make measurements when your at work; you may want to change the embedded system's timing; changing the embedded system's requires machine down time, etc. A more satisfactory solution is the last option: an embedded system consisting of a sensor, amplifier, microcontroller, power supply, and PC-interface that will allow for a PC application to prompt it for a measurement. The PC application's timing can be changed on the fly, with no change to the embedded system.
+
+The problem is, how can we control the PC application's timing? Fortunately, there are a number of software frameworks and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to faciliate this. Qt provides its core module and Boost provides the Asio library, which both provide time-based functionality.
+
+In this tutorial, I will show you how to use Boost's Asio library to perform syncrhonous and asynchronous time-based operations. Sample 1 shows you how to syncrhonously wait for a fixed period of time; Sample 2 shows you how to asyncrhonously wait for a fixed period of time; Sample 3 shows you how to asynchronously wait for a fixed period of time and pass a value to a wait handler; Sample 4 shows you how to asyncrhonously wait for a fixed period of time and pass a value to a class's member function; and Sample 5 shows you how to asyncrhonously wait for a fixed period in a separate thread.
+
+The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents and describes Sample 2's source code; Section 6 presents and describes Sample 3's source code; Section 7 presents an activity for you to complete; Section 8 presents and describes Sample 4's source code; Section 9 presents and describes Sample 5's source code; Section 10 presents an activity for you to complete; and Section 11 concludes the tutorial.
 
 ## Section 2: Requirements
 
@@ -36,6 +50,9 @@ This tutorial contains the following files:
 1. [./activity_1/client/CMakeLists.txt](./activity_1/CMakeLists.txt)
 1. [./activity_1/main.cpp](./activity_1/main.cpp)
 1. [./activity_1/main.hpp](./activity_1/main.hpp)
+1. [./activity_2/client/CMakeLists.txt](./activity_2/CMakeLists.txt)
+1. [./activity_2/main.cpp](./activity_2/main.cpp)
+1. [./activity_2/main.hpp](./activity_2/main.hpp)
 1. [./sample_1/CMakeLists.txt](./sample_1/CMakeLists.txt)
 1. [./sample_1/main.cpp](./sample_1/main.cpp)
 1. [./sample_1/main.hpp](./sample_1/main.hpp)
@@ -52,7 +69,7 @@ This tutorial contains the following files:
 1. [./sample_5/main.cpp](./sample_5/main.cpp)
 1. [./sample_5/main.hpp](./sample_5/main.hpp)
 
-The sample_1 sub-directory contains source code that shows you how to [...]. The activity_1 sub-directory contain projects set-up for you to complete the tutorial's actvitity. 
+The sample_1 sub-directory contains source code that shows you how to syncrhonously wait. The sample_2 sub-directory contains source code that shows you how to asynchronously wait. The sample_3 sub-directory contains source code that shows you how to pass a value to an asynchronous wait handler. The sample_4 sub-directory contains source code that shows you how to use a class's member function as an asyncrhonous wait handler. The sample_5 sub-directory contains source code that shows you how to how to asyncrhonously wait in a new thread. The activity_1 and activity_2 sub-directories contain projects set-up for you to complete the tutorial's actvitities. 
 
 ### Windows
 

@@ -4,7 +4,7 @@ Welcome to my tutorial on how to communicate over a serial port using Boost's As
 
 ## Section 1: Introduction
 
-Consider the following situation: you're an engineering working at a large factory. There is a machine in the factory you are responsible for. Your employer requires regular measurements of the machine's state to ensure its safe operation. What do you do?
+Consider the following situation: you're an engineer working at a large factory. There is a machine in the factory you are responsible for. Your employer requires regular measurements of the machine's state to ensure its safe operation. What do you do?
 
 Here are some potential solutions:
 
@@ -15,7 +15,7 @@ Given a desired number and frequency of measurements, there's a number of issues
 
 The problem is, how can an embedded system communicate with a PC? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software framework and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired serial port and read and write raw data, e.g. a string. Qt provides its serial port module and Boost provides the Asio library, which both allow for communicating with a physical or virtual COM port.
 
-In this tutorial, I will show you how to use Boost's Asio library to communicate over a serial port using the RS-232 protocol. Sample 1 shows how to synchronously read and write to a serial port; Sample 2 shows how to asynchronously read and write to a serial port; and Sample 3 shows how asynchronously read and write to a serial port using a class structure. The remainder of this tutorial is structured as follws: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents an activity for you to complete; Section 6 presents and describes Sample 2's source code; Section 7 presents an activity for your to complete; Section 8 presents and describes Sample 3's source code; Section 9 presents an activity for you to complete; and Section 10 concludes the tutorial.
+In this tutorial, I will show you how to use Boost's Asio library to communicate over a serial port using the RS-232 protocol. Sample 1 shows how to synchronously read and write to a serial port; Sample 2 shows how to asynchronously read and write to a serial port; and Sample 3 shows how asynchronously read and write to a serial port using a class structure. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents an activity for you to complete; Section 6 presents and describes Sample 2's source code; Section 7 presents an activity for you to complete; Section 8 presents and describes Sample 3's source code; Section 9 presents an activity for you to complete; and Section 10 concludes the tutorial.
 
 ## Section 2: Requirements
 
