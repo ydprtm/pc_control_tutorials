@@ -338,7 +338,7 @@ Run the binary. You should see the following image displayed:
 
 <div>
 <center>
-<p>Figure: Sample 1's Output. Sample 1 synchronously writes and then synchronously reads a single string, "Hello World!\r\n", to and from a serial port.</p>
+<p>Figure: Sample 1's Output. Sample 1 synchronously writes and reads a single string, "Hello World!\r\n", to and from a serial port.</p>
 <img src="./sample_1/Capture.PNG" alt="Capture.PNG" width=640>
 <center>
 </div>
@@ -618,7 +618,7 @@ Run the binary. You should see the following image displayed:
 
 <div>
 <center>
-<p>Figure: Sample 2's Output. Sample 2 asynchronously writes and asynchronously reads a single string, "Hello World!\r\n", to and from a serial port.</p>
+<p>Figure: Sample 2's Output. Sample 2 asynchronously writes and reads a single string, "Hello World!\r\n", to and from a serial port.</p>
 <img src="./sample_2/Capture.PNG" alt="Capture.PNG" width=640>
 <center>
 </div>
@@ -1064,7 +1064,7 @@ Run the binary. You should see the following image displayed:
 
 <div>
 <center>
-<p>Figure: Sample 3's Output. Sample 3 asynchronously writes and asynchronously reads a single string, "Hello World!\r\n", to and from a serial port using a class structure.</p>
+<p>Figure: Sample 3's Output. Sample 3 asynchronously writes and reads a single string, "Hello World!\r\n", to and from a serial port using a class structure.</p>
 <img src="./sample_3/Capture.PNG" alt="Capture.PNG" width=640>
 <center>
 </div>
