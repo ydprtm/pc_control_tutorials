@@ -1,4 +1,4 @@
-# Network Programming with Boost
+# Network Communication with Boost
 
 Welcome to my tutorial on how to communicate over a network using Boost's Asio library.
 
@@ -16,7 +16,7 @@ Given a desired number and frequency of measurements, and the physical distance 
 
 How do you communicate with a remote system? Fortunately, there are a number of tools, e.g. [PuTTY](https://www.putty.org/), and software frameworks and libraries, e.g. [Qt](https://www.qt.io/) and [Boost](https://www.boost.org/), which have been developed to facilitate this. PuTTY allows users to connect to a desired end-point and send raw data, e.g. a string. Qt provides its networking module and Boost provides the Asio library, which both allow for network communication.
 
-In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. Sample 1 and Sample 2 shows how to synchronously write and read data over a network; Sample 3 shows how to asynchronously write and read data over a network. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes sample 1's source code; Section 5 presents and describes sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's sample code; Section 8 presents an activity for you complete; and Section 9 concludes the tutorial.
+In this tutorial, I show you how to use Boost's Asio library to communicate over a network using the Transmission Control Protocal (TCP) and Internet Prototcol (IP), i.e. TCP/IP. Sample 1 and Sample 2 shows how to synchronously write and read data over a network; Sample 3 shows how to asynchronously read data over a network using a class. The remainder of this tutorial is structured as follows: Section 2 describes the tutorial's requirements; Section 3 describes how to build the tutorial's samples; Section 4 presents and describes Sample 1's source code; Section 5 presents and describes Sample 2's source code; Section 5 presents an activity for you to complete; Section 7 present and describe sample 3's Sample code; Section 8 presents an activity for you complete; and Section 9 concludes the tutorial.
 
 ## Section 2: Requirements
 
@@ -553,7 +553,7 @@ The line
 boost::asio::streambuf readBuffer;
 ```
 
-defines an instance of asio library's `streambuf` class. It holds a buffer that can be modified.
+defines an instance of Asio library's `streambuf` class. It holds a buffer that can be modified.
 
 The line
 
@@ -561,7 +561,7 @@ The line
 boost::asio::read_until (socket, readBuffer, '\n');
 ```
 
-synchronously reads data into a dynamic buffer sequnce, or streambuf, unitl is contains a delimiter, matches a regular expression, or a function object indicates a match. `read_until()` is a function template and has 24 overloads. Here it is used with three parameters, `SyncReadStream & s` `DynamicBuffer_v1 && buffers`, and `char delim`, and returns a `std::size_t` value of bytes in the buffer. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read, and `delim` is the delimiter character. More information about `read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read_until/overload1.html).
+synchronously reads data into a dynamic buffer sequence, or streambuf, until it contains a delimiter, matches a regular expression, or a function object indicates a match. `read_until()` is a function template and has 24 overloads. Here it is used with three parameters, `SyncReadStream & s` `DynamicBuffer_v1 && buffers`, and `char delim`, and returns a `std::size_t` value of bytes in the buffer. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read, and `delim` is the delimiter character. More information about `read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read_until/overload1.html).
 
 The line
 
@@ -874,7 +874,7 @@ The block
 #ifndef __TCP_HPP__
 #define __TCP_HPP__
     ...
-#endif //!__MAIN_HPP__
+#endif //!__TCP_HPP__
 ```
 
 defines a header guard, which prevents including a header file more than once.
@@ -956,7 +956,7 @@ boost::shared_ptr<Connection> Connection::create(boost::asio::io_context& io_con
 }
 ```
 
-defines the `Connection` class's `create()`. `create()` has one parameter, `boost::asio::io_context& io_context`, and returns a shared pointer to a new instance of the `Connection` class.
+defines the `Connection` class's `create()` member function. `create()` has one parameter, `boost::asio::io_context& io_context`, and returns a shared pointer to a new instance of the `Connection` class.
 
 The block
 
@@ -969,7 +969,7 @@ boost::asio::ip::tcp::socket& Connection::socket()
 }
 ```
 
-defines the `Connection` class's `socket()`. `socket()` has no parameters, and returns a reference to the class's `m_socket` data member.
+defines the `Connection` class's `socket()` member function. `socket()` has no parameters, and returns a reference to the class's `m_socket` data member.
 
 The block
 
@@ -983,7 +983,7 @@ void Connection::start()
 }
 ```
 
-defines the `Connection` class's `start()`. `start()` has no parameters, and does not return any values. It uses the Asio library's `async_read_until()` to asynchronously read data into the class's buffer until it contains the '\n' delimiter. `async_read_until()` is a function template and has 12 overloads. Here it is used with four parameters, `AsyncReadStream& s`, `DynamicBuffer_v1 && buffers`, `char delim`, `ReadHandler && handler`, and does not return any value. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read; `delim` is the delimiter character; and `handler` is the handler to be called when the read operation completes. When the read operation completes, it calls the class's `readHandle()`. For more information about `async_read_until()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_read_until/overload1.html).
+defines the `Connection` class's `start()` member function. `start()` has no parameters, and does not return any values. It uses the Asio library's `async_read_until()` to asynchronously read data into the class's buffer until it contains the '\n' delimiter. `async_read_until()` is a function template and has 12 overloads. Here it is used with four parameters, `AsyncReadStream& s`, `DynamicBuffer_v1 && buffers`, `char delim`, `ReadHandler && handler`, and does not return any value. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read; `delim` is the delimiter character; and `handler` is the handler to be called when the read operation completes. When the read operation completes, it calls the class's `readHandle()`. For more information about `async_read_until()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_read_until/overload1.html).
 
 The block
 
@@ -1013,7 +1013,7 @@ void Connection::readHandle(const boost::system::error_code& e,
 }
 ```
 
-defines the `Connection` class's `readHandle()`. `readHandle()` has two parameters, `const boost::system::error_code& e` and `size_t bytes` and does not return any values. It defines a non-modifiable buffer of the data saved in the class's `m_buffer` data member, which is then converted into an instance of a string whose contents are printed on the console.
+defines the `Connection` class's `readHandle()` member function. `readHandle()` has two parameters, `const boost::system::error_code& e` and `size_t bytes` and does not return any values. It defines a non-modifiable buffer of the data saved in the class's `m_buffer` data member, which is then converted into an instance of a string whose contents are printed on the console.
 
 The block
 
@@ -1043,7 +1043,7 @@ void Server::startAccept()
 }
 ```
 
-defines the `Server` class's `startAccept()`. It defines a new instance of the `Connection` class and asyncrhonously accepts connections from a client application. It uses the class's `m_acceptor`'s `async_accept()` member function to start an asynchronous accept operation. `async_accept()` is a template function and has 8 overloads. Here it is used with two parameters, `basic_socket< Protocol1, Executor1 >& peer` and `AcceptHandler && handler`, and does not return any values. `peer` is the socket into which the new connection will be accepted; and `handler` is the handler to be called when the accept operation completes. When the accept operation completes, it calls the class's `acceptHandle()`. For more information about `async_accept()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_socket_acceptor/async_accept/overload1.html).
+defines the `Server` class's `startAccept()` member function. It defines a new instance of the `Connection` class and asyncrhonously accepts connections from a client application. It uses the class's `m_acceptor`'s `async_accept()` member function to start an asynchronous accept operation. `async_accept()` is a template function and has 8 overloads. Here it is used with two parameters, `basic_socket< Protocol1, Executor1 >& peer` and `AcceptHandler && handler`, and does not return any values. `peer` is the socket into which the new connection will be accepted; and `handler` is the handler to be called when the accept operation completes. When the accept operation completes, it calls the class's `acceptHandle()`. For more information about `async_accept()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_socket_acceptor/async_accept/overload1.html).
 
 The block
 
@@ -1064,7 +1064,7 @@ void Server::acceptHandle(boost::shared_ptr<Connection> new_connection,
 }
 ```
 
-defines the `Server` class's `acceptHandle()`. If the class's asycnhronous accept completed successfully, it calls the connection's `start()` member;  then it calls `startAccept()` to accept a new connection.
+defines the `Server` class's `acceptHandle()` member function. If the class's asycnhronous accept completed successfully, it calls the connection's `start()` member;  then it calls `startAccept()` to accept a new connection.
 
 Now that we've looked at the sample's source code, let's build and run its binary.
 
@@ -1088,8 +1088,8 @@ You should see the following images displayed:
 
 Now that you know how to use Boost's Asio library to communicate over a network asynchronously, complete the following:
 
-1. Write a client application that uses Boost's Asio library to asynchronously write a `std::vector<double>` data type to 127.0.0.1:1000 .
-1. Write a server application that uses Boost's Asio library to asynchronously read a `std::vector<double>` data type from 127.0.0.1:1000.
+1. Write a client application that uses Boost's Asio library and a class structure to asynchronously write a `std::vector<double>` data type to 127.0.0.1:1000 .
+1. Write a server application that uses Boost's Asio library and a class structre to asynchronously read a `std::vector<double>` data type from 127.0.0.1:1000.
 The activity_1 sub-directory is set up for you to get started.
 
 Also, have a look at Boost's Serialization library, you will find it helpful.

@@ -1,5 +1,4 @@
-#include <iostream>
-#include <boost/asio.hpp>
+#include "main.hpp"
 
 int main(int argc, char* argv[]) {
 
@@ -17,12 +16,13 @@ int main(int argc, char* argv[]) {
 		std::string data{ "Hello World!\r\n" };
 
 		boost::asio::write(serial, boost::asio::buffer(data, data.size()));
-
+		
 		bool read{ true };
 
 		while (read) {
 
 			char c{ NULL };
+
 			boost::asio::read(serial, boost::asio::buffer(&c, 1));
 
 			switch (c) {

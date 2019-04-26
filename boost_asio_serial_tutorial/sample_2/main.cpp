@@ -1,6 +1,4 @@
-#include <iostream>
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
+#include "main.hpp"
 
 void writeHandle(const boost::system::error_code &e, const std::size_t bytes) {
 
@@ -8,10 +6,12 @@ void writeHandle(const boost::system::error_code &e, const std::size_t bytes) {
 
 }
 
-void readHandle(const boost::system::error_code& e, const std::size_t bytes) {
+void readHandle(const boost::system::error_code& e, const std::size_t bytes, const std::istream &stream) {
 	
 	std::cout << "Bytes Read: " << bytes << ": " << std::endl;
 
+	std::cout << stream.rdbuf() << std::endl;
+	
 }
 
 int main(int argc, char* argv[]) {
@@ -31,15 +31,12 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::async_write(serial, boost::asio::buffer(data), boost::bind(writeHandle, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
-		boost::asio::streambuf buf{ };
+		boost::asio::streambuf buf;
+		std::istream stream(&buf);
 
-		boost::asio::async_read_until(serial, buf, "\n", boost::bind(readHandle, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+		boost::asio::async_read_until(serial, buf, "\n", boost::bind(readHandle, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, boost::ref(stream)));
 
 		io.run();
-
-		const char* bufPtr = boost::asio::buffer_cast<const char*>(buf.data());
-		
-		std::cout << bufPtr;		
 
 		serial.close();
 

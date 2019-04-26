@@ -45,7 +45,7 @@ void SerialPort::writeHandle(const boost::system::error_code& e, std::size_t byt
 
 }
 
-void SerialPort::readHandle(const boost::system::error_code & e, std::size_t byes, std::string * message) {
+void SerialPort::readHandle(const boost::system::error_code& e, std::size_t byes, std::string* message) {
 
 	boost::asio::const_buffer input = m_readBuffer.data();
 
