@@ -126,9 +126,35 @@ To build a 64-bit, debug application, select 'x64-Debug'; to build a 64-bit, rel
 
 ## Section 4: Sample 1
 
-## Section 5: Activity 1
+This sample shows how to syncrhonously wait for a fixed period of time.
 
-## Section 10: Conclusion
+Browse to the sample_1 sub-directory. Let's have a look at the sample's source code.
+
+main.hpp
+
+```cpp
+
+```
+
+main.cpp
+
+```cpp
+
+```
+
+## Section 5: Sample 2
+
+## Section 6: Sample 3
+
+## Section 7: Activity 1
+
+## Section 8: Sample 4
+
+## Section 9: Sample 5
+
+## Section 10: Activity 2
+
+## Section 11: Conclusion
 
 In this tutorial, I have shown you how to [...].
 
