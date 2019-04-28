@@ -1168,9 +1168,9 @@ Now that you know how to use Boost's Asio library to wait for a fixed period of 
 
 ## Section 11: Conclusion
 
-In this tutorial, I have shown you how to [...].
+In this tutorial, I have shown you how to perform time-based operations.
 
-You have used [...].
+You have used the Asio library to syncrhonously and asyncrhnonously wait for a fixed period of time.
 
 I hope this tutorial has been useful.
 
