@@ -187,9 +187,9 @@ int main(int argc, char* argv[]) {
 		serial.close();
 
 	}
-	catch (boost::system::error_code & e) {
+	catch (std::exception& e) {
 
-		std::cout << e << std::endl;
+		std::cout << e.what() << std::endl;
 
 		return 1;
 
@@ -421,9 +421,9 @@ int main(int argc, char* argv[]) {
 		serial.close();
 
 	}
-	catch (boost::system::error_code &e) {
+	catch (std::exception& e) {
 
-		std::cout << e << std::endl;
+		std::cout << e.what() << std::endl;
 
 		return 1;
 
@@ -679,9 +679,9 @@ int main(int argc, char* argv[]) {
 	
 
 	}
-	catch (boost::system::error_code &e) {
+	catch (std::exception& e) {
 
-		std::cout << e << std::endl;
+		std::cout << e.what() << std::endl;
 
 		return 1;
 
