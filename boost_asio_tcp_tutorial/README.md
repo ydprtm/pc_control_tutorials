@@ -561,7 +561,7 @@ The line
 boost::asio::read_until (socket, readBuffer, '\n');
 ```
 
-synchronously reads data into a dynamic buffer sequence, or streambuf, until it contains a delimiter, matches a regular expression, or a function object indicates a match. `read_until()` is a function template and has 24 overloads. Here it is used with three parameters, `SyncReadStream & s` `DynamicBuffer_v1 && buffers`, and `char delim`, and returns a `std::size_t` value of bytes in the buffer. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read, and `delim` is the delimiter character. More information about `read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read_until/overload1.html).
+synchronously reads data into a dynamic buffer sequence, or streambuf, until it contains a delimiter, matches a regular expression, or a function object indicates a match. `read_until()` is a function template and has 24 overloads. Here it is used with three parameters, `SyncReadStream & s` `DynamicBuffer_v1 && buffers`, and `char delim`, and returns a `std::size_t` value of bytes in the buffer. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read, and `delim` is the delimiter character. More information about `read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read_until.html).
 
 The line
 
@@ -983,7 +983,7 @@ void Connection::start()
 }
 ```
 
-defines the `Connection` class's `start()` member function. `start()` has no parameters, and does not return any values. It uses the Asio library's `async_read_until()` to asynchronously read data into the class's buffer until it contains the '\n' delimiter. `async_read_until()` is a function template and has 12 overloads. Here it is used with four parameters, `AsyncReadStream& s`, `DynamicBuffer_v1 && buffers`, `char delim`, `ReadHandler && handler`, and does not return any value. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read; `delim` is the delimiter character; and `handler` is the handler to be called when the read operation completes. When the read operation completes, it calls the class's `readHandle()`. For more information about `async_read_until()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_read_until/overload1.html).
+defines the `Connection` class's `start()` member function. `start()` has no parameters, and does not return any values. It uses the Asio library's `async_read_until()` to asynchronously read data into the class's buffer until it contains the '\n' delimiter. `async_read_until()` is a function template and has 12 overloads. Here it is used with four parameters, `AsyncReadStream& s`, `DynamicBuffer_v1 && buffers`, `char delim`, `ReadHandler && handler`, and does not return any value. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read; `delim` is the delimiter character; and `handler` is the handler to be called when the read operation completes. When the read operation completes, it calls the class's `readHandle()`. For more information about `async_read_until()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_read_until.html).
 
 The block
 
@@ -1043,7 +1043,7 @@ void Server::startAccept()
 }
 ```
 
-defines the `Server` class's `startAccept()` member function. It defines a new instance of the `Connection` class and asyncrhonously accepts connections from a client application. It uses the class's `m_acceptor`'s `async_accept()` member function to start an asynchronous accept operation. `async_accept()` is a template function and has 8 overloads. Here it is used with two parameters, `basic_socket< Protocol1, Executor1 >& peer` and `AcceptHandler && handler`, and does not return any values. `peer` is the socket into which the new connection will be accepted; and `handler` is the handler to be called when the accept operation completes. When the accept operation completes, it calls the class's `acceptHandle()`. For more information about `async_accept()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_socket_acceptor/async_accept/overload1.html).
+defines the `Server` class's `startAccept()` member function. It defines a new instance of the `Connection` class and asyncrhonously accepts connections from a client application. It uses the class's `m_acceptor`'s `async_accept()` member function to start an asynchronous accept operation. `async_accept()` is a template function and has 8 overloads. Here it is used with two parameters, `basic_socket< Protocol1, Executor1 >& peer` and `AcceptHandler && handler`, and does not return any values. `peer` is the socket into which the new connection will be accepted; and `handler` is the handler to be called when the accept operation completes. When the accept operation completes, it calls the class's `acceptHandle()`. For more information about `async_accept()`, see [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_socket_acceptor/async_accept.html).
 
 The block
 
