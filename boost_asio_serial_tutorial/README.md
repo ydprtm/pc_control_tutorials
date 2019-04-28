@@ -219,7 +219,7 @@ The block
 #include <boost/asio.hpp>
 ```
 
-instructs the preprocessor to copy the contents of iostream and asio.hpp to main.cpp. The iostream header defines the standard Input and Output (I/O) stream objects. The asio header defines network and low-level I/O objects. In this sample, we use iostream's and asio.hpp's contents to display text to the user and communicate over a serial port via the RS-232 protocal.
+instructs the preprocessor to copy the contents of iostream and asio.hpp to main.cpp. The iostream header defines the standard Input and Output (I/O) stream objects. The asio header defines network and low-level I/O objects. In this sample, we use iostream's and asio.hpp's contents to display text to the user and communicate over a serial port via the RS-232 protocol.
 More information about Boost's Asio library can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio.html).
 
 Now, let's consider main.cpp, block by block.
@@ -257,7 +257,7 @@ The line
 boost::asio::io_context io;
 ```
 
-defines an instance of the Asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality. More information about `io_context` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
+defines an instance of Boost's Asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality. More information about `io_context` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
 
 The line
 
@@ -276,7 +276,7 @@ serial.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port
 serial.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
 ```
 
-uses `serial`'s `set_option()` member function to set the serial port's baud rate, character size, parity, and number of stop bits as 115200 bps, 8 bits, no parity, and one stop bit, respectively. `set_option()` is a function template and has 2 overloads. Here, it is used with one parameter, `const SettableSerialPortOption& option`, and does not return any values. `option` is the option value to be set on the serial port. More information about `set_option()` can be found here [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_serial_port/set_option/overload1.html).
+uses `serial`'s `set_option()` member function to set the serial port's baud rate, character size, parity, and number of stop bits as 115200 bps, 8 bits, no parity, and one stop bit, respectively. `set_option()` is a function template and has 2 overloads. Here, it is used with one parameter, `const SettableSerialPortOption& option`, and does not return any values. `option` is the option value to be set on the serial port. More information about `set_option()` can be found here [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_serial_port/set_option.html).
 
 The line
 
@@ -318,7 +318,7 @@ while (read) {
 
 defines a while loop that syncrhonously reads a single character from the serial port until a '\n' character is received.
 
-Here, the Asio library's `read()` is used to synchronously read a certain amount of data from a stream before returning. `read()` is a function template and has 16 overloads. Here, it is used with two parameters, `SyncReadStream& s` and `const MutableBufferSequence & buffers`, and returns a `size_t` value of bytes read. `s` is the stream from which the data is to be read; and `buffers` is one or more buffers into which the data will be read. More information about `write()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read/overload1.html).
+Here, the Asio library's `read()` is used to synchronously read a certain amount of data from a stream before returning. `read()` is a function template and has 16 overloads. Here, it is used with two parameters, `SyncReadStream& s` and `const MutableBufferSequence & buffers`, and returns a `size_t` value of bytes read. `s` is the stream from which the data is to be read; and `buffers` is one or more buffers into which the data will be read. More information about `write()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/read.html).
 
 The line
 
@@ -462,7 +462,7 @@ The line
 void writeHandle(const boost::system::error_code& e, const std::size_t bytes);
 ```
 
-declares the sample's `writeHandle()`. `writeHandle()` is called at the end of an asyncrhonous write operation. It prints out the number of bytes written to the serial port.
+declares the sample's `writeHandle()` function. `writeHandle()` is called at the end of an asyncrhonous write operation. It prints out the number of bytes written to the serial port.
 
 The line
 
@@ -470,7 +470,7 @@ The line
 void readHandle(const boost::system::error_code& e, const std::size_t bytes, const std::istream &stream);
 ```
 
-declares the sample's `readHandle()`. `readHandle()` is called at the end of an asyncrhonous read operation. It prints out the number of bytes read from the serial port and the input stream's contents.
+declares the sample's `readHandle()` function. `readHandle()` is called at the end of an asyncrhonous read operation. It prints out the number of bytes read from the serial port and the input stream's contents.
 
 Now, let's consider main.cpp, block by block.
 
@@ -566,7 +566,7 @@ The line
 boost::asio::async_write(serial, boost::asio::buffer(data), boost::bind(writeHandle, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 ```
 
-asynchronously writes all the supplied data to the serial port before returning. `async_write()` is a function template and has 8 overloads. Here, it is used with three parameters, `SyncWriteStream& s`, `const ConstBufferSequence& buffers`, and `WriteHandler&& handler`, and returns a `size_t` value of bytes written. `s` is the stream to which the data is to be written; `buffers` is one or more buffers containing the data to be written; and `handler` is the handler to be called when the write operation completes. More information about `async_write()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_write/overload1.html).
+asynchronously writes all the supplied data to the serial port before returning. `async_write()` is a function template and has 8 overloads. Here, it is used with three parameters, `SyncWriteStream& s`, `const ConstBufferSequence& buffers`, and `WriteHandler&& handler`, and returns a `size_t` value of bytes written. `s` is the stream to which the data is to be written; `buffers` is one or more buffers containing the data to be written; and `handler` is the handler to be called when the write operation completes. More information about `async_write()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_write.html).
 
 The line
 
@@ -590,7 +590,7 @@ The line
 boost::asio::async_read_until(serial, buf, "\n", boost::bind(readHandle, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred, boost::ref(stream)));
 ```
 
-asynchronously reads data into a dynamic buffer sequence, or streambuf, until it contains a delimiter, matches a regular expression, or a function object indicates a match. `async_read_until()` is a function template and has 12 overloads. Here it is used with four parameters, `AsyncReadStream& s`, `DynamicBuffer_v1&& buffers`, `char delim`, and `ReadHandler&& handler`. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read; `delim` is the delimiter character; and `handler` is the handler to be called when the read operation completes. More information about `async_read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_read_until/overload1.html).
+asynchronously reads data into a dynamic buffer sequence, or streambuf, until it contains a delimiter, matches a regular expression, or a function object indicates a match. `async_read_until()` is a function template and has 12 overloads. Here it is used with four parameters, `AsyncReadStream& s`, `DynamicBuffer_v1&& buffers`, `char delim`, and `ReadHandler&& handler`. `s` is the stream from which the data is to be read; `buffers` is the dynamic buffer sequence into which the data will be read; `delim` is the delimiter character; and `handler` is the handler to be called when the read operation completes. More information about `async_read_until()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/async_read_until.html).
 
 The line
 
@@ -959,7 +959,7 @@ private:
 };
 ```
 
-declares the sample's `SerialPort` class. `SerialPort` is a helper class; creating a serial port and asynchronously writing to and reading from a serial port. `SerialPort()` defines the class's serial port; `asyncWrite()` asyncrhonously writes a string to the serial port; `asyncRead()` asynchronously reads a string from the serial port; `writeHandle()` handles the asynchronous write operation; `readHandle()` handles the asyncrhonous read operation; `m_port` is the class's serial port; `m_readBuffer` is the class's read buffer; and `m_writeBuffer` is the class's write buffer.
+declares the sample's `SerialPort` class. `SerialPort` is a helper class; creating a serial port and helping with writing to and reading from a serial port. `SerialPort()` defines the class's serial port; `asyncWrite()` asyncrhonously writes a string to the serial port; `asyncRead()` asynchronously reads a string from the serial port; `writeHandle()` handles the asynchronous write operation; `readHandle()` handles the asyncrhonous read operation; `m_port` is the class's serial port; `m_readBuffer` is the class's read buffer; and `m_writeBuffer` is the class's write buffer.
 
 Now, let's go through serial.cpp, block by block.
 
@@ -1018,7 +1018,7 @@ void SerialPort::close() {
 }
 ```
 
-defines the `SerialPort` class's `close()` member function. `close()` has no parameters and does not return any values. `m_port`'s `close()` member function is used to close the serial port.
+defines the `SerialPort` class's `close()` member function. `close()` has no parameters and does not return any values. It uses `m_port`'s `close()` member function to close the serial port.
 
 The block
 
@@ -1035,7 +1035,7 @@ void SerialPort::writeHandle(const boost::system::error_code& e, std::size_t byt
 }
 ```
 
-defines the `SerialPort` class's `writeHandle()` member function. `writeHandle()` has two parameters, `const boost::system::error_code& e` and `std::size_t bytes`, and does not return any values. `m_writeBuffer`'s `data()` member function is used to instantiate a string, which is then printed on the console.
+defines the `SerialPort` class's `writeHandle()` member function. `writeHandle()` has two parameters, `const boost::system::error_code& e` and `std::size_t bytes`, and does not return any values. It uses `m_writeBuffer`'s `data()` member function to instantiate a string, which is then printed on the console.
 
 The block
 
@@ -1052,7 +1052,7 @@ void SerialPort::readHandle(const boost::system::error_code& e, std::size_t byes
 }
 ```
 
-defines the `SerialPort` class's `readHandle()` member function. `readHandle()` has three parameters, `const boost::system::error_code& e`, `std::size_t byes`, and `std::string* message`, and does not return any values. `m_readBuffer`'s `data()` member function is used to instantiate a string, which is then printed on the console.
+defines the `SerialPort` class's `readHandle()` member function. `readHandle()` has three parameters, `const boost::system::error_code& e`, `std::size_t byes`, and `std::string* message`, and does not return any values. It uses `m_readBuffer`'s `data()` member function to instantiate a string, which is then printed on the console.
 
 Now that we've looked at the sample's source code, build its binary.
 

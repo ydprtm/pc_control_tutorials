@@ -133,26 +133,1038 @@ Browse to the sample_1 sub-directory. Let's have a look at the sample's source c
 main.hpp
 
 ```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+
+#endif // !__MAIN_HPP__
 
 ```
 
 main.cpp
 
 ```cpp
+#include "main.hpp"
 
+int main(int argc, char* argv[]) {
+
+	try {
+
+		boost::asio::io_context io;
+
+		boost::asio::steady_timer t(io, boost::asio::chrono::seconds(5));
+
+		std::cout << "Timer Started" << std::endl;
+
+		t.wait();
+
+		std::cout << "Timer Elapsed" << std::endl;
+
+	}
+	catch (std::exception& e) {
+
+		std::cout << e.what() << std::endl;
+
+		return 1;
+	
+	}
+
+    return 0;
+}
 ```
+
+Let's go through main.hpp, block by block.
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once. When main.hpp is included, the first thing it does is check if `__MAIN_HPP__` has been defined. If it hasn't, it defines `__MAIN_HPP__` and declares and defines any objects specified. If is has been defined, the entire header is ignored. More informaiton about header guards can be found [here](https://www.learncpp.com/cpp-tutorial/header-guards/).
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+```
+
+instructs the preprocessor to copy the contents of iostream and asio.hpp to main.cpp. The iostream header defines the standard Input and Output (I/O) stream objects. The asio header defines network and low-level I/O objects. In this sample, we use iostream's and asio.hpp's contents to display text to the user wait for a fixed period of time.
+More information about Boost's Asio library can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio.html).
+
+Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+ int main(int argc, char* argv[]) {
+     ...
+     return 0;
+ }
+```
+
+defines the program's entry point. ```main()``` has two parameters, ```int argc```, and ```char* argv[]```, and returns an ```int``` value. ```argc``` is the number of command-line parameters; ```argv``` is an array of the command-line parameters. In this sample, we don't use either parameter. If the program completes successfully, the program returns 0.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    return 1;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to wait for a fixed period of time. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1. More information about exception handling can be found [here](https://www.learncpp.com/cpp-tutorial/142-basic-exception-handling/).
+
+The line
+
+```cpp
+boost::asio::io_context io;
+```
+
+defines an instance of the Asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality. More information about `io_context` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context.html).
+
+The line
+
+```cpp
+boost::asio::steady_timer t(io, boost::asio::chrono::seconds(5));
+```
+
+defines an instance of the Asio library's `steady_timer` class. It provides the ability to perform a syncrhonous or asyncrhonous wait for a timer to expire. Here, the class has been instantiated using the variable `io` and a period of 5 seconds. More information about `steady_timer` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/steady_timer.html).
+
+The block
+
+```cpp
+std::cout << "Timer Started" << std::endl;
+
+t.wait();
+
+std::cout << "Timer Elapsed" << std::endl;
+```
+
+prints out a string to indicate the timer's start and then prints out a string to indicate the timer's elapsed. Here, `t`'s `wait()` member function is used to syncrhonously wait for the defined period. `wait()` two overloads. Here, it is used with no parameters and returns no values. More information about `wait()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_waitable_timer/wait.html).
+
+Now that we've looked at the sample's source code, build and run its binary. You should see the following image displayed:
+
+<div>
+<center>
+<p>Figure: Sample 1's Output. Sample 1 synchronously wait for 5 seconds, indicating the timer's start and when it has elapsed.</p>
+<img src="./sample_1/Capture.PNG" alt="Capture.PNG" width=640>
+<center>
+</div>
 
 ## Section 5: Sample 2
 
+This sample shows how to asyncrhonously wait for a fixed period of time.
+
+Browse to the sample_2 sub-directory. Let's have a look at the sample's source code.
+
+main.hpp
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+
+void waitHandle(const boost::system::error_code& e);
+
+#endif // !__MAIN_HPP__
+```
+
+main.cpp
+
+```cpp
+#include "main.hpp"
+
+void waitHandle(const boost::system::error_code& e) {
+
+	std::cout << "Timer Elapsed" << std::endl;
+
+}
+
+int main(int argc, char* argv[]) {
+
+	try {
+
+		boost::asio::io_context io;
+
+		boost::asio::steady_timer t(io, boost::asio::chrono::seconds(5));
+
+		t.async_wait(&waitHandle);
+
+		std::cout << "Timer Started" << std::endl;
+
+		io.run();
+
+	} 
+	catch (std::exception& e) {
+		
+		std::cout << e.what() << std::endl;
+
+		return 1;
+
+	}
+	
+    return 0;
+}
+```
+
+Let's go through main.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once.
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+```
+
+instructs the preprocessor to copy the contents of iostream and asio.hpp to main.hpp.
+
+The line
+
+```cpp
+void waitHandle(const boost::system::error_code& e);
+```
+
+declares the sample's `waitHandle()` function. `waitHandle()` is called at the end of an asyncrhonous wait operation. It prints out a string on the console.
+
+Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+void waitHandle(const boost::system::error_code& e) {
+
+    std::cout << "Timer Elapsed" << std::endl;
+
+}
+```
+
+defines the sample's `waitHandle()` function. It is called when an asyncrhonous wait operation has completed. It has one parameter,  `const boost::system::error_code& e`, and does not return any values.
+
+The block
+
+```cpp
+ int main(int argc, char* argv[]) {
+     ...
+     return 0;
+ }
+```
+
+defines the program's entry point. ```main()``` has two parameters, ```int argc```, and ```char* argv[]```, and returns an ```int``` value. ```argc``` is the number of command-line parameters; ```argv``` is an array of the command-line parameters. In this sample, we don't use either parameter. If the program completes successfully, the program returns 0.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    return 1;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to wait for a fixed period of time. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1.
+
+The line
+
+```cpp
+boost::asio::io_context io;
+```
+
+defines an instance of the asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality.
+
+The line
+
+```cpp
+boost::asio::steady_timer t(io, boost::asio::chrono::seconds(5));
+```
+
+defines an instance of the Asio library's `steady_timer` class. It provides the ability to perform a syncrhonous or asyncrhonous wait for a timer to expire. Here, the class has been instantiated using the variable `io` and a period of 5 seconds.
+
+The line
+
+```cpp
+t.async_wait(&waitHandle);
+```
+
+uses `t`'s `async_wait()` member function to asyncrhonously wait for the defined period. `async_wait()` is a function template and has no overloads. Here, it is used with one parameter, `WaitHandler&& handler`, and does not return any values. `handler` is the handler to be called when the timer expires. More information about `async_wait()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_waitable_timer/async_wait.html).
+
+The block
+
+```cpp
+std::cout << "Timer Started" << std::endl;
+
+io.run();
+```
+
+prints out a string to indicate the timer's start and then runs an event processing loop. Here, `io`'s `run()` member function is used to run the io_context object's event processing loop. `run()` has two overloads. Here, it is used with no parameters and does not return any values. More information about `run()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/io_context/run.html).
+
+Now that we've looked at the sample's source code, build and run its binary. You should see the following image displayed:
+
+<div>
+<center>
+<p>Figure: Sample 2's Output. Sample 2 asynchronously wait for 5 seconds, indicating the timer's start and when it has elapsed.</p>
+<img src="./sample_2/Capture.PNG" alt="Capture.PNG" width=640>
+<center>
+</div>
+
 ## Section 6: Sample 3
+
+This sample shows how to asyncrhonously wait for a fixed period of time and pass a value to the wait handler.
+
+Browse to the sample_3 sub-directory. Let's have a look at the sample's source code.
+
+main.hpp
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+
+void waitHandle(const boost::system::error_code& e, boost::asio::steady_timer* t, int* count);
+
+#endif // !__MAIN_HPP__
+```
+
+main.cpp
+
+```cpp
+#include "main.hpp"
+
+void waitHandle(const boost::system::error_code& e, boost::asio::steady_timer *t, int *count) {
+
+	if (*count < 5) {
+
+		std::cout << *count << std::endl;
+
+		(*count)++;
+		t->expires_at(t->expiry() + boost::asio::chrono::seconds(1));
+		t->async_wait(boost::bind(waitHandle, boost::asio::placeholders::error, t, count));
+		
+	}
+	else {
+
+		std::cout << "Timer Elapsed" << std::endl;
+
+	}
+}
+
+int main(int argc, char* argv[]) {
+
+	try {
+
+		boost::asio::io_context io;
+
+		boost::asio::steady_timer t(io, boost::asio::chrono::seconds(1));
+
+		int count{ 0 };
+
+		t.async_wait(boost::bind(waitHandle, boost::asio::placeholders::error, &t, &count));
+
+		std::cout << "Timer Started" << std::endl;
+
+		io.run();
+
+	}
+	catch (std::exception& e) {
+
+		std::cout << e.what() << std::endl;
+
+		return 1;
+	}
+
+	return 0;
+
+}
+```
+
+Let's go through main.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once.
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+```
+
+instructs the preprocessor to copy the contents of iostream, asio.hpp, and bind.hpp to main.hpp. The bind header allows for the generalisation of the standard functions `std::bind1st` and `std::bind2nd`; it supports arbitrary function objects, functions, function pointers, and member function pointers, and is able to bind any argument to a specific value or route input arguments into arbitrary positions. More information about boost's Bind library can be found [here](https://www.boost.org/doc/libs/1_70_0/libs/bind/doc/html/bind.html).
+
+The line
+
+```cpp
+void waitHandle(const boost::system::error_code& e, boost::asio::steady_timer* t, int* count);
+```
+
+declares the sample's `waitHandle()` function. `waitHandle()` is called at the end of an asyncrhonous wait operation. It increments a counter and waits an additional 1 second, every 1 second, up to a maximum of 5 seconds. After 5 seconds, it prints out a string on the console.
+
+Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+void waitHandle(const boost::system::error_code& e, boost::asio::steady_timer *t, int *count) {
+
+	if (*count < 5) {
+
+		std::cout << *count << std::endl;
+
+		(*count)++;
+		t->expires_at(t->expiry() + boost::asio::chrono::seconds(1));
+		t->async_wait(boost::bind(waitHandle, boost::asio::placeholders::error, t, count));
+		
+	}
+	else {
+
+		std::cout << "Timer Elapsed" << std::endl;
+
+	}
+}
+```
+
+defines the sample's `waitHandle()` function. It is called when an asyncrhonous wait operation has completed. `waitHandler()` has three parameters, `const boost::system::error_code& e, boost::asio::steady_timer* t, int* count`. `e` is the result of the operation, `t` is a timer, and `count` is a integer value. If count is less than 5, `waitHandle()` increments count and uses `t`'s `expires_at()` member function to wait an additional second; else, it prints a string on the console. More information about `expires_at()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_waitable_timer/expires_at.html).
+
+The block
+
+```cpp
+ int main(int argc, char* argv[]) {
+     ...
+     return 0;
+ }
+```
+
+defines the program's entry point. ```main()``` has two parameters, ```int argc```, and ```char* argv[]```, and returns an ```int``` value. ```argc``` is the number of command-line parameters; ```argv``` is an array of the command-line parameters. In this sample, we don't use either parameter. If the program completes successfully, the program returns 0.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    return 1;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to wait for a fixed period of time. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1.
+
+The line
+
+```cpp
+boost::asio::io_context io;
+```
+
+defines an instance of the asio library's ```io_context``` class. It provides core synchronous and asynchronous I/O functionality.
+
+The line
+
+```cpp
+boost::asio::steady_timer t(io, boost::asio::chrono::seconds(1));
+```
+
+defines an instance of the Asio library's `steady_timer` class. It provides the ability to perform a syncrhonous or asyncrhonous wait for a timer to expire. Here, the class has been instantiated using the variable `io` and a period of 1 seconds.
+
+The block
+
+```cpp
+int count{ 0 };
+
+t.async_wait(boost::bind(waitHandle, boost::asio::placeholders::error, &t, &count));
+```
+
+initialises the variable `count` as 0 and uses `t`'s `async_wait()` member function to asyncrhonously wait for the define period. Here, we have used the Bind library's `bind()` function to bind the sample's `waitHandle()` function to `async_wait()`'s handler definition: `void handler(const boost::system::error_code& error);`, which normally only takes one parameter. More information about `bind()` can be found [here](https://www.boost.org/doc/libs/1_70_0/libs/bind/doc/html/bind.html).
+
+The block
+
+```cpp
+std::cout << "Timer Started" << std::endl;
+
+io.run();
+```
+
+prints out a string to indicate the timer's start and then runs an event processing loop. Here, `io`'s `run()` member function is used to run the io_context object's event processing loop.
+
+Now that we've looked at the sample's source code, build and run its binary. You should see the following image displayed:
+
+<div>
+<center>
+<p>Figure: Sample 3's Output. Sample 3 asynchronously waits for 1 second, five times, and indicates the timer's start and when it has elapsed.</p>
+<img src="./sample_3/Capture.PNG" alt="Capture.PNG" width=640>
+<center>
+</div>
 
 ## Section 7: Activity 1
 
+Now that you know how to use Boost's Asio library to wait for a fixed period of time, complete the following:
+
+1. Write an application that uses Boost's Asio library to print on the console the number of times a timer has asyncrhonously waited 250 ms.
+
 ## Section 8: Sample 4
+
+This sample shows how to asyncrhonously wait for a fixed period of time using a class structure.
+
+Browse to the sample_4 sub-directory. Let's have a look at the sample's source code.
+
+main.hpp
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+
+#include "delay.hpp"
+
+#endif //!__MAIN_HPP__
+```
+
+main.cpp
+
+```cpp
+#include "main.hpp"
+
+int main(int argc, char* argv[]) {
+
+	try {
+
+		boost::asio::io_context io;
+
+		Delay timer(io);
+
+		timer.delay(5);
+
+		std::cout << "Timer Started" << std::endl;
+
+		io.run();
+
+	}
+	catch (std::exception& e) {
+
+		std::cout << e.what() << std::endl;
+
+		return 1;
+	}
+
+    return 0;
+}
+```
+
+delay.hpp
+
+```cpp
+#ifndef __DELAY_HPP__
+#define __DELAY_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+
+class Delay {
+
+public:
+
+	Delay(boost::asio::io_context& io);
+
+	void delay(const int& time);
+
+
+private:
+
+	void timerElapsed(const boost::system::error_code& e);
+
+	boost::asio::steady_timer m_t;
+
+};
+
+#endif //!__DELAY_HPP__
+```
+
+delay.cpp
+
+```cpp
+#include "delay.hpp"
+
+Delay::Delay(boost::asio::io_context& io) :
+	_t(io)
+{
+
+}
+
+void Delay::delay(const int& time) {
+
+	m_t.expires_after(boost::asio::chrono::seconds(time));
+
+	m_t.async_wait(boost::bind(&Delay::timerElapsed, this, boost::asio::placeholders::error));
+
+}
+
+void Delay::timerElapsed(const boost::system::error_code& e) {
+
+	std::cout << "Timer Elapsed" << std::endl;
+
+}
+```
+
+Let's go through main.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once.
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+
+#include "delay.hpp"
+```
+
+instructs the preprocessor to copy the contents of iostream, asio.hpp, and delay.hpp to main.hpp.
+
+Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+ int main(int argc, char* argv[]) {
+     ...
+     return 0;
+ }
+```
+
+defines the program's entry point. ```main()``` has two parameters, ```int argc```, and ```char* argv[]```, and returns an ```int``` value. ```argc``` is the number of command-line parameters; ```argv``` is an array of the command-line parameters. In this sample, we don't use either parameter. If the program completes successfully, the program returns 0.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    return 1;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to write to wait for a period of time. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1.
+
+The line
+
+```cpp
+boost::asio::io_context io;
+```
+
+defines an instance of the asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality.
+
+The line
+
+```cpp
+Delay timer(io);
+```
+
+defines an instance of the sample's `Delay` class. `Delay` provides a member function that asyncrhonously waits for a period of time. Here, it is instantiated with the variable `io`. The `Delay` class with be described shortly.
+
+The line
+
+```cpp
+timer.delay(5);
+```
+
+uses `timer`'s `delay()` member function to asyncrhonously wait 5 seconds.
+
+The block
+
+```cpp
+std::cout << "Timer Started" << std::endl;
+
+io.run();
+```
+
+prints out a string to indicate the timer's start and then runs an event processing loop. Here, `io`'s `run()` member function is used to run the io_context object's event processing loop.
+
+Now, let's look at delay.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __DELAY_HPP__
+#define __DELAY_HPP__
+    ...
+#endif //!__DELAY_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once.
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+```
+
+instructs the preprocessor to copy the contents of iostream, asio.hpp, and bind.hpp to main.hpp.
+
+The block
+
+```cpp
+class Delay {
+
+public:
+
+	Delay(boost::asio::io_context& io);
+
+	void delay(const int& time);
+
+
+private:
+
+	void timerElapsed(const boost::system::error_code& e);
+
+	boost::asio::steady_timer m_t;
+
+};
+```
+
+declares the sample's `Delay` class. `Delay` is a helper class; creating a timer and helping with waiting for a defined period. `Delay()` defines the class's timer; `delay()` asynchronously waits for a defined period; `timerElapsed()` handles the asyncrhonous wait operation; and `m_t` is the class's timer.
+
+Now let's go through delay.cpp, block by block.
+
+The block
+
+```cpp
+Delay::Delay(boost::asio::io_context& io) :
+	m_t(io)
+{
+
+}
+```
+
+defines the `Delay` class's `Delay()` constructor. `Delay()` has one parameter, `boost::asio::io_context& io`, and does not return any values. The `m_t` data member is initialised with the variable `io`.
+
+The block
+
+```cpp
+void Delay::delay(const int& time) {
+
+	m_t.expires_after(boost::asio::chrono::seconds(time));
+
+	m_t.async_wait(boost::bind(&Delay::timerElapsed, this, boost::asio::placeholders::error));
+
+}
+```
+
+deines the `Delay` class's `delay()` member function. `delay()` has one parameter, `const int& time`, and does not return any values. It uses `m_t`'s `expires_after()` member function to set the timer's expiry time `time` seconds relative to now and then asyncrhonously waits for the defined period. More information about `expires_after()` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/basic_waitable_timer/expires_after.html).
+
+The block
+
+```cpp
+void Delay::timerElapsed(const boost::system::error_code& e) {
+
+    std::cout << "Timer Elapsed" << std::endl;
+
+}
+```
+
+definies the `Delay` class's `timerElapsed()` member function. `timerElapsed()` has one parameter, `const boost::system::error_code& e` and does not return any values. `e` is the result of the operation. Once an asyncrhonous wait operation has completed, it prints out a string on the console.
+
+Now that we've looked at the sample's source code, build and run its binary. You should see the following image displayed:
+
+<div>
+<center>
+<p>Figure: Sample 4's Output. Sample 3 asynchronously waits for 5 second, using a class structure, and indicates the timer's start and when it has elapsed.</p>
+<img src="./sample_4/Capture.PNG" alt="Capture.PNG" width=640>
+<center>
+</div>
 
 ## Section 9: Sample 5
 
+This sample shows how to asyncrhonously wait for a fixed period of time using a class structure.
+
+Browse to the sample_4 sub-directory. Let's have a look at the sample's source code.
+
+main.hpp
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
+
+#include "delay.hpp"
+
+#endif //!__MAIN_HPP__
+```
+
+main.cpp
+
+```cpp
+#include "main.hpp"
+#include "main.hpp"
+
+int main(int argc, char* argv[]) {
+
+	try {
+
+		boost::asio::io_context io;
+
+		Delay timer(io);
+
+		timer.delay(5);
+
+		std::cout << "Timer Started" << std::endl;
+
+		boost::thread t(boost::bind(&boost::asio::io_context::run, &io));
+
+		io.run();
+
+		t.join();
+
+	} 
+	catch (std::exception& e) {
+
+		std::cout << e.what() << std::endl;
+
+		return 1;
+
+	}
+	
+    return 0;
+}
+```
+
+delay.hpp
+
+```cpp
+#ifndef __DELAY_HPP__
+#define __DELAY_HPP__
+
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/thread.hpp>
+
+class Delay {
+
+public:
+
+	Delay(boost::asio::io_context& io);
+
+	void delay(const int& time);
+
+
+private:
+
+	void timerElapsed(const boost::system::error_code& e);
+
+	boost::asio::steady_timer m_t;
+	boost::asio::io_context::strand m_strand;
+
+};
+
+#endif //!__DELAY_HPP__
+```
+
+delay.cpp
+
+```cpp
+#include "delay.hpp"
+
+Delay::Delay(boost::asio::io_context& io) :
+	m_t(io),
+	m_strand(io)
+{
+	
+}
+
+void Delay::delay(const int& time) {
+
+	m_t.expires_after(boost::asio::chrono::seconds(time));
+
+	m_t.async_wait(m_strand.wrap(boost::bind(&Delay::timerElapsed, this, boost::asio::placeholders::error)));
+
+}
+
+void Delay::timerElapsed(const boost::system::error_code& e) {
+
+	std::cout << "Timer Elapsed" << std::endl;
+
+}
+```
+
+Let's go through main.hpp, block by block.
+
+The block
+
+```cpp
+#ifndef __MAIN_HPP__
+#define __MAIN_HPP__
+    ...
+#endif //!__MAIN_HPP__
+```
+
+defines a header guard, which prevents including a header file more than once.
+
+The block
+
+```cpp
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
+
+#include "delay.hpp"
+```
+
+instructs the preprocessor to copy the contents of iostream, asio.hpp, thread.hpp, and delay.hpp to main.hpp.
+
+
+Now, let's consider main.cpp, block by block.
+
+The block
+
+```cpp
+ int main(int argc, char* argv[]) {
+     ...
+     return 0;
+ }
+```
+
+defines the program's entry point. ```main()``` has two parameters, ```int argc```, and ```char* argv[]```, and returns an ```int``` value. ```argc``` is the number of command-line parameters; ```argv``` is an array of the command-line parameters. In this sample, we don't use either parameter. If the program completes successfully, the program returns 0.
+
+The block
+
+```cpp
+try {
+    ...
+} catch(std::exception& e) {
+
+    std::cout << e.what() << std::endl;
+
+    return 1;
+
+}
+```
+
+defines a try block and a catch block. In the try block, we try to write to wait for a period of time. If an exception is raised, the program's execution proceeds to the catch block, which processes a `std::exception` type exception. The handler displays what exception was raised and the program returns 1.
+
+The line
+
+```cpp
+boost::asio::io_context io;
+```
+
+defines an instance of the asio library's `io_context` class. It provides core synchronous and asynchronous I/O functionality.
+
+The line
+
+```cpp
+Delay timer(io);
+```
+
+defines an instance of the sample's `Delay` class. `Delay` provides a member function that asyncrhonously waits for a period of time. Here, it is instantiated with the variable `io`. The `Delay` class with be described shortly.
+
+The line
+
+```cpp
+timer.delay(5);
+```
+
+uses `timer`'s `delay()` member function to asyncrhonously wait 5 seconds.
+
+The line
+
+```cpp
+boost::thread t(boost::bind(&boost::asio::io_context::run, &io));
+```
+
+defines an instance of Boost's Thread library's `thread` class. Boost's Thread library enables the use of multiple threads of execution; providing classes and functions for managing the threads, syncrhonising data between threads, and copying data between threads. Here, we use Boost's Bind library's `bind()` function to bind the the sample's io_context to another thread. More information about the Thread library and `thread` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/thread.html) and [here](https://www.boost.org/doc/libs/1_70_0/doc/html/thread/thread_management.html#thread.thread_management.thread), respectively.
+
+The line
+
+```cpp
+io.run();
+```
+
+uses `io`'s `run()` member function to run the io_context object's event processing loop.
+
+The line
+
+```cpp
+t.join();
+```
+
+uses `t`'s `join()` member function to wait for the second thread to finish executing.
+
+Now that we've looked at the sample's source code, build and run its binary. You should see the following image displayed:
+
+<div>
+<center>
+<p>Figure: Sample 5's Output. Sample 5 asynchronously waits for 5 seconds, in a separate thread, and indicates the timer's start and when it has elapsed.</p>
+<img src="./sample_5/Capture.PNG" alt="Capture.PNG" width=640>
+<center>
+</div>
+
 ## Section 10: Activity 2
+
+Now that you know how to use Boost's Asio library to wait for a fixed period of time, complete the following:
+
+1. Write an application that uses Boost's Asio library and a class structure to print on the console the number of times a timer has asyncrhonously waited 2 s.
 
 ## Section 11: Conclusion
 

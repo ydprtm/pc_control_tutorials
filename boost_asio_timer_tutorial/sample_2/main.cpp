@@ -1,6 +1,6 @@
 #include "main.hpp"
 
-void timerHandle(const boost::system::error_code& e) {
+void waitHandle(const boost::system::error_code& e) {
 
 	std::cout << "Timer Elapsed" << std::endl;
 
@@ -14,14 +14,18 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::steady_timer t(io, boost::asio::chrono::seconds(5));
 
-		t.async_wait(&timerHandle);
+		t.async_wait(&waitHandle);
 
 		std::cout << "Timer Started" << std::endl;
 
 		io.run();
+	}
+	catch (std::exception & e) {
 
-	} catch (boost::system::system_error& e) {
 		std::cout << e.what() << std::endl;
+
+		return 1;
+
 	}
 	
     return 0;

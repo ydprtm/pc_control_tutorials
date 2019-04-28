@@ -18,7 +18,7 @@ private:
 
 	void timerElapsed(const boost::system::error_code& e);
 
-	boost::asio::steady_timer _t;
+	boost::asio::steady_timer m_t;
 
 };
 

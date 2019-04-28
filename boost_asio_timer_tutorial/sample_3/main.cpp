@@ -1,8 +1,6 @@
-#include <iostream>
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
+#include "main.hpp"
 
-void timerHandle(const boost::system::error_code& e, boost::asio::steady_timer *t, int *count) {
+void waitHandle(const boost::system::error_code& e, boost::asio::steady_timer *t, int *count) {
 
 	if (*count < 5) {
 
@@ -10,7 +8,7 @@ void timerHandle(const boost::system::error_code& e, boost::asio::steady_timer *
 
 		(*count)++;
 		t->expires_at(t->expiry() + boost::asio::chrono::seconds(1));
-		t->async_wait(boost::bind(timerHandle, boost::asio::placeholders::error, t, count));
+		t->async_wait(boost::bind(waitHandle, boost::asio::placeholders::error, t, count));
 		
 	}
 	else {
@@ -30,16 +28,20 @@ int main(int argc, char* argv[]) {
 
 		int count{ 0 };
 
-		t.async_wait(boost::bind(timerHandle, boost::asio::placeholders::error, &t, &count));
+		t.async_wait(boost::bind(waitHandle, boost::asio::placeholders::error, &t, &count));
 
 		std::cout << "Timer Started" << std::endl;
 
 		io.run();
 
 	}
-	catch (boost::system::system_error& e) {
+	catch (std::exception& e) {
+
 		std::cout << e.what() << std::endl;
+
+		return 1;
 	}
 
 	return 0;
+
 }
