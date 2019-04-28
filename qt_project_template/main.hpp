@@ -4,7 +4,7 @@
 #include <QtWidgets/QApplication>
 #include <QThread>
 
+#include "app.hpp"
 #include "gui.hpp"
-#include "serial.hpp"
 
 #endif // !__MAIN_HPP__

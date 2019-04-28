@@ -13,10 +13,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_library(gui gui.cpp serial.cpp)
+add_library(gui gui.cpp)
 target_link_libraries(gui Qt5::Core Qt5::Gui Qt5::SerialPort Qt5::Widgets)
 
-add_executable(project WIN32 main.cpp)
+add_executable(project WIN32 main.cpp app.cpp)
 target_link_libraries (project gui)
 
 # Utilities
