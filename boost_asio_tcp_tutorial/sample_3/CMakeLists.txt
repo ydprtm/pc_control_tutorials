@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-project(project)
+project(sample_3)
 
 find_package(Boost 1.70.0 REQUIRED)
 
@@ -11,8 +11,8 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 add_library(tcp tcp.cpp)
 
-add_executable(project main.cpp)
-target_link_libraries(project tcp ${Boost_LIBRARIES})
+add_executable(sample_3 main.cpp)
+target_link_libraries(sample_3 tcp ${Boost_LIBRARIES})
 
 # Utilities
 
@@ -23,4 +23,4 @@ find_program(CMAKE_EXECUTABLE NAMES cmake HINTS ${CMAKE_DIR} ENV CMAKE_DIR PATH_
 
 # Install
 
-install(TARGETS project DESTINATION ${PROJECT_SOURCE_DIR}/bin)
+install(TARGETS sample_3 DESTINATION ${PROJECT_SOURCE_DIR}/bin)
