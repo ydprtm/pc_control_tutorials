@@ -183,7 +183,7 @@ On lines 10-24,
         print()
 ```
 
-a `for` loop is used to iterate over each instance in the object returned by the `enumerate()` function. During each iteration, the `print()` function is used to display each instance of the `ListPortInfo` class's data members. You can find more about `enumerate()` [here]({https://docs.python.org/3/library/functions.html#enumerate}).
+a `for` loop is used to iterate over each instance in the object returned by the `enumerate()` function. During each iteration, the `print()` function is used to display the contents of each instance of the `ListPortInfo` class's data members. You can find more about `enumerate()` [here]({https://docs.python.org/3/library/functions.html#enumerate}).
 
 On lines 29-31,
 
