@@ -1,19 +1,43 @@
-String line;
+const byte numChars = 32;
+char receivedChars[numChars];
+
+boolean newData = false;
 
 void setup() {
-  
-    Serial.begin(115200);    
-
+    Serial.begin(115200);
 }
 
 void loop() {
-  
-  if (Serial.available() > 0) {
-  
-    line = Serial.readString();
+    recvWithEndMarker();
+    showNewData();
+}
 
-    Serial.println(line);
+void recvWithEndMarker() {
+    static byte ndx = 0;
+    char endMarker = '\n';
+    char rc;
+   
+    while (Serial.available() > 0 && newData == false) {
+        rc = Serial.read();
+        
+        if (rc != endMarker) {
+            receivedChars[ndx] = rc;
+            ndx++;
+            if (ndx >= numChars) {
+                ndx = numChars - 1;
+            }
+        }
+        else {
+            receivedChars[ndx] = '\0'; // terminate the string
+            ndx = 0;
+            newData = true;
+        }
+    }
+}
 
-  }
-  
+void showNewData() {
+    if (newData == true) {
+        Serial.println(receivedChars);
+        newData = false;
+    }
 }
