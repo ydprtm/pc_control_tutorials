@@ -30,10 +30,10 @@ You need the following programs and libraries installed on your computer to buil
 
 This tutorial has been validated using the following software versions and hardware:
 
-1. CMake 3.14
-1. Boost 1.70.0
+1. CMake 3.17.2
+1. Boost 1.73.0
 1. Visual Studio IDE 2019, Community Edition
-1. Arduino 1.8.9
+1. Arduino 1.8.12
 1. Arduino Uno REV 3 (or similar, e.g. an Arduino Nano or Arduino Mega)
 
 If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. Most Boost libraries are header-only, i.e. they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking. However, some libraries, e.g. Boost.Chrono, must be built separately. More information about getting started with Boost can be found [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html).
@@ -153,7 +153,7 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::io_context io;
 
-		boost::asio::serial_port serial(io, "COM4");
+		boost::asio::serial_port serial(io, "COM3");
 
 		serial.set_option(boost::asio::serial_port_base::baud_rate(115200));
 		serial.set_option(boost::asio::serial_port_base::character_size(8));
@@ -262,7 +262,7 @@ defines an instance of Boost's Asio library's `io_context` class. It provides co
 The line
 
 ```cpp
-boost::asio::serial_port serial(io, "COM4");
+boost::asio::serial_port serial(io, "COM3");
 ```
 
 defines an instance of the Asio library's `serial_port` class. It provides serial port functionality. Here, the class has been instantiated using the variable `io` and the serial port's name. More information about `serial_port` can be found [here](https://www.boost.org/doc/libs/1_70_0/doc/html/boost_asio/reference/serial_port.html).
@@ -330,7 +330,7 @@ uses `serial`'s `close()` member function to close the serial port.
 
 Now that we've looked at the sample's source code, build its binary.
 
-For it to run properly, you need to have a "COM4" serial port available on your computer. To create a serial port, plug an Arduino into your computer. It will enumerate as "USB Serial Device (COMX)", where 'x' is a number depending on the number of existing serial ports. You can check the serial ports name via your computer's Device Manager.
+For it to run properly, you need to have a "COM3" serial port available on your computer. To create a serial port, plug an Arduino into your computer. It will enumerate as "USB Serial Device (COMX)", where 'x' is a number depending on the number of existing serial ports. You can check the serial ports name via your computer's Device Manager.
 
 To have the Arduino echo the string sent to it, upload the sketch in the tutorial's serial_sketch sub-directory.
 
@@ -397,7 +397,7 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::io_context io;
 
-		boost::asio::serial_port serial(io, "COM4");
+		boost::asio::serial_port serial(io, "COM3");
 
 		serial.set_option(boost::asio::serial_port_base::baud_rate(115200));
 		serial.set_option(boost::asio::serial_port_base::character_size(8));
@@ -537,7 +537,7 @@ defines an instance of the asio library's ```io_context``` class. It provides co
 The line
 
 ```cpp
-boost::asio::serial_port serial(io, "COM4");
+boost::asio::serial_port serial(io, "COM3");
 ```
 
 defines an instance of the Asio library's `serial_port` class. It provides serial port functionality. Here, the class has been instantiated using the variable `io` and the serial port's name.
@@ -610,7 +610,7 @@ uses `serial`'s `close()` member function to close the serial port.
 
 Now that we've looked at the sample's source code, build its binary.
 
-For it to run properly, you need to have a "COM4" serial port available on your computer. To create a serial port, plug an Arduino into your computer. It will enumerate as "USB Serial Device (COMX)", where 'x' is a number depending on the number of existing serial ports. You can check the serial port's name via your computer's Device Manager.
+For it to run properly, you need to have a "COM3" serial port available on your computer. To create a serial port, plug an Arduino into your computer. It will enumerate as "USB Serial Device (COMX)", where 'x' is a number depending on the number of existing serial ports. You can check the serial port's name via your computer's Device Manager.
 
 To have the Arduino echo the string sent to it, upload the sketch in the tutorial's serial_sketch sub-directory.
 
@@ -663,7 +663,7 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::io_context io;
 
-		SerialPort port(io, std::string( "COM4"));
+		SerialPort port(io, std::string( "COM3"));
 
 		std::string writeMessage{ "Hello World!\r\n" };
 
@@ -855,10 +855,10 @@ defines an instance of the asio library's `io_context` class. It provides core s
 The line
 
 ```cpp
-SerialPort port(io, std::string( "COM4"));
+SerialPort port(io, std::string( "COM3"));
 ```
 
-defines an instance of the sample's `SerialPort` class. `SerialPort` writes data to and reads data asyncrhonously from a serial port. Here, it is instantiated with the variable `io` and the serial port name "COM4". The `SerialPort` class will be described shortly.
+defines an instance of the sample's `SerialPort` class. `SerialPort` writes data to and reads data asyncrhonously from a serial port. Here, it is instantiated with the variable `io` and the serial port name "COM3". The `SerialPort` class will be described shortly.
 
 The line
 
@@ -1056,7 +1056,7 @@ defines the `SerialPort` class's `readHandle()` member function. `readHandle()` 
 
 Now that we've looked at the sample's source code, build its binary.
 
-For it to run properly, you need to have a "COM4" serial port available on your computer. To create a serial port, plug an Arduino into your computer. It will enumerate as "USB Serial Device (COMX)", where 'x' is a number depending on the number of existing serial ports. You can check the serial port's name via your computer's Device Manager.
+For it to run properly, you need to have a "COM3" serial port available on your computer. To create a serial port, plug an Arduino into your computer. It will enumerate as "USB Serial Device (COMX)", where 'x' is a number depending on the number of existing serial ports. You can check the serial port's name via your computer's Device Manager.
 
 To have the Arduino echo the string sent to it, upload the sketch in the tutorial's serial_sketch sub-directory.
 
@@ -1092,5 +1092,3 @@ Department of Mechanical and Electrical Engineering
 School of Food and Advanced Technology  
 Massey University  
 New Zealand  
-
-Follow me on Twitter <a href="http://twitter.com/DrFrazerNoble" class="twitter-follow-button" data-show-count="false">@DrFrazerNoble</a>

@@ -30,8 +30,8 @@ You need the following programs and libraries installed on your computer to buil
 
 This tutorial has been validated using the following software versions:
 
-1. CMake 3.14
-1. Boost 1.70.0
+1. CMake 3.17.2
+1. Boost 1.73.0
 1. Visual Studio IDE 2019, Community Edition
 
 If you haven't got these installed, click on each link to go to the program's respective website. To install CMake and Visual Studio IDE, run the respective installer. Most Boost libraries are header-only, i.e. they consist entirely of header files containing templates and inline functions, and require no separately-compiled library binaries or special treatment when linking. However, some libraries, e.g. Boost.Chrono, must be built separately. More information about getting started with Boost can be found [here](https://www.boost.org/doc/libs/1_70_0/more/getting_started/windows.html).
@@ -1109,6 +1109,3 @@ Department of Mechanical and Electrical Engineering
 School of Food and Advanced Technology  
 Massey University  
 New Zealand
-
-Follow me on Twitter 
-<a href="http://twitter.com/DrFrazerNoble" class="twitter-follow-button" data-show-count="false">@DrFrazerNoble</a>
