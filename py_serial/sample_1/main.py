@@ -2,6 +2,7 @@ import serial
 
 from serial.tools import list_ports
 
+
 def main():
 
     serial_ports = list_ports.comports()
@@ -23,6 +24,7 @@ def main():
         print()
 
     return
+
 
 if __name__ == "__main__":
 

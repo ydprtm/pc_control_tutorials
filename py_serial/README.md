@@ -95,6 +95,7 @@ import serial
 
 from serial.tools import list_ports
 
+
 def main():
 
     serial_ports = list_ports.comports()
@@ -113,13 +114,15 @@ def main():
         print("Manufacturer: {}".format(sp.manufacturer))
         print("Product: {}".format(sp.product))
         print("Interface: {}".format(sp.interface))
-		print()
+        print()
 
     return
+
 
 if __name__ == "__main__":
 
     main()
+
 ```
 
 Let's go through the program, line by line, block by block.
@@ -140,7 +143,7 @@ from serial.tools import list_ports
 
 the `from` statement is used to import the `list_ports` sub-module. The module includes the function, `comports()`, which can be used to list the available serial ports. You can find more about the `serial` module's tools [here](https://pyserial.readthedocs.io/en/latest/tools.html).
 
-On lines 5-25, 
+On lines 6-26, 
 
 ```py
 def main():
@@ -152,7 +155,7 @@ def main():
 
 the function `main()` is defined. `main()` has no parameters and doesn't return anything.
 
-On line 9,
+On line 8,
 
 ```py
 serial_ports = list_ports.comports()
@@ -160,7 +163,7 @@ serial_ports = list_ports.comports()
 
 `list_port` module's `comports()` function is used to get a list of available ports. The function retuns a list containing `ListPortInfo` objects. You can find more about the `ListPortInfo` class [here](https://pyserial.readthedocs.io/en/latest/tools.html).
 
-On lines 11-23,
+On lines 10-24,
 
 ```py
   for i, sp in enumerate(serial_ports):
@@ -182,7 +185,7 @@ On lines 11-23,
 
 a `for` loop is used to iterate over each instance in the object returned by the `enumerate()` function. During each iteration, the `print()` function is used to display each instance of the `ListPortInfo` class's data members. You can find more about `enumerate()` [here]({https://docs.python.org/3/library/functions.html#enumerate}).
 
-On lines 27-29,
+On lines 29-31,
 
 ```py
 if __name__ == "__main__":
@@ -234,6 +237,7 @@ Browse to the sample_2 sub-directory. Let's have a look at the sample's source c
 import serial
 import time
 
+
 def main():
 
     try:
@@ -249,7 +253,7 @@ def main():
         # ser.bytesize = serial.EIGHTBITS
         # ser.parity = serial.PARITY_NONE
         # ser.stopbits = serial.STOPBITS_ONE
-        # ser.timeout = 0.5           
+        # ser.timeout = 0.5
 
         # ser.open()
 
@@ -273,7 +277,7 @@ def main():
                 elif c == '\n'.encode():
                     read = False
                     break
-                
+
                 print(c)
 
         ser.reset_input_buffer()
@@ -305,7 +309,7 @@ import serial
 
 the `import` statement is used to access the serial and time modules.
 
-On lines 4-57, 
+On lines 5-58, 
 
 ```py
 def main():
@@ -323,7 +327,7 @@ def main():
 
 the function `main()` is defined. `main()` has no parameters and doesn't return anything. In `main()`, a `try` statement is used for handling all exceptions. You can find more about exception handling [here](https://docs.python.org/3.7/tutorial/errors.html).
 
-On lines 8-9,
+On lines 8-11,
 
 ```py
 ser = serial.Serial("COM3", 115200, timeout=1.0, bytesize=serial.EIGHTBITS,
@@ -337,7 +341,7 @@ Afterwards, the `time` module's `sleep()` function is used to wait for 2.0 secon
 
 **Note**: *I've found adding the time delay here to be helpful in resolving an issue where, when debugging a program, the serial port is able to write data to a device, e.g. an Arudino, and read the data it returns, but when running the program without debugging, the serial port does not receive any data. I believe it's because of a race condition, or that the serial port hasn't finished initialising properly before it's accessed. Keep this mind if you're having issues.*
 
-On lines 12-21,
+On lines 13-22,
 
 ```py
 # ser = serial.Serial()
@@ -354,7 +358,7 @@ On lines 12-21,
 
 an alternative way to create a `ser` is shown. Here, the lines are commented out.
 
-On lines 23-24,
+On lines 24-25,
 
 ```py
 data = "Hello World!\n".encode()
@@ -363,7 +367,7 @@ print("Data: {}".format(data))
 
 the `encode()` member function is used to encode the string into bytes, which is then assigned to the varaible `data`. Next, the `print()` function is used to display the contents of `data` on the console.
 
-On lines 26-28,
+On lines 27-29,
 
 ```py
 byts = ser.write(data)
@@ -373,7 +377,7 @@ ser.flush()
 
 `ser`'s `write()` member function is used to write the variable `data`'s content to the serial port. The number of bytes written are then assigned to the variable `byts`. Next, the `print()` function is used display the number of bytes written. Lastly, `ser`'s `flush()` member function is used to wait until all data is written. You can find more about `write()` and `flush()` [here](https://pyserial.readthedocs.io/en/latest/pyserial_api.html).
 
-On lines 30-44,
+On lines 33-45,
 
 ```py
 read = True
@@ -385,7 +389,7 @@ while read:
 
 a `while` loop is used to continously read bytes from the serial port. While the variable `read` is equal to `True`, the loop will iterate forever; stopping when `read` is equal to `False`.
 
-On lines 34-44,
+On lines 35-45,
 
 ```py
 if ser.inWaiting() > 0:
@@ -405,7 +409,7 @@ an `if` statement and `ser`'s `inWaiting()` member function are used to see if t
 
 Next, an `if` statement is used to check whether `c` is equal to the encoded '\r' character. If `True`, then the `while` loop starts a new iteration; else, an `elif` statement is used to check whether `c` is equal to the encoded `\n` character. If `True`, then the while loops ends; else, the `print()` function is used to display the contents of `c` on the console.
 
-One lines 46-47,
+One lines 47-48,
 
 ```py
 ser.reset_input_buffer()
@@ -416,7 +420,7 @@ ser.reset_output_buffer()
 
 **Note:** *I've found that, sometimes, the serial port does not close properly, which results in the program "hanging". Searching online, it was recommended to clear the input and output buffers immediately before closing the serial port. I tried it, and it seems to work. Strictly speaking, this may not be necessary, but worth keeping in mind if it's a problem for you.*
 
-On line 49,
+On line 50,
 
 ```py
 ser.close()
@@ -424,7 +428,7 @@ ser.close()
 
 `ser`'s `close()` member function is used to close the serial port.
 
-On lines 60-63,
+On lines 61-63,
 
 ```py
 if __name__ == "__main__":

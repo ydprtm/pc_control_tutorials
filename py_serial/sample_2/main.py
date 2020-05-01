@@ -1,6 +1,7 @@
 import serial
 import time
 
+
 def main():
 
     try:
@@ -16,7 +17,7 @@ def main():
         # ser.bytesize = serial.EIGHTBITS
         # ser.parity = serial.PARITY_NONE
         # ser.stopbits = serial.STOPBITS_ONE
-        # ser.timeout = 0.5           
+        # ser.timeout = 0.5
 
         # ser.open()
 
@@ -40,7 +41,7 @@ def main():
                 elif c == '\n'.encode():
                     read = False
                     break
-                
+
                 print(c)
 
         ser.reset_input_buffer()
