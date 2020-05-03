@@ -2,10 +2,8 @@ cmake_minimum_required(VERSION 3.5.1)
 
 project(sample_1)
 
-set(CMAKE_DIR "C:/Program Files/CMake")
-set(QT_DIR "C:/Qt/5.12.2/msvc2017_64")
-
-set(Qt5_DIR "C:/Qt/5.12.2/msvc2017_64/lib/cmake/Qt5")
+set(QT_DIR "G:/Qt/5.14.2/msvc2017_64")
+set(Qt5_DIR "G:/Qt/5.14.2/msvc2017_64/lib/cmake/Qt5")
 
 find_package(Qt5 COMPONENTS Core Widgets SerialPort REQUIRED)
 
@@ -18,11 +16,14 @@ target_link_libraries (sample_1 Qt5::Core Qt5::Widgets Qt5::SerialPort)
 
 # Utilities
 
-find_program(CMAKE_EXECUTABLE NAMES cmake HINTS ${CMAKE_DIR} ENV CMAKE_DIR PATH_SUFFIXES bin)
+set(CMAKE_DIR "G:/CMake")
 
+find_program(CMAKE_EXECUTABLE NAMES cmake HINTS ${CMAKE_DIR} ENV CMAKE_DIR PATH_SUFFIXES bin)
 find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QT_DIR} ENV QT_DIR PATH_SUFFIXES bin)
 
 # Build
+
+set_property(TARGET sample_1 PROPERTY CXX_STANDARD 17)
 
 add_custom_command(TARGET sample_1 POST_BUILD COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:sample_1>)
 

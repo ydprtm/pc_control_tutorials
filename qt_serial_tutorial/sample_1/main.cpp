@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 	
-	SerialPort* p = new SerialPort(QString("COM4"));
+	SerialPort* p = new SerialPort(QString("COM3"));
 
 	QObject::connect(p, SIGNAL(sig_quit()), &a, SLOT(quit()));
 	   

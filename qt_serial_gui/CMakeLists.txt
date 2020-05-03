@@ -2,10 +2,8 @@ cmake_minimum_required(VERSION 3.5.1)
 
 project(project)
 
-set(CMAKE_DIR "C:/Program Files/CMake")
-set(QT_DIR "C:/Qt/5.12.2/msvc2017_64")
-
-set(Qt5_DIR "C:/Qt/5.12.2/msvc2017_64/lib/cmake/Qt5")
+set(QT_DIR "G:/Qt/5.14.2/msvc2017_64")
+set(Qt5_DIR "G:/Qt/5.14.2/msvc2017_64/lib/cmake/Qt5")
 
 find_package(Qt5 COMPONENTS Core Gui SerialPort Widgets REQUIRED)
 
@@ -21,8 +19,8 @@ target_link_libraries (project gui)
 
 # Utilities
 
+set(CMAKE_DIR "G:/CMake")
 find_program(CMAKE_EXECUTABLE NAMES cmake HINTS ${CMAKE_DIR} ENV CMAKE_DIR PATH_SUFFIXES bin)
-
 find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QT_DIR} ENV QT_DIR PATH_SUFFIXES bin)
 
 # Build
