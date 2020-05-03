@@ -4,7 +4,9 @@ project(sample_2)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Boost)
+set (BOOST_ROOT "G:/boost_1_73_0")
+
+find_package(boost 1.73)
 	
 if(NOT boost_FOUND)
 	
@@ -26,6 +28,8 @@ set(CMAKE_DIR "G:/CMake")
 find_program(CMAKE_EXECUTABLE NAMES cmake HINTS ${CMAKE_DIR} ENV CMAKE_DIR PATH_SUFFIXES bin)
 
 # Build
+
+set_property(TARGET sample_2 PROPERTY CXX_STANDARD 17)
 
 # Install
 

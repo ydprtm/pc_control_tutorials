@@ -4,6 +4,8 @@ project(sample_3)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set (BOOST_ROOT "G:/boost_1_73_0")
+
 find_package(Boost)
 	
 if(NOT boost_FOUND)
