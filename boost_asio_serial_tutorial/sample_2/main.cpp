@@ -1,5 +1,6 @@
 #include "main.hpp"
 
+
 void writeHandle(const boost::system::error_code &e, const std::size_t bytes) {
 
 	std::cout << "Bytes Written: " << bytes << std::endl;
@@ -30,6 +31,9 @@ int main(int argc, char* argv[]) {
 		std::string data{ "Hello World!\r\n" };
 
 		boost::asio::async_write(serial, boost::asio::buffer(data), boost::bind(writeHandle, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+
+		boost::asio::steady_timer t(io, boost::asio::chrono::milliseconds(100));
+		t.wait();
 
 		boost::asio::streambuf buf;
 		std::istream stream(&buf);

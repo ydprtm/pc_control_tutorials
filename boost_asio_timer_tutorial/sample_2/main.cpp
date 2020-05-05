@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
 		std::cout << "Timer Started" << std::endl;
 
 		io.run();
+
 	}
 	catch (std::exception & e) {
 
