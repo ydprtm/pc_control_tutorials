@@ -4,18 +4,9 @@ project(sample_1)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set (BOOST_ROOT "G:/boost_1_73_0")
+set(BOOST_ROOT "C:/boost_1_73_0")
 
 find_package(Boost)
-	
-if(NOT boost_FOUND)
-	
-	set(Boost_INCLUDE_DIR "G:/boost_1_73_0")
-	set(Boost_LIBRARY_DIRS "G:/boost_1_73_0/stage/lib")
-	set(Boost_LIBRARIES "")
-
-
-endif()
 
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
@@ -25,7 +16,7 @@ target_link_libraries(project ${Boost_LIBRARIES})
 
 # Utilities
 
-set(CMAKE_DIR "G:/CMake")
+set(CMAKE_DIR "C:/Program Files/CMake")
 find_program(CMAKE_EXECUTABLE NAMES cmake HINTS ${CMAKE_DIR} ENV CMAKE_DIR PATH_SUFFIXES bin)
 
 # Build
