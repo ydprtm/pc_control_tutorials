@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::io_context io;
 
-		boost::asio::serial_port serial(io, "COM3");
+		boost::asio::serial_port serial(io, "COM5");
 
 		serial.set_option(boost::asio::serial_port_base::baud_rate(115200));
 		serial.set_option(boost::asio::serial_port_base::character_size(8));

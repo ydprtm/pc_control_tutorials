@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
 
 		boost::asio::io_context io;
 
-		SerialPort port(io, std::string( "COM3"));
+		SerialPort port(io, std::string( "COM5"));
 
 		std::string writeMessage{ "Hello World!\r\n" };
 
