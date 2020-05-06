@@ -11,7 +11,10 @@ int main(int argc, char* argv[]) {
 		std::string writeMessage{ "Hello World!\r\n" };
 
 		port.asyncWrite(writeMessage);
-		
+
+		boost::asio::steady_timer t(io, boost::asio::chrono::milliseconds(100));
+		t.wait();
+
 		std::string readMessage{};
 
 		port.asyncRead(&readMessage);
@@ -20,7 +23,6 @@ int main(int argc, char* argv[]) {
 
 		port.close();
 	
-
 	}
 	catch (std::exception& e) {
 
