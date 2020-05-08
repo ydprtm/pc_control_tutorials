@@ -80,20 +80,17 @@ Open [main.hpp](main.hpp). Complete the following:
 Open [main.cpp](main.cpp). Complete the following:
 
 1. Include main.hpp.
-1. Define a function named "add". The function should accept the following arguments: `const boost::function<void(const int&)> &f`, `const int &a`, `const int &b`.
+1. Define a function named "add". The function should accept the following arguments: `const boost::function<void(const int&)> &f`, `const int &a`, `const int &b`. The function should not return a value.
 1. In `add()`:
     1. Assign the sum of parameters `a` and `b` to an integer variable named `sum`.
     1. Call `f()` with the following argument: `sum`.
-    1. The function should not return a value.
-1. Define a function named "defaultAddHandle". The function should accept the following argument: ``const int &a`.
+1. Define a function named "defaultAddHandle". The function should accept the following argument: ``const int &a`. The function should not return a value.
 1. In `defaultAddHandle()`:
     1. Use the standard library's `cout` output stream to display the contents of parameter `a`. 
-    1. The function should not return a value.
-1. Define a function named "newAddHandle". The function should accept the following argument: ``const int &a`, and `const std::string &message`.
+1. Define a function named "newAddHandle". The function should accept the following argument: ``const int &a`, and `const std::string &message`. The function should not return a value.
 1. In `newAddHandle()`:
     1.  Use the standard library's `cout` output stream to display the contents of parameter `message`. 
     1.  Use the standard library's `cout` output stream to display the contents of parameter `a`. 
-    1. The function should not return a value.
 1. Define a function named "main". The function should accept the following arguments: `int argc` and `char* argv[]`. The function should return an `int` data type.
 1. In `main()`:
     1. Write a try-catch statement.
