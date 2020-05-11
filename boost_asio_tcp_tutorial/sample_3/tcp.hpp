@@ -21,8 +21,7 @@ private:
 
 	Connection(boost::asio::io_context& io_context);
 
-	void readHandle(const boost::system::error_code& e,
-		size_t bytes);
+	void readHandle(const boost::system::error_code& e, size_t bytes);
 
 	boost::asio::ip::tcp::socket m_socket;
 

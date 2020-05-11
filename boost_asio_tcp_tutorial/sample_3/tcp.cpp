@@ -32,8 +32,7 @@ void Connection::readHandle(const boost::system::error_code& e,
 
 	boost::asio::const_buffer input = m_buffer.data();
 
-	std::string message(boost::asio::buffers_begin(input),
-		boost::asio::buffers_begin(input) + input.size());
+	std::string message(boost::asio::buffers_begin(input), boost::asio::buffers_begin(input) + input.size());
 
 	std::cout << message << std::endl;
 

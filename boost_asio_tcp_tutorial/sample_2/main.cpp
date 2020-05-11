@@ -26,8 +26,7 @@ int main(int argc, char* argv[]) {
 
 				boost::asio::const_buffer input = readBuffer.data();
 
-				std::string message(boost::asio::buffers_begin(input),
-					boost::asio::buffers_begin(input) + input.size());
+				std::string message(boost::asio::buffers_begin(input), boost::asio::buffers_begin(input) + input.size());
 
 				std::cout << message << std::endl;
 
@@ -37,6 +36,8 @@ int main(int argc, char* argv[]) {
 				std::cout << e.what() << std::endl;
 
 				loop = false;
+
+				return 2;
 
 			}
 						
