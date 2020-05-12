@@ -35,7 +35,8 @@ To complete this activity, you need the following tools:
     or
 
 1. [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/).
-1. [OpenCV 4.3.0](https://opencv.org/).
+1. _[OpenCV 4.3.0](https://opencv.org/)._
+1. NOT OpenCV but Boost 1.73.0
 
 I recommend installing Visual Studio Community 2019 and the Desktop development with C++ workload. If you've installed Visual Studio IDE, you can use its C++ in Visual Studio Code.
 
